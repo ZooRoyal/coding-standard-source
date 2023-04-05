@@ -21,6 +21,7 @@ class TerminalCommandTest extends TestCase
     private const FORGED_PACKAGE_DIRECTORY = '/packageDirectory';
     private const FORGED_RELATIV_ROOT = '.';
     private const FORGED_ABSOLUTE_ROOT = '/RootDirectory';
+    private const FORGED_ABSOLUTE_VENDOR = '/RootDirectory/vendor';
 
     private TerminalCommand $subject;
     private MockInterface|Environment $mockedEnvironment;
@@ -36,6 +37,8 @@ class TerminalCommandTest extends TestCase
             ->andReturn(self::FORGED_PACKAGE_DIRECTORY);
         $this->mockedEnvironment->shouldReceive('getRootDirectory->getRelativePathname')
             ->andReturn(self::FORGED_RELATIV_ROOT);
+        $this->mockedEnvironment->shouldReceive('getVendorDirectory->getRealPath')
+            ->andReturn(self::FORGED_ABSOLUTE_VENDOR);
 
         $this->subject = new TerminalCommand($this->mockedEnvironment);
         $this->subject->injectDependenciesAbstractTerminalCommand($this->mockedOutput);
@@ -106,7 +109,8 @@ class TerminalCommandTest extends TestCase
             'all' => [
                 new TerminalCommandTestData(
                     [
-                        'expectedCommand' => 'npx --no-install eslint --quiet --fix --no-error-on-unmatched-pattern --config '
+                        'expectedCommand' => 'npx --prefix ' . self::FORGED_ABSOLUTE_VENDOR . '/.. --no-install eslint '
+                            . '--quiet --fix --no-error-on-unmatched-pattern --config '
                             . self::FORGED_PACKAGE_DIRECTORY
                             . '/config/eslint/.eslintrc.js --ext qweasd --ext argh --ignore-path '
                             . self::FORGED_PACKAGE_DIRECTORY
@@ -128,7 +132,8 @@ class TerminalCommandTest extends TestCase
             'empty optionals' => [
                 new TerminalCommandTestData(
                     [
-                        'expectedCommand' => 'npx --no-install eslint --no-error-on-unmatched-pattern --config '
+                        'expectedCommand' => 'npx --prefix ' . self::FORGED_ABSOLUTE_VENDOR
+                            . '/.. --no-install eslint --no-error-on-unmatched-pattern --config '
                             . self::FORGED_PACKAGE_DIRECTORY . '/config/eslint/.eslintrc.js --ignore-path '
                             . self::FORGED_PACKAGE_DIRECTORY . '/config/eslint/.eslintignore '
                             . self::FORGED_RELATIV_ROOT,
@@ -138,7 +143,8 @@ class TerminalCommandTest extends TestCase
             'excluding' => [
                 new TerminalCommandTestData(
                     [
-                        'expectedCommand' => 'npx --no-install eslint --no-error-on-unmatched-pattern --config '
+                        'expectedCommand' => 'npx --prefix ' . self::FORGED_ABSOLUTE_VENDOR
+                            . '/.. --no-install eslint --no-error-on-unmatched-pattern --config '
                             . self::FORGED_PACKAGE_DIRECTORY . '/config/eslint/.eslintrc.js --ignore-path '
                             . self::FORGED_PACKAGE_DIRECTORY
                             . '/config/eslint/.eslintignore --ignore-pattern a --ignore-pattern b '
@@ -153,7 +159,8 @@ class TerminalCommandTest extends TestCase
             'extensions' => [
                 new TerminalCommandTestData(
                     [
-                        'expectedCommand' => 'npx --no-install eslint --no-error-on-unmatched-pattern --config '
+                        'expectedCommand' => 'npx --prefix ' . self::FORGED_ABSOLUTE_VENDOR
+                            . '/.. --no-install eslint --no-error-on-unmatched-pattern --config '
                             . self::FORGED_PACKAGE_DIRECTORY
                             . '/config/eslint/.eslintrc.js --ext asdqwe --ext qweasd --ignore-path '
                             . self::FORGED_PACKAGE_DIRECTORY . '/config/eslint/.eslintignore '
@@ -165,7 +172,8 @@ class TerminalCommandTest extends TestCase
             'fixing' => [
                 new TerminalCommandTestData(
                     [
-                        'expectedCommand' => 'npx --no-install eslint --fix --no-error-on-unmatched-pattern --config '
+                        'expectedCommand' => 'npx --prefix ' . self::FORGED_ABSOLUTE_VENDOR
+                            . '/.. --no-install eslint --fix --no-error-on-unmatched-pattern --config '
                             . self::FORGED_PACKAGE_DIRECTORY . '/config/eslint/.eslintrc.js --ignore-path '
                             . self::FORGED_PACKAGE_DIRECTORY . '/config/eslint/.eslintignore '
                             . self::FORGED_RELATIV_ROOT,
@@ -176,7 +184,8 @@ class TerminalCommandTest extends TestCase
             'targeted' => [
                 new TerminalCommandTestData(
                     [
-                        'expectedCommand' => 'npx --no-install eslint --no-error-on-unmatched-pattern --config '
+                        'expectedCommand' => 'npx --prefix ' . self::FORGED_ABSOLUTE_VENDOR
+                            . '/.. --no-install eslint --no-error-on-unmatched-pattern --config '
                             . self::FORGED_PACKAGE_DIRECTORY . '/config/eslint/.eslintrc.js --ignore-path '
                             . self::FORGED_PACKAGE_DIRECTORY . '/config/eslint/.eslintignore c d',
                         'targets' => [
@@ -189,7 +198,8 @@ class TerminalCommandTest extends TestCase
             'verbosity quiet' => [
                 new TerminalCommandTestData(
                     [
-                        'expectedCommand' => 'npx --no-install eslint --quiet --no-error-on-unmatched-pattern --config '
+                        'expectedCommand' => 'npx --prefix ' . self::FORGED_ABSOLUTE_VENDOR
+                            . '/.. --no-install eslint --quiet --no-error-on-unmatched-pattern --config '
                             . self::FORGED_PACKAGE_DIRECTORY . '/config/eslint/.eslintrc.js --ignore-path '
                             . self::FORGED_PACKAGE_DIRECTORY . '/config/eslint/.eslintignore '
                             . self::FORGED_RELATIV_ROOT,
@@ -200,7 +210,8 @@ class TerminalCommandTest extends TestCase
             'verbosity verbose' => [
                 new TerminalCommandTestData(
                     [
-                        'expectedCommand' => 'npx --no-install eslint --debug --no-error-on-unmatched-pattern --config '
+                        'expectedCommand' => 'npx --prefix ' . self::FORGED_ABSOLUTE_VENDOR
+                            . '/.. --no-install eslint --debug --no-error-on-unmatched-pattern --config '
                             . self::FORGED_PACKAGE_DIRECTORY . '/config/eslint/.eslintrc.js --ignore-path '
                             . self::FORGED_PACKAGE_DIRECTORY . '/config/eslint/.eslintignore '
                             . self::FORGED_RELATIV_ROOT,
@@ -211,7 +222,8 @@ class TerminalCommandTest extends TestCase
             'verbosity very verbose' => [
                 new TerminalCommandTestData(
                     [
-                        'expectedCommand' => 'npx --no-install eslint --debug --no-error-on-unmatched-pattern --config '
+                        'expectedCommand' => 'npx --prefix ' . self::FORGED_ABSOLUTE_VENDOR
+                            . '/.. --no-install eslint --debug --no-error-on-unmatched-pattern --config '
                             . self::FORGED_PACKAGE_DIRECTORY . '/config/eslint/.eslintrc.js --ignore-path '
                             . self::FORGED_PACKAGE_DIRECTORY . '/config/eslint/.eslintignore '
                             . self::FORGED_RELATIV_ROOT,
@@ -223,7 +235,8 @@ class TerminalCommandTest extends TestCase
             'verbosity debug verbose' => [
                 new TerminalCommandTestData(
                     [
-                        'expectedCommand' => 'npx --no-install eslint --debug --no-error-on-unmatched-pattern --config '
+                        'expectedCommand' => 'npx --prefix ' . self::FORGED_ABSOLUTE_VENDOR
+                            . '/.. --no-install eslint --debug --no-error-on-unmatched-pattern --config '
                             . self::FORGED_PACKAGE_DIRECTORY . '/config/eslint/.eslintrc.js --ignore-path '
                             . self::FORGED_PACKAGE_DIRECTORY . '/config/eslint/.eslintignore '
                             . self::FORGED_RELATIV_ROOT,
