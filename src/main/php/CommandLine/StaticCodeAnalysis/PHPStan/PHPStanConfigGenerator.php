@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPStan;
 
-use PHPStan\DependencyInjection\NeonAdapter;
+use Nette\Neon\Neon;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
@@ -26,17 +26,15 @@ class PHPStanConfigGenerator
             '/custom/project',
             '/vendor',
         ];
+
     private string $phpStanConfigPath;
 
     public function __construct(
-        private readonly NeonAdapter $neonAdapter,
         private readonly Filesystem $filesystem,
         private readonly Environment $environment,
     ) {
-        $file = tmpfile();
-        $path = stream_get_meta_data($file)['uri'];
-
-        $this->phpStanConfigPath = $path . '.neon';
+        $this->phpStanConfigPath = $this->environment->getPackageDirectory()->getRealPath()
+            . '/config/phpstan/phpstan.neon';
     }
 
     /**
@@ -62,7 +60,7 @@ class PHPStanConfigGenerator
         $configValues = $this->generateConfig($output, $exclusionList);
 
         /** @phpstan-ignore-next-line */
-        $onTheFlyConfig = $this->neonAdapter->dump($configValues);
+        $onTheFlyConfig = Neon::encode($configValues);
         $this->filesystem->dumpFile($this->phpStanConfigPath, $onTheFlyConfig);
     }
 
@@ -77,7 +75,7 @@ class PHPStanConfigGenerator
     {
         $configValues = [
             'includes' => [
-                $this->environment->getPackageDirectory() . '/config/phpstan/phpstan.neon.dist',
+                $this->environment->getPackageDirectory()->getRealPath() . '/config/phpstan/phpstan.neon.dist',
             ],
         ];
         $configValues = $this->addFunctionsFiles($configValues, $output);
@@ -98,9 +96,8 @@ class PHPStanConfigGenerator
     private function addFunctionsFiles(array $configValues, OutputInterface $output): array
     {
         foreach (self::TOOL_FUNCTIONS_FILE_MAPPING as $tool => $functionsFiles) {
-            //                $toolPath = ComposerLocator::getPath($tool);
-            $toolPath = $this->environment->getRootDirectory() . '/vendor/' . $tool;
-            if (!file_exists($toolPath)) {
+            $toolPath = $this->environment->getRootDirectory()->getRealPath() . '/vendor/' . $tool;
+            if (!$this->filesystem->exists($toolPath)) {
                 $output->writeln(
                     '<info>' . $tool . ' not found. Skip loading ' . implode(', ', $functionsFiles) . '.</info>',
                     OutputInterface::VERBOSITY_VERBOSE,
