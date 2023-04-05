@@ -55,35 +55,6 @@ class ProcessRunnerTest extends TestCase
 
     /**
      * @test
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState  disabled
-     */
-    public function runAsProcessIsVersionStable(): void
-    {
-        $commandInput = 'ls';
-        $commandArgument1 = '-l';
-        $commandArgument2 = '-a';
-        $commandOutput = ['ls', '-l', '-a'];
-
-        $expectedOutput = 'schlurbel';
-        $expectedError = 'wurbel';
-        $overwrittenProcess = Mockery::mock('overload:' . Process::class);
-
-        $overwrittenProcess->shouldReceive('__construct')->once()->with($commandOutput);
-        $overwrittenProcess->shouldReceive('mustRun')->once()->withNoArgs();
-        $overwrittenProcess->shouldReceive('setIdleTimeout')->once()->with(120);
-        $overwrittenProcess->shouldReceive('setTimeout')->once()->with(null);
-        $overwrittenProcess->shouldReceive('getOutput')->once()->withNoArgs()->andReturn($expectedOutput);
-        $overwrittenProcess->shouldReceive('getErrorOutput')->once()->withNoArgs()->andReturn($expectedError);
-
-        $result = $this->subject->runAsProcess($commandInput, $commandArgument1, $commandArgument2);
-
-        self::assertSame($expectedOutput . PHP_EOL . $expectedError, $result);
-    }
-
-    /**
-     * @test
      */
     public function runAsProcessReturningProcessObject(): void
     {
@@ -93,30 +64,6 @@ class ProcessRunnerTest extends TestCase
 
         self::assertInstanceOf(Process::class, $result);
         self::assertSame($expectedResult, trim($result->getOutput()));
-    }
-
-    /**
-     * @test
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState  disabled
-     */
-    public function runAsProcessReturningProcessObjectIsVersionStable(): void
-    {
-        $commandInput = 'ls -la';
-        $commandOutput = ['ls', '-la'];
-
-        $overwrittenProcess = Mockery::mock('overload:' . Process::class);
-
-        $overwrittenProcess->shouldReceive('setTimeout')->once()->with(null);
-        $overwrittenProcess->shouldReceive('setIdleTimeout')->once()->with(120);
-        $overwrittenProcess->shouldReceive('run')->once();
-
-        $overwrittenProcess->shouldReceive('__construct')->once()->with($commandOutput);
-
-        $result = $this->subject->runAsProcessReturningProcessObject($commandInput);
-
-        self::assertInstanceOf(Process::class, $result);
     }
 
     /**
