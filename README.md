@@ -1,12 +1,13 @@
-![Build Status](https://github.com/ZooRoyal/coding-standard/workflows/Continuous%20Integration/badge.svg?branch=master)
-[![CI / CD](https://github.com/ZooRoyal/coding-standard/actions/workflows/docker-build.yml/badge.svg?branch=docker&event=workflow_run)](https://github.com/ZooRoyal/coding-standard/actions/workflows/docker-build.yml)
-[![Packagist Release](https://img.shields.io/packagist/v/ZooRoyal/coding-standard.svg?longCache=true)](https://packagist.org/packages/zooroyal/coding-standard)
+[![CI](https://github.com/ZooRoyal/coding-standard-source/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/ZooRoyal/coding-standard-source/actions/workflows/continuous-integration.yml)
+[![Docker Build](https://github.com/ZooRoyal/coding-standard-source/actions/workflows/docker-build.yml/badge.svg)](https://github.com/ZooRoyal/coding-standard-source/actions/workflows/docker-build.yml)
+[![Packagist Release](https://img.shields.io/packagist/v/ZooRoyal/coding-standard-source.svg?longCache=true)](https://packagist.org/packages/zooroyal/coding-standard-source)
 [![License](https://img.shields.io/packagist/l/ZooRoyal/coding-standard.svg?longCache=true)](/blob/master/LICENSE)
 
+# ZooRoyal Coding Standard Source
 
-# ZooRoyal Coding Standard
+This repository holds the necessary sources to use and build the ZooRoyal 
+Coding Standard. 
 
-This repository holds the necessary data to use the ZooRoyal coding standard. 
 It incorporates
 * [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer) 
   and its configuration
@@ -25,13 +26,40 @@ its usage can be found by calling it with -h option.
 
 # Installation
 
-To install this package just run
+## Docker
+
+The ZooRoyal Coding Standard is designed to be used as a docker isolated 
+application. Therefore, no installation is needed if you have a docker 
+daemon available on your system. 
+## Composer
+
+If ...
+* ... you don't feel comfortable with the docker user experience ... 
+* .. want to bind your source code to a certain version of the ZooRoyal 
+  Coding Standard ...
+
+... you find a ready made composer package at https://github.com/ZooRoyal/coding-standard
 
 ```bash
 composer require --dev "zooroyal/coding-standard"
 ```
 
-## Eslint and StyleLint
+It will still require you to have a docker daemon available on your system.
+
+## Install from source (not recommended)
+
+### Composer from source
+
+If all else fails, you can install the ZooRoyal Coding Standard from this source 
+package. **Please be aware that this is not recommended**. There will be 
+tons of dependencies the rest of you project will have to comply with. They 
+will be very specific and change as we see fit.
+
+```bash
+composer require --dev "zooroyal/coding-standard-source"
+```
+
+### Eslint and StyleLint
 
 In case you want to use eslint and stylelint checks you have to install the packages from the package.json in the root folder of your project.
 
@@ -42,31 +70,59 @@ You may install the packages locally in your project. For this to happen you nee
 1. `composer require --dev zooroyal/coding-standard`
 2. `npm install --save-dev vendor/zooroyal/coding-standard`
 
-### Global Installation
+#### Global Installation
 
-You may have installed eslint and stylelint globally in your system. If you want coding-standard to try to use them
- just make sure coding-standard is installed properly.
+You may have installed eslint and stylelint globally in your system. If you want ZooRoyal Coding Standard to try to use them
+ just make sure ZooRoyal Coding Standard is installed properly.
 
 ```bash
-composer require --dev zooroyal/coding-standard
+composer require --dev zooroyal/coding-standard-source
 ```
 
-# Update
+### Update
 
 To update this package just run
 
 ```bash
-composer update "zooroyal/coding-standard"
+composer update "zooroyal/coding-standard-source"
 ```
 
-# Usage coding-standard
+# Usage ZooRoyal Coding Standard
 
-**Please keep in mind, that coding-standard can only run from inside a git
-repository.**
+Please keep in mind, that ZooRoyal Coding Standard can only check source 
+code which is a **git repository** as well as a **composer project**
+
+## Using the docker image directly
+
+If you want to use the docker image directly, you can use the following command:
+
+```bash
+docker run --rm -it -v $(pwd):/app zooroyal/coding-standard
+```
+
+This will mount your current working directory as the root directory of the 
+source code you want to check.
+
+For your convenience, you can create an alias for this command:
+```bash
+alias coding-standard="docker run --rm -it -v \$(pwd):/app zooroyal/coding-standard"
+```
+
+To use a certain version of the coding-standard, just add the version tag to the image name:
+```bash
+docker run --rm -it -v \$(pwd):/app zooroyal/coding-standard:4.0.1
+```
+
+## Using one of the composer packages
+
+The composer package will install a script in your `vendor/bin` folder of 
+your composer project. This can be used to run the coding standard.
+
+## Using the ZooRoyal Coding Standard
 
 Run the command to get usage instructions.
 ```bash
-php vendor/bin/coding-standard
+coding-standard
 ```
 ```
 Available commands:
@@ -89,7 +145,7 @@ Available commands:
 ## Example `sca:all`
 
 ```bash
-vendor/bin/coding-standard sca:all -h
+coding-standard sca:all -h
 ```
 ```
 Usage:
@@ -119,14 +175,14 @@ Help:
 The all command forwards all applicable parameters to all implemented static code analysis tools.
 
 ```bash
-vendor/bin/coding-standard sca:all -a -f
+coding-standard sca:all -a -f
 ```
 
 This command for example tries to find the parent branch by automagic (-a) and tells all static code analysis
 tools to fix found violations if they are able to.
 
 ```bash
-vendor/bin/coding-standard sca:all -t origin/master
+coding-standard sca:all -t origin/master
 ```
 
 This command computes the diff to the branch origin/master and searches for all violations in this files.
@@ -135,7 +191,7 @@ For examples just have a look an the .travis.yml
 
 # Extend the Coding Standard
 
-If you want to extend the Coding-Standard with your own tools there are two 
+If you want to extend the ZooRoyal Coding Standard with your own tools there are two 
 tutorials available:
 
 * [How to add a new static code analysis tool](doc/howto/HowToAddANewTool.md)
