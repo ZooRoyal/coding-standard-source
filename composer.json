@@ -1,6 +1,6 @@
 {
-  "name": "zooroyal/coding-standard",
-  "description": "This is the ZooRoyal coding standard.",
+  "name": "zooroyal/coding-standard-source",
+  "description": "This is the ZooRoyal coding standard source package.",
   "type": "phpcodesniffer-standard",
   "keywords": [
     "ZooRoyal",
@@ -10,7 +10,7 @@
     "phpcpd",
     "lint"
   ],
-  "homepage": "https://github.com/ZooRoyal/coding-standard",
+  "homepage": "https://github.com/ZooRoyal/coding-standard-source",
   "license": "BSD-3-Clause",
   "authors": [
     {
@@ -19,9 +19,9 @@
     }
   ],
   "support": {
-    "issues": "https://github.com/ZooRoyal/coding-standard/issues",
-    "wiki": "https://github.com/ZooRoyal/coding-standard/wiki",
-    "source": "https://github.com/ZooRoyal/coding-standard"
+    "issues": "https://github.com/ZooRoyal/coding-standard-source/issues",
+    "wiki": "https://github.com/ZooRoyal/coding-standard-source/wiki",
+    "source": "https://github.com/ZooRoyal/coding-standard-source"
   },
   "require": {
     "php": "^8.1.0",
@@ -63,6 +63,9 @@
     "phpunit/phpunit": "^9.5.28",
     "roave/security-advisories": "dev-master",
     "sebastianknott/hamcrest-object-accessor": "^3.0.0"
+  },
+  "replace": {
+    "zooroyal/coding-standard": "self.version"
   },
   "autoload": {
     "psr-4": {

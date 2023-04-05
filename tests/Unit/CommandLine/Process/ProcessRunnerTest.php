@@ -37,7 +37,7 @@ class ProcessRunnerTest extends TestCase
     {
         $overwrittenProcess = Mockery::mock('overload:' . Process::class);
 
-        $overwrittenProcess->shouldReceive('__construct')->once()->with(['ls']);
+        $overwrittenProcess->shouldReceive('__construct')->once()->with(['ls'], getcwd());
         $overwrittenProcess->shouldReceive('setIdleTimeout')->once()->with(120);
         $overwrittenProcess->shouldReceive('setTimeout')->once()->with(null);
 

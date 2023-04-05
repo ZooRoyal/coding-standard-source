@@ -57,9 +57,9 @@ jobs:
           script: |
             github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
-              repo: 'cs-dist',
+              repo: 'coding-standard',
               workflow_id: 'release-from-upstream.yml',
-              ref: 'main',
+              ref: '4.x',
               inputs: {
                 versionToRelease: '${{ github.event.release.tag_name }}'
               }
