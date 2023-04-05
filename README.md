@@ -1,5 +1,5 @@
-
 ![Build Status](https://github.com/ZooRoyal/coding-standard/workflows/Continuous%20Integration/badge.svg?branch=master)
+[![CI / CD](https://github.com/ZooRoyal/coding-standard/actions/workflows/docker-build.yml/badge.svg?branch=docker&event=workflow_run)](https://github.com/ZooRoyal/coding-standard/actions/workflows/docker-build.yml)
 [![Packagist Release](https://img.shields.io/packagist/v/ZooRoyal/coding-standard.svg?longCache=true)](https://packagist.org/packages/zooroyal/coding-standard)
 [![License](https://img.shields.io/packagist/l/ZooRoyal/coding-standard.svg?longCache=true)](/blob/master/LICENSE)
 

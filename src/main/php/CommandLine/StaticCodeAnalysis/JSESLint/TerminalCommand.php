@@ -35,7 +35,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
     use VerboseTrait;
 
     private const TEMPLATE
-        = 'npx --no-install eslint %6$s%7$s--no-error-on-unmatched-pattern --config %1$s %3$s'
+        = 'npx %8$s--no-install eslint %6$s%7$s--no-error-on-unmatched-pattern --config %1$s %3$s'
         . '--ignore-path %2$s %4$s%5$s';
 
     public function __construct(private readonly Environment $environment)
@@ -59,6 +59,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
             $this->buildTargetingString(),
             $this->buildVerbosityString(),
             $this->buildFixingString(),
+            $this->buildPrefixString()
         );
 
         $this->command = $sprintfCommand;
@@ -138,5 +139,12 @@ class TerminalCommand extends AbstractTerminalCommand implements
             $fixingString = '--fix ';
         }
         return $fixingString;
+    }
+
+    private function buildPrefixString(): string
+    {
+        $path = $this->environment->getVendorDirectory()->getRealPath() . '/..';
+
+        return '--prefix ' . $path . ' ';
     }
 }

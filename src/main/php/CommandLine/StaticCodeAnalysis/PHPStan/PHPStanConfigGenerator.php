@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPStan;
 
-use ComposerLocator;
 use PHPStan\DependencyInjection\NeonAdapter;
-use RuntimeException;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
@@ -28,7 +26,6 @@ class PHPStanConfigGenerator
             '/custom/project',
             '/vendor',
         ];
-
     private string $phpStanConfigPath;
 
     public function __construct(
@@ -36,7 +33,10 @@ class PHPStanConfigGenerator
         private readonly Filesystem $filesystem,
         private readonly Environment $environment,
     ) {
-        $this->phpStanConfigPath = $environment->getPackageDirectory()->getRealPath() . '/config/phpstan/phpstan.neon';
+        $file = tmpfile();
+        $path = stream_get_meta_data($file)['uri'];
+
+        $this->phpStanConfigPath = $path . '.neon';
     }
 
     /**
@@ -75,7 +75,11 @@ class PHPStanConfigGenerator
      */
     private function generateConfig(OutputInterface $output, array $exclusionList): array
     {
-        $configValues = ['includes' => [$this->phpStanConfigPath . '.dist']];
+        $configValues = [
+            'includes' => [
+                $this->environment->getPackageDirectory() . '/config/phpstan/phpstan.neon.dist',
+            ],
+        ];
         $configValues = $this->addFunctionsFiles($configValues, $output);
         $configValues = $this->addExcludedFiles($configValues, $exclusionList);
         $configValues = $this->addStaticDirectoriesToScan($configValues);
@@ -94,19 +98,19 @@ class PHPStanConfigGenerator
     private function addFunctionsFiles(array $configValues, OutputInterface $output): array
     {
         foreach (self::TOOL_FUNCTIONS_FILE_MAPPING as $tool => $functionsFiles) {
-            try {
-                $toolPath = ComposerLocator::getPath($tool);
-                foreach ($functionsFiles as $functionsFile) {
-                    $configValues['parameters']['bootstrapFiles'][] = $toolPath . $functionsFile;
-                }
-            } catch (RuntimeException) {
+            //                $toolPath = ComposerLocator::getPath($tool);
+            $toolPath = $this->environment->getRootDirectory() . '/vendor/' . $tool;
+            if (!file_exists($toolPath)) {
                 $output->writeln(
                     '<info>' . $tool . ' not found. Skip loading ' . implode(', ', $functionsFiles) . '.</info>',
                     OutputInterface::VERBOSITY_VERBOSE,
                 );
+                continue;
+            }
+            foreach ($functionsFiles as $functionsFile) {
+                $configValues['parameters']['bootstrapFiles'][] = $toolPath . $functionsFile;
             }
         }
-
         return $configValues;
     }
 

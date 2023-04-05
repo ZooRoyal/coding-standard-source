@@ -34,7 +34,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
     use FileExtensionTrait;
     use VerboseTrait;
 
-    private const TEMPLATE = 'npx --no-install stylelint %3$s %4$s%5$s--allow-empty-input --config=%1$s%2$s';
+    private const TEMPLATE = 'npx %6$s--no-install stylelint %3$s %4$s%5$s--allow-empty-input --config=%1$s%2$s';
 
     /**
      * TerminalCommand constructor.
@@ -60,6 +60,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
             $this->buildTargetingString(),
             $this->buildVerbosityString(),
             $this->buildFixingString(),
+            $this->buildPrefixString()
         );
 
         $this->command = $sprintfCommand;
@@ -129,5 +130,12 @@ class TerminalCommand extends AbstractTerminalCommand implements
             $fixingString = '--fix ';
         }
         return $fixingString;
+    }
+
+    private function buildPrefixString(): string
+    {
+        $path = $this->environment->getVendorDirectory()->getRealPath() . '/..';
+
+        return '--prefix ' . $path . ' ';
     }
 }

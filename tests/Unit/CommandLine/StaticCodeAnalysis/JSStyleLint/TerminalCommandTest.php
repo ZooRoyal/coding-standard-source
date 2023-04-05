@@ -21,6 +21,7 @@ class TerminalCommandTest extends TestCase
     private const FORGED_PACKAGE_DIRECTORY = '/packageDirectory';
     private const FORGED_RELATIV_ROOT = '.';
     private const FORGED_ABSOLUTE_ROOT = '/RootDirectory';
+    private const FORGED_ABSOLUTE_VENDOR = '/RootDirectory/vendor';
 
     private TerminalCommand $subject;
     /** @var MockInterface|\Zooroyal\CodingStandard\CommandLine\Environment\Environment */
@@ -37,6 +38,8 @@ class TerminalCommandTest extends TestCase
             ->andReturn(self::FORGED_PACKAGE_DIRECTORY);
         $this->mockedEnvironment->shouldReceive('getRootDirectory->getRelativePathname')
             ->andReturn(self::FORGED_RELATIV_ROOT);
+        $this->mockedEnvironment->shouldReceive('getVendorDirectory->getRealPath')
+            ->andReturn(self::FORGED_ABSOLUTE_VENDOR);
 
         $this->subject = new TerminalCommand($this->mockedEnvironment);
         $this->subject->injectDependenciesAbstractTerminalCommand($this->mockedOutput);
@@ -101,7 +104,8 @@ class TerminalCommandTest extends TestCase
             'all' => [
                 new TerminalCommandTestData(
                     [
-                        'expectedCommand' => 'npx --no-install stylelint c d --quiet --fix --allow-empty-input --config='
+                        'expectedCommand' => 'npx --prefix ' . self::FORGED_ABSOLUTE_VENDOR
+                            . '/.. --no-install stylelint c d --quiet --fix --allow-empty-input --config='
                             . self::FORGED_PACKAGE_DIRECTORY . '/config/stylelint/.stylelintrc ' .
                             '--ignore-pattern=a/ --ignore-pattern=b/',
                         'excluded' => [
@@ -121,7 +125,8 @@ class TerminalCommandTest extends TestCase
             'empty optionals' => [
                 new TerminalCommandTestData(
                     [
-                        'expectedCommand' => 'npx --no-install stylelint ' . self::FORGED_RELATIV_ROOT
+                        'expectedCommand' => 'npx --prefix ' . self::FORGED_ABSOLUTE_VENDOR
+                            . '/.. --no-install stylelint ' . self::FORGED_RELATIV_ROOT
                             . ' --allow-empty-input --config='
                             . self::FORGED_PACKAGE_DIRECTORY . '/config/stylelint/.stylelintrc',
                     ],
@@ -130,7 +135,8 @@ class TerminalCommandTest extends TestCase
             'excluding' => [
                 new TerminalCommandTestData(
                     [
-                        'expectedCommand' => 'npx --no-install stylelint . --allow-empty-input --config='
+                        'expectedCommand' => 'npx --prefix ' . self::FORGED_ABSOLUTE_VENDOR
+                            . '/.. --no-install stylelint . --allow-empty-input --config='
                             . self::FORGED_PACKAGE_DIRECTORY
                             . '/config/stylelint/.stylelintrc --ignore-pattern=a/ --ignore-pattern=b/',
                         'excluded' => [
@@ -143,7 +149,8 @@ class TerminalCommandTest extends TestCase
             'extensions' => [
                 new TerminalCommandTestData(
                     [
-                        'expectedCommand' => 'npx --no-install stylelint **/*.{asdqwe,qweasd} --allow-empty-input --config='
+                        'expectedCommand' => 'npx --prefix ' . self::FORGED_ABSOLUTE_VENDOR
+                            . '/.. --no-install stylelint **/*.{asdqwe,qweasd} --allow-empty-input --config='
                             . self::FORGED_PACKAGE_DIRECTORY . '/config/stylelint/.stylelintrc',
                         'extensions' => ['asdqwe', 'qweasd'],
                     ],
@@ -152,7 +159,8 @@ class TerminalCommandTest extends TestCase
             'fixing' => [
                 new TerminalCommandTestData(
                     [
-                        'expectedCommand' => 'npx --no-install stylelint ' . self::FORGED_RELATIV_ROOT
+                        'expectedCommand' => 'npx --prefix ' . self::FORGED_ABSOLUTE_VENDOR
+                            . '/.. --no-install stylelint ' . self::FORGED_RELATIV_ROOT
                             . ' --fix --allow-empty-input --config=' . self::FORGED_PACKAGE_DIRECTORY
                             . '/config/stylelint/.stylelintrc',
                         'fixingMode' => true,
@@ -162,7 +170,8 @@ class TerminalCommandTest extends TestCase
             'targeted' => [
                 new TerminalCommandTestData(
                     [
-                        'expectedCommand' => 'npx --no-install stylelint c d --allow-empty-input --config=' .
+                        'expectedCommand' => 'npx --prefix ' . self::FORGED_ABSOLUTE_VENDOR
+                            . '/.. --no-install stylelint c d --allow-empty-input --config=' .
                             self::FORGED_PACKAGE_DIRECTORY . '/config/stylelint/.stylelintrc',
                         'targets' => [
                             new EnhancedFileInfo(self::FORGED_ABSOLUTE_ROOT . '/c', self::FORGED_ABSOLUTE_ROOT),
@@ -174,7 +183,8 @@ class TerminalCommandTest extends TestCase
             'verbosity quiet' => [
                 new TerminalCommandTestData(
                     [
-                        'expectedCommand' => 'npx --no-install stylelint ' . self::FORGED_RELATIV_ROOT
+                        'expectedCommand' => 'npx --prefix ' . self::FORGED_ABSOLUTE_VENDOR
+                            . '/.. --no-install stylelint ' . self::FORGED_RELATIV_ROOT
                             . ' --quiet --allow-empty-input --config=' . self::FORGED_PACKAGE_DIRECTORY
                             . '/config/stylelint/.stylelintrc',
                         'verbosityLevel' => OutputInterface::VERBOSITY_QUIET,
@@ -184,7 +194,8 @@ class TerminalCommandTest extends TestCase
             'verbosity verbose' => [
                 new TerminalCommandTestData(
                     [
-                        'expectedCommand' => 'npx --no-install stylelint ' . self::FORGED_RELATIV_ROOT
+                        'expectedCommand' => 'npx --prefix ' . self::FORGED_ABSOLUTE_VENDOR
+                            . '/.. --no-install stylelint ' . self::FORGED_RELATIV_ROOT
                             . ' --formatter verbose --allow-empty-input --config=' . self::FORGED_PACKAGE_DIRECTORY
                             . '/config/stylelint/.stylelintrc',
                         'verbosityLevel' => OutputInterface::VERBOSITY_VERBOSE,
@@ -194,7 +205,8 @@ class TerminalCommandTest extends TestCase
             'verbosity very verbose' => [
                 new TerminalCommandTestData(
                     [
-                        'expectedCommand' => 'npx --no-install stylelint ' . self::FORGED_RELATIV_ROOT
+                        'expectedCommand' => 'npx --prefix ' . self::FORGED_ABSOLUTE_VENDOR
+                            . '/.. --no-install stylelint ' . self::FORGED_RELATIV_ROOT
                             . ' --formatter verbose --allow-empty-input --config=' . self::FORGED_PACKAGE_DIRECTORY
                             . '/config/stylelint/.stylelintrc',
                         'fixingMode' => false,
@@ -205,7 +217,8 @@ class TerminalCommandTest extends TestCase
             'verbosity debug verbose' => [
                 new TerminalCommandTestData(
                     [
-                        'expectedCommand' => 'npx --no-install stylelint ' . self::FORGED_RELATIV_ROOT
+                        'expectedCommand' => 'npx --prefix ' . self::FORGED_ABSOLUTE_VENDOR
+                            . '/.. --no-install stylelint ' . self::FORGED_RELATIV_ROOT
                             . ' --formatter verbose --allow-empty-input --config=' . self::FORGED_PACKAGE_DIRECTORY
                             . '/config/stylelint/.stylelintrc',
                         'verbosityLevel' => OutputInterface::VERBOSITY_DEBUG,

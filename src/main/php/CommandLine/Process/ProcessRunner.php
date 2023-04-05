@@ -13,7 +13,7 @@ class ProcessRunner
      */
     public function createProcess(string $command, string ...$arguments): Process
     {
-        $process = new Process([...explode(' ', $command), ...$arguments]);
+        $process = new Process([...explode(' ', $command), ...$arguments], getcwd());
 
         $process->setTimeout(null);
         $process->setIdleTimeout(120);

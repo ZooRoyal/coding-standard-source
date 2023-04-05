@@ -8,6 +8,7 @@ use Mockery;
 use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\Process;
+use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
 use Zooroyal\CodingStandard\CommandLine\Process\ProcessRunner;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\NpmAppFinder\NpmCommandFinder;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\NpmAppFinder\NpmCommandNotFoundException;
@@ -41,11 +42,17 @@ class NpmCommandFinderTest extends TestCase
     public function findTerminalCommandReturnsCommandIfFound(): void
     {
         $forgedCommand = 'bnlablalbal';
+        $forgedVendorDirectory = '/some/path';
         $expectedCommand = 'npx --no-install ' . $forgedCommand;
         $mockedProcess = Mockery::mock(Process::class);
 
+        $this->subjectParameters[Environment::class]->shouldReceive('getVendorDirectory->getRealPath')
+            ->once()->withNoArgs()->andReturn($forgedVendorDirectory);
+
         $this->subjectParameters[ProcessRunner::class]->shouldReceive('runAsProcessReturningProcessObject')
-            ->once()->with('npx --no-install ' . $forgedCommand . ' --help')->andReturn($mockedProcess);
+            ->once()
+            ->with('npx --prefix ' . $forgedVendorDirectory . '/.. --no-install ' . $forgedCommand . ' --help')
+            ->andReturn($mockedProcess);
 
         $mockedProcess->shouldReceive('getExitCode')->once()->withNoArgs()->andReturn(0);
 
@@ -59,11 +66,17 @@ class NpmCommandFinderTest extends TestCase
      */
     public function findTerminalCommandThrowsExceptionIfCommandNotFound(): void
     {
+        $forgedVendorDirectory = '/some/path';
         $forgedCommand = 'bnlablalbal';
         $mockedProcess = Mockery::mock(Process::class);
 
+        $this->subjectParameters[Environment::class]->shouldReceive('getVendorDirectory->getRealPath')
+            ->once()->withNoArgs()->andReturn($forgedVendorDirectory);
+
         $this->subjectParameters[ProcessRunner::class]->shouldReceive('runAsProcessReturningProcessObject')
-            ->once()->with('npx --no-install ' . $forgedCommand . ' --help')->andReturn($mockedProcess);
+            ->once()
+            ->with('npx --prefix ' . $forgedVendorDirectory . '/.. --no-install ' . $forgedCommand . ' --help')
+            ->andReturn($mockedProcess);
 
         $mockedProcess->shouldReceive('getExitCode')->once()->withNoArgs()->andReturn(127);
 
@@ -71,7 +84,7 @@ class NpmCommandFinderTest extends TestCase
             NpmCommandNotFoundException::class,
         );
         $this->expectExceptionCode(1595949828);
-        $this->expectErrorMessageMatches('/^Bnlablalbal could not be found in path or by npm.*/');
+        $this->expectExceptionMessage('Bnlablalbal could not be found in path or by npm.');
 
         $this->subject->findTerminalCommand($forgedCommand);
     }
