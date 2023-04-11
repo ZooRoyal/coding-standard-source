@@ -65,7 +65,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
         if ($this->excludesFiles !== []) {
             $excludingString = ' --exclude ';
             $excludesFilePaths = array_map(
-                static fn(EnhancedFileInfo $item) => $item->getRelativePathname(),
+                static fn(EnhancedFileInfo $item) => $item->getRealPath(),
                 $this->excludesFiles,
             );
             $excludingString .= implode(',', $excludesFilePaths);

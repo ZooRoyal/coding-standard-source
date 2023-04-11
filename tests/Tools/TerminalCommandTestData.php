@@ -22,6 +22,7 @@ class TerminalCommandTestData
     /** @var array<string>  */
     private array $extensions = [];
     private int $processes = 1;
+    private string $phpVersion = '7.4';
 
     /**
      * TerminalCommandTestData constructor.
@@ -37,6 +38,7 @@ class TerminalCommandTestData
         $this->verbosityLevel = $values['verbosityLevel'] ?? $this->verbosityLevel;
         $this->extensions = $values['extensions'] ?? $this->extensions;
         $this->processes = $values['processes'] ?? $this->processes;
+        $this->phpVersion = $values['phpVersion'] ?? $this->phpVersion;
     }
 
     /** @return array<EnhancedFileInfo> */
@@ -54,6 +56,11 @@ class TerminalCommandTestData
     public function getExtensions(): array
     {
         return $this->extensions;
+    }
+
+    public function getPhpVersion(): string
+    {
+        return $this->phpVersion;
     }
 
     public function getProcesses(): int

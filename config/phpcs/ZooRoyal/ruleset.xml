@@ -185,7 +185,7 @@
         </properties>
     </rule>
     <rule ref="SlevomatCodingStandard.Functions.DisallowEmptyFunction"/>
-    <rule ref="SlevomatCodingStandard.Functions.DisallowNamedArguments"/>
+<!--    <rule ref="SlevomatCodingStandard.Functions.DisallowNamedArguments"/>-->
 <!--    <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInCall"/>-->
 <!--    <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInClosureUse"/>-->
 <!--    <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInDeclaration"/>-->
@@ -201,8 +201,8 @@
     </rule>
     <rule ref="SlevomatCodingStandard.Functions.DisallowEmptyFunction"/>
 <!--    <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInCall"/>-->
-<!--    <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInClosureUse"/>-->
-<!--    <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInDeclaration"/>-->
+    <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInClosureUse"/>
+    <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInDeclaration"/>
     <rule ref="SlevomatCodingStandard.Functions.StaticClosure"/>
     <rule ref="SlevomatCodingStandard.Functions.StrictCall"/>
     <rule ref="SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses"/>
@@ -226,8 +226,8 @@
     <rule ref="SlevomatCodingStandard.TypeHints.DisallowArrayTypeHintSyntax"/>
     <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
         <properties>
-            <property name="newlinesCountBetweenOpenTagAndDeclare" type="int" value="2"/>
-            <property name="newlinesCountAfterDeclare" type="int" value="2"/>
+            <property name="linesCountBeforeDeclare" type="int" value="1"/>
+            <property name="linesCountAfterDeclare" type="int" value="1"/>
             <property name="spacesCountAroundEqualsSign" type="int" value="0"/>
         </properties>
     </rule>

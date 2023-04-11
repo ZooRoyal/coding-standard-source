@@ -10,20 +10,23 @@ use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\AbstractTerminalCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Exclusion\ExclusionTerminalCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Exclusion\ExclusionTrait;
+use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\VersionDependentTerminalCommand;
+use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\VersionDependentTrait;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Target\TargetTerminalCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Target\TargetTrait;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Verbose\VerboseTerminalCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Verbose\VerboseTrait;
 
-
 class TerminalCommand extends AbstractTerminalCommand implements
     ExclusionTerminalCommand,
     TargetTerminalCommand,
-    VerboseTerminalCommand
+    VerboseTerminalCommand,
+    VersionDependentTerminalCommand
 {
     use ExclusionTrait;
     use TargetTrait;
     use VerboseTrait;
+    use VersionDependentTrait;
 
     private const TEMPLATE = 'php %1$s analyse %4$s--no-progress --error-format=github -c %2$s %3$s';
 
@@ -40,7 +43,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
     {
         $this->validateTargets();
 
-        $this->phpstanConfigGenerator->writeConfigFile($this->output, $this->excludesFiles);
+        $this->phpstanConfigGenerator->writeConfigFile($this->output, $this->excludesFiles, $this->phpVersion);
 
         $vendorPath = $this->environment->getVendorDirectory()->getRealPath();
 
