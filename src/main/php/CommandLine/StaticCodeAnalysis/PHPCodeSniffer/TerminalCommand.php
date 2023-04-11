@@ -16,11 +16,13 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalComma
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Fix\FixTrait;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Multiprocess\MultiprocessTerminalCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Multiprocess\MultiprocessTrait;
+use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\PhpVersionConverter;
+use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\VersionDependentTerminalCommand;
+use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\VersionDependentTrait;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Target\TargetTerminalCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Target\TargetTrait;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Verbose\VerboseTerminalCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Verbose\VerboseTrait;
-
 
 class TerminalCommand extends AbstractTerminalCommand implements
     FixTerminalCommand,
@@ -28,7 +30,8 @@ class TerminalCommand extends AbstractTerminalCommand implements
     ExclusionTerminalCommand,
     FileExtensionTerminalCommand,
     VerboseTerminalCommand,
-    MultiprocessTerminalCommand
+    MultiprocessTerminalCommand,
+    VersionDependentTerminalCommand
 {
     use TargetTrait;
     use FixTrait;
@@ -36,11 +39,14 @@ class TerminalCommand extends AbstractTerminalCommand implements
     use FileExtensionTrait;
     use VerboseTrait;
     use MultiprocessTrait;
+    use VersionDependentTrait;
 
-    private const TEMPLATE = 'php %1$s %5$s%6$s--parallel=%7$d -p --standard=%2$s %3$s%4$s';
+    private const TEMPLATE = 'php %1$s %5$s%6$s--parallel=%7$d -p --standard=%2$s%3$s%8$s%4$s';
 
-    public function __construct(private readonly Environment $environment)
-    {
+    public function __construct(
+        private readonly Environment $environment,
+        private readonly PhpVersionConverter $phpVersionConverter,
+    ) {
     }
 
     /**
@@ -67,6 +73,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
             $this->buildVerbosityString(),
             $this->buildExtensionString(),
             $this->maxConcurrentProcesses,
+            $this->buildPhpVersionString(),
         );
 
         $this->command = $sprintfCommand;
@@ -108,13 +115,12 @@ class TerminalCommand extends AbstractTerminalCommand implements
     {
         $excludingString = '';
         if ($this->excludesFiles !== []) {
-            $excludingString = '--ignore=';
+            $excludingString = ' --ignore=';
             $excludesFilePaths = array_map(
                 static fn(EnhancedFileInfo $item) => $item->getRealPath(),
                 $this->excludesFiles,
             );
             $excludingString .= implode(',', $excludesFilePaths);
-            $excludingString .= ' ';
         }
         return $excludingString;
     }
@@ -129,10 +135,23 @@ class TerminalCommand extends AbstractTerminalCommand implements
                 static fn(EnhancedFileInfo $item) => $item->getRelativePathname(),
                 $this->targetedFiles,
             );
-            $targetingString = implode(' ', $targetedFilePaths);
+            $targetingString = ' ' . implode(' ', $targetedFilePaths);
         } else {
-            $targetingString = $this->environment->getRootDirectory()->getRelativePathname();
+            $targetingString = ' ' . $this->environment->getRootDirectory()->getRelativePathname();
         }
         return $targetingString;
+    }
+
+    /**
+     * This method returns the string representation of the php version.
+     */
+    private function buildPhpVersionString(): string
+    {
+        $template = ' --runtime-set php_version %d';
+        $phpVersion = $this->phpVersionConverter->convertSemVerToPhpString($this->phpVersion);
+
+        $result = sprintf($template, $phpVersion);
+
+        return $result;
     }
 }

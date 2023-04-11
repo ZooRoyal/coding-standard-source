@@ -9,6 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
+use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\PhpVersionConverter;
 
 class PHPStanConfigGenerator
 {
@@ -32,6 +33,7 @@ class PHPStanConfigGenerator
     public function __construct(
         private readonly Filesystem $filesystem,
         private readonly Environment $environment,
+        private readonly PhpVersionConverter $phpVersionConverter
     ) {
         $this->phpStanConfigPath = $this->environment->getPackageDirectory()->getRealPath()
             . '/config/phpstan/phpstan.neon';
@@ -50,14 +52,14 @@ class PHPStanConfigGenerator
      *
      * @param array<EnhancedFileInfo> $exclusionList
      */
-    public function writeConfigFile(OutputInterface $output, array $exclusionList): void
+    public function writeConfigFile(OutputInterface $output, array $exclusionList, string $phpVersion): void
     {
         $output->writeln(
             '<info>Writing new PHPStan configuration.</info>' . PHP_EOL,
             OutputInterface::VERBOSITY_VERBOSE,
         );
 
-        $configValues = $this->generateConfig($output, $exclusionList);
+        $configValues = $this->generateConfig($output, $exclusionList, $phpVersion);
 
         /** @phpstan-ignore-next-line */
         $onTheFlyConfig = Neon::encode($configValues);
@@ -71,7 +73,7 @@ class PHPStanConfigGenerator
      *
      * @return array<string,array<int|string,array<int,string>|string>>>
      */
-    private function generateConfig(OutputInterface $output, array $exclusionList): array
+    private function generateConfig(OutputInterface $output, array $exclusionList, string $phpVersion): array
     {
         $configValues = [
             'includes' => [
@@ -80,6 +82,7 @@ class PHPStanConfigGenerator
         ];
         $configValues = $this->addFunctionsFiles($configValues, $output);
         $configValues = $this->addExcludedFiles($configValues, $exclusionList);
+        $configValues = $this->addPhpVersion($configValues, $phpVersion);
         $configValues = $this->addStaticDirectoriesToScan($configValues);
 
         return $configValues;
@@ -146,6 +149,21 @@ class PHPStanConfigGenerator
 
             $configValues['parameters']['scanDirectories'][] = $absolutePath;
         }
+
+        return $configValues;
+    }
+
+    /**
+     * Adds the phpVersion parameter to the config.
+     *
+     * @param array<string,array<string|int,string|array<string>>> $configValues
+     *
+     * @return array<string,array<string|int,array<string>>>
+     */
+    private function addPhpVersion(array $configValues, string $phpVersion): array
+    {
+        $result = $this->phpVersionConverter->convertSemVerToPhpString($phpVersion);
+        $configValues['parameters']['phpVersion'] = $result;
 
         return $configValues;
     }

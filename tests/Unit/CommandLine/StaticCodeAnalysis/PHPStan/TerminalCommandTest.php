@@ -86,13 +86,14 @@ class TerminalCommandTest extends TestCase
             );
 
         $this->mockedConfigGenereator->shouldReceive('writeConfigFile')->once()
-            ->with($this->mockedOutput, $data->getExcluded());
+            ->with($this->mockedOutput, $data->getExcluded(), $data->getPhpVersion());
 
         $this->subject->addExclusions($data->getExcluded());
         $this->subject->addVerbosityLevel($data->getVerbosityLevel());
         if ($data->getTargets() !== null) {
             $this->subject->addTargets($data->getTargets());
         }
+        $this->subject->setPhpVersion($data->getPhpVersion());
 
         $result = (string) $this->subject;
         $resultingArray = $this->subject->toArray();
@@ -133,6 +134,7 @@ class TerminalCommandTest extends TestCase
                             new EnhancedFileInfo(self::FORGED_ABSOLUTE_VENDOR . '/a', self::FORGED_ABSOLUTE_VENDOR),
                             new EnhancedFileInfo(self::FORGED_ABSOLUTE_VENDOR . '/b', self::FORGED_ABSOLUTE_VENDOR),
                         ],
+                        'phpVersion' => '8.1',
                         'targets' => [
                             new EnhancedFileInfo(self::FORGED_ABSOLUTE_VENDOR . '/c', self::FORGED_ABSOLUTE_VENDOR),
                             new EnhancedFileInfo(self::FORGED_ABSOLUTE_VENDOR . '/d', self::FORGED_ABSOLUTE_VENDOR),
@@ -146,6 +148,15 @@ class TerminalCommandTest extends TestCase
                     [
                         'expectedCommand' => 'php ' . self::FORGED_ABSOLUTE_VENDOR
                             . '/bin/phpstan analyse --no-progress --error-format=github -c /configpath .',
+                    ],
+                ),
+            ],
+            'php version' => [
+                new TerminalCommandTestData(
+                    [
+                        'expectedCommand' => 'php ' . self::FORGED_ABSOLUTE_VENDOR
+                            . '/bin/phpstan analyse --no-progress --error-format=github -c /configpath .',
+                        'phpVersion' => '>8.0',
                     ],
                 ),
             ],
