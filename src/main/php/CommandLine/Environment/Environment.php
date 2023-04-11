@@ -9,7 +9,6 @@ use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfoFactory;
 use Zooroyal\CodingStandard\CommandLine\Process\ProcessRunner;
 
-use function Safe\realpath;
 
 /**
  * This Class supplies information about the environment the script is running in.

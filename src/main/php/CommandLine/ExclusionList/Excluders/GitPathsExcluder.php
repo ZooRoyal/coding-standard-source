@@ -9,7 +9,6 @@ use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfoFactory
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
 use Zooroyal\CodingStandard\CommandLine\Process\ProcessRunner;
 
-use function Safe\substr;
 
 class GitPathsExcluder implements ExcluderInterface
 {
