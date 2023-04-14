@@ -10,7 +10,6 @@ use SlevomatCodingStandard\Helpers\FunctionHelper;
 use SlevomatCodingStandard\Helpers\SuppressHelper;
 use SlevomatCodingStandard\Helpers\TypeHint;
 
-
 use const T_CLOSURE;
 use const T_FUNCTION;
 

@@ -33,7 +33,7 @@ class PHPStanConfigGenerator
     public function __construct(
         private readonly Filesystem $filesystem,
         private readonly Environment $environment,
-        private readonly PhpVersionConverter $phpVersionConverter
+        private readonly PhpVersionConverter $phpVersionConverter,
     ) {
         $this->phpStanConfigPath = $this->environment->getPackageDirectory()->getRealPath()
             . '/config/phpstan/phpstan.neon';

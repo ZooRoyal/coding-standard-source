@@ -9,7 +9,6 @@ use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfoFactory
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
 use Zooroyal\CodingStandard\CommandLine\Process\ProcessRunner;
 
-
 class GitPathsExcluder implements ExcluderInterface
 {
     /** @var array<string,array<EnhancedFileInfo>> */

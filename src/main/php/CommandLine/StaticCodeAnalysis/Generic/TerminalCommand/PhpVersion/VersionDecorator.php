@@ -10,7 +10,6 @@ use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\DecorateEvent;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\TerminalCommandDecorator;
 
-
 class VersionDecorator extends TerminalCommandDecorator
 {
     /** @var array<string> */
