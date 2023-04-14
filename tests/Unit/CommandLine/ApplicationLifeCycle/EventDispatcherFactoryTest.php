@@ -37,7 +37,7 @@ class EventDispatcherFactoryTest extends TestCase
             TargetDecorator::class,
             VerboseDecorator::class,
             MultiprocessDecorator::class,
-            VersionDecorator::class
+            VersionDecorator::class,
         ];
 
     /**
