@@ -19,7 +19,7 @@ class RunEslintWithConfigTest extends AsyncTestCase
     private const EXPECTED_TS_PROBLEMS = '184 errors';
     private const EXPECTED_JS_PROBLEMS = '184 errors';
     private const ESLINT_COMMAND = 'npx --no-install eslint --config ';
-    private const ESLINT_CONFIG_FILE = 'vendor/zooroyal/coding-standard/config/eslint/.eslintrc.js ';
+    private const ESLINT_CONFIG_FILE = 'vendor/zooroyal/coding-standard-source/config/eslint/.eslintrc.js ';
 
     private Filesystem $filesystem;
 
@@ -46,7 +46,7 @@ class RunEslintWithConfigTest extends AsyncTestCase
         $testInstancePath = $this->prepareInstallationDirectory();
 
         $command = $this->getEslintCommand(
-            'vendor/zooroyal/coding-standard/tests/System/fixtures/eslint/BadCode.js',
+            'vendor/zooroyal/coding-standard-source/tests/System/fixtures/eslint/BadCode.js',
             $testInstancePath,
         );
         $commandArray = explode(' ', $command);
@@ -75,7 +75,7 @@ class RunEslintWithConfigTest extends AsyncTestCase
         $testInstancePath = $this->prepareInstallationDirectory();
 
         $command = $this->getEslintCommand(
-            'vendor/zooroyal/coding-standard/tests/System/fixtures/eslint/BadCode.ts',
+            'vendor/zooroyal/coding-standard-source/tests/System/fixtures/eslint/BadCode.ts',
             $testInstancePath,
         );
         $commandArray = explode(' ', $command);
@@ -83,9 +83,9 @@ class RunEslintWithConfigTest extends AsyncTestCase
 
         yield $process->start();
 
+        $exitCode = yield $process->join();
         $output = yield buffer($process->getStdout());
         $errorOutput = yield buffer($process->getStdout());
-        $exitCode = yield $process->join();
 
         self::assertSame(1, $exitCode, $errorOutput);
 
@@ -128,7 +128,7 @@ class RunEslintWithConfigTest extends AsyncTestCase
         }
         $envInstallationPath = $environment->getInstallationPath();
         $this->filesystem->copy(
-            $envInstallationPath . '/vendor/zooroyal/coding-standard/tests/System/fixtures/eslint/tsconfig.json',
+            $envInstallationPath . '/vendor/zooroyal/coding-standard-source/tests/System/fixtures/eslint/tsconfig.json',
             $envInstallationPath . '/tsconfig.json',
         );
         return $envInstallationPath;

@@ -1,7 +1,7 @@
 {
   "version": "0.0.1",
   "require-dev":  {
-    "zooroyal/coding-standard": "@dev"
+    "zooroyal/coding-standard-source": "@dev"
   },
   "repositories":{
     "localRepo":{

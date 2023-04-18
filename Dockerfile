@@ -30,4 +30,3 @@ RUN git config --global --add safe.directory /app
 WORKDIR /app/
 
 ENTRYPOINT [ "/coding-standard/src/bin/coding-standard" ]
-#ENTRYPOINT [ "sleep" ]

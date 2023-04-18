@@ -11,3 +11,11 @@ $component: 'mdc-dialog';
         margin: 0;
     }
 }
+
+%placeholder-class {
+    color: rgba(255 255 255 50%);
+}
+
+.extend-example {
+    @extend %placeholder-class;
+}

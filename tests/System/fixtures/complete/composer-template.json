@@ -1,7 +1,9 @@
 {
   "version": "0.0.1",
+  "require": {
+    "php": "^8.1"
+  },
   "require-dev":  {
-    "php": "^8.1",
     "zooroyal/coding-standard-source": "@dev"
   },
   "repositories":{
