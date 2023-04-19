@@ -33,7 +33,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
     use VerboseTrait;
 
     private const TEMPLATE
-        = 'npx %8$s--no-install eslint %6$s%7$s--no-error-on-unmatched-pattern --config %1$s %3$s'
+        = 'npx %8$s--no-install eslint %6$s%7$s--no-error-on-unmatched-pattern --no-eslintrc --config %1$s %3$s'
         . '--ignore-path %2$s %4$s%5$s';
 
     public function __construct(private readonly Environment $environment)
@@ -50,7 +50,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
 
         $sprintfCommand = sprintf(
             self::TEMPLATE,
-            $esLintConfigPath . '.eslintrc.js',
+            $esLintConfigPath . 'eslint.config.js',
             $esLintConfigPath . '.eslintignore',
             $this->buildExtensionString(),
             $this->buildExcludingString(),

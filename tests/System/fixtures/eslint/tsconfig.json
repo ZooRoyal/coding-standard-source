@@ -1,5 +1,5 @@
 {
   "files": [
-    "vendor/zooroyal/coding-standard/tests/System/fixtures/eslint/BadCode.ts"
+    "vendor/zooroyal/coding-standard-source/tests/System/fixtures/eslint/BadCode.ts"
   ]
 }

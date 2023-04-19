@@ -222,7 +222,6 @@ module.exports = {
         'jsdoc/empty-tags': 2,
         'jsdoc/implements-on-classes': 2,
         'jsdoc/match-description': 0,
-        'jsdoc/newline-after-description': 2,
         'jsdoc/no-bad-blocks': 0,
         'jsdoc/no-defaults': 0,
         'jsdoc/no-types': 0,
