@@ -7,7 +7,6 @@ namespace Zooroyal\CodingStandard\CommandLine\ExclusionList\Excluders;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfoFactory;
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
-use Zooroyal\CodingStandard\CommandLine\Process\ProcessRunner;
 
 class TokenExcluder implements ExcluderInterface
 {
@@ -19,9 +18,9 @@ class TokenExcluder implements ExcluderInterface
      */
     public function __construct(
         private readonly Environment $environment,
-        private readonly ProcessRunner $processRunner,
         private readonly EnhancedFileInfoFactory $enhancedFileInfoFactory,
         private readonly CacheKeyGenerator $cacheKeyGenerator,
+        private readonly FastCachedFileSearch $fastCachedFileSearch,
     ) {
     }
 
@@ -48,24 +47,11 @@ class TokenExcluder implements ExcluderInterface
 
         $token = $config['token'];
 
-        $rootDirectory = $this->environment->getRootDirectory()->getRealPath();
+        $rootDirectory = $this->environment->getRootDirectory();
 
-        $excludeParameters = '';
-        if (!empty($alreadyExcludedPaths)) {
-            $excludeParameters = ' -not -path "./' . implode('" -not -path "./', $alreadyExcludedPaths) . '"';
-        }
-        $finderResult = $this->processRunner->runAsProcess(
-            'find ' . $rootDirectory . ' -name ' . $token . $excludeParameters,
-        );
+        $foundFiles = $this->fastCachedFileSearch->listFolderFiles($token, $rootDirectory, $alreadyExcludedPaths);
 
-        if (empty($finderResult)) {
-            $this->cache[$cacheKey] = [];
-            return [];
-        }
-
-        $rawExcludePathsByToken = explode(PHP_EOL, trim($finderResult));
-        $absoluteDirectories = array_map('dirname', $rawExcludePathsByToken);
-
+        $absoluteDirectories = array_map(static fn(EnhancedFileInfo $file) => $file->getPath(), $foundFiles);
         $result = $this->enhancedFileInfoFactory->buildFromArrayOfPaths($absoluteDirectories);
 
         $this->cache[$cacheKey] = $result;
