@@ -7,7 +7,6 @@ namespace Zooroyal\CodingStandard\CommandLine\ExclusionList\Excluders;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfoFactory;
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
-use Zooroyal\CodingStandard\CommandLine\Process\ProcessRunner;
 
 class GitPathsExcluder implements ExcluderInterface
 {
@@ -19,9 +18,9 @@ class GitPathsExcluder implements ExcluderInterface
      */
     public function __construct(
         private readonly Environment $environment,
-        private readonly ProcessRunner $processRunner,
         private readonly EnhancedFileInfoFactory $enhancedFileInfoFactory,
         private readonly CacheKeyGenerator $cacheKeyGenerator,
+        private readonly FastCachedFileSearch $fastCachedFileSearch,
     ) {
     }
 
@@ -41,29 +40,12 @@ class GitPathsExcluder implements ExcluderInterface
             return $this->cache[$cacheKey];
         }
 
-        $excludeParameters = '';
-        if (!empty($alreadyExcludedPaths)) {
-            $excludeParameters = ' -not -path "./' . implode('" -not -path "./', $alreadyExcludedPaths) . '"';
-        }
+        $rootDirectory = $this->environment->getRootDirectory();
 
-        $rootDirectory = $this->environment->getRootDirectory()->getRealPath();
-        $finderResult = $this->processRunner->runAsProcess(
-            'find ' . $rootDirectory . ' -mindepth 2 -name .git' . $excludeParameters,
-        );
+        $foundFiles = $this->fastCachedFileSearch->listFolderFiles('.git', $rootDirectory, $alreadyExcludedPaths, 2);
 
-        if (empty($finderResult)) {
-            $this->cache[$cacheKey] = [];
-            return [];
-        }
-
-        $rawExcludePathsByFileByGit = explode(PHP_EOL, trim($finderResult));
-
-        $relativeDirectories = array_map(
-            static fn($value): string => substr(dirname($value), strlen($rootDirectory) + 1),
-            $rawExcludePathsByFileByGit,
-        );
-
-        $result = $this->enhancedFileInfoFactory->buildFromArrayOfPaths($relativeDirectories);
+         $absoluteDirectories = array_map(static fn(EnhancedFileInfo $file) => $file->getPath(), $foundFiles);
+        $result = $this->enhancedFileInfoFactory->buildFromArrayOfPaths($absoluteDirectories);
 
         $this->cache[$cacheKey] = $result;
         return $result;
