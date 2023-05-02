@@ -42,7 +42,7 @@ class GitPathsExcluder implements ExcluderInterface
 
         $rootDirectory = $this->environment->getRootDirectory();
 
-        $foundFiles = $this->fastCachedFileSearch->listFolderFiles('.git', $rootDirectory, $alreadyExcludedPaths, 2);
+        $foundFiles = $this->fastCachedFileSearch->listFolderFiles('.git', $rootDirectory, $alreadyExcludedPaths, 1);
 
          $absoluteDirectories = array_map(static fn(EnhancedFileInfo $file) => $file->getPath(), $foundFiles);
         $result = $this->enhancedFileInfoFactory->buildFromArrayOfPaths($absoluteDirectories);
