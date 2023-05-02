@@ -54,23 +54,23 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-#  update-dst-repo:
-#    runs-on: ["ubuntu-latest"]
-#    needs: publish-docker-image
-#    steps:
-#      - name: Trigger Workflow
-#        uses: actions/github-script@v6
-#        with:
-#          github-token: ${{ secrets.MY_GHA_TOKEN }}
-#          script: |
-#            github.rest.actions.createWorkflowDispatch({
-#              owner: context.repo.owner,
-#              repo: 'coding-standard',
-#              workflow_id: 'release-from-upstream.yml',
-#              ref: '4.x',
-#              inputs: {
-#                versionToRelease: '${{ github.event.release.tag_name }}'
-#              }
-#            })
+  update-dst-repo:
+    runs-on: ["ubuntu-latest"]
+    needs: publish-docker-image
+    steps:
+      - name: Trigger Workflow
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: 'coding-standard',
+              workflow_id: 'release-from-upstream.yml',
+              ref: 'master',
+              inputs: {
+                versionToRelease: '${{ github.event.release.tag_name }}'
+              }
+            })
 
 
