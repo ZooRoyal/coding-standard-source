@@ -53,7 +53,7 @@ class GitPathsExcluderTest extends TestCase
             ->with([])->andReturn('asdasdqweqwe12123');
 
         $this->subjectParameters[FastCachedFileSearch::class]->shouldReceive('listFolderFiles')->once()
-            ->with('.git', $this->forgedRootDirectory, [], 2)->andReturn([]);
+            ->with('.git', $this->forgedRootDirectory, [], 1)->andReturn([]);
         $this->subjectParameters[EnhancedFileInfoFactory::class]->shouldReceive('buildFromArrayOfPaths')
             ->once()->with([])->andReturn([]);
 
@@ -86,7 +86,7 @@ class GitPathsExcluderTest extends TestCase
             ->with($mockedExcludes)->andReturn('asdasdqweqwe12123');
 
         $this->subjectParameters[FastCachedFileSearch::class]->shouldReceive('listFolderFiles')->once()
-            ->with('.git', $this->forgedRootDirectory, $mockedExcludes, 2)
+            ->with('.git', $this->forgedRootDirectory, $mockedExcludes, 1)
             ->andReturn($forgedSearchResult);
 
         $this->subjectParameters[EnhancedFileInfoFactory::class]->shouldReceive('buildFromArrayOfPaths')
