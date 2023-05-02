@@ -61,7 +61,7 @@ jobs:
       - name: Trigger Workflow
         uses: actions/github-script@v6
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GHA_LOCAL_TOKEN_CODING_STANDARD }}
           script: |
             github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
