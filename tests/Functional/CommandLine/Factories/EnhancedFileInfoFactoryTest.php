@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\Tests\Functional\CommandLine\Factories;
 
-use ComposerLocator;
+use Composer\Autoload\ClassLoader;
 use Hamcrest\MatcherAssert;
 use Hamcrest\Matchers as H;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 use SebastianKnott\HamcrestObjectAccessor\HasProperty;
 use Zooroyal\CodingStandard\CommandLine\ApplicationLifeCycle\ContainerFactory;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfoFactory;
@@ -38,7 +39,9 @@ class EnhancedFileInfoFactoryTest extends TestCase
 
         $this->relativeFilePath2 = 'composer.json';
 
-        $this->rootDirectory = realpath(ComposerLocator::getRootPath());
+        $reflection = new ReflectionClass(ClassLoader::class);
+        $rootPath = dirname($reflection->getFileName(), 3);
+        $this->rootDirectory = realpath($rootPath);
         $this->absolutFilePath = $this->rootDirectory . self::$DiSe . $this->relativeFilePath;
 
         $this->subject = $container->get(EnhancedFileInfoFactory::class);

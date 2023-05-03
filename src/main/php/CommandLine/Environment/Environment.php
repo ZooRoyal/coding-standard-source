@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\Environment;
 
-use ComposerLocator;
+use Composer\Autoload\ClassLoader;
+use ReflectionClass;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfoFactory;
 use Zooroyal\CodingStandard\CommandLine\Process\ProcessRunner;
@@ -40,7 +41,8 @@ class Environment
      */
     public function getVendorDirectory(): EnhancedFileInfo
     {
-        $vendorPath = ComposerLocator::getRootPath() . DIRECTORY_SEPARATOR . 'vendor';
+        $reflection = new ReflectionClass(ClassLoader::class);
+        $vendorPath = dirname($reflection->getFileName(), 2);
         $enhancedFileInfo = $this->enhancedFileInfoFactory->buildFromPath($vendorPath);
         return $enhancedFileInfo;
     }
