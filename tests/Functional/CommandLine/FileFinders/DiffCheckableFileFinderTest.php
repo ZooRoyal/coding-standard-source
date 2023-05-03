@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\Tests\Functional\CommandLine\FileFinders;
 
-use ComposerLocator;
 use DI\Container;
 use Hamcrest\MatcherAssert;
 use Hamcrest\Matchers as H;
@@ -18,7 +17,7 @@ use Zooroyal\CodingStandard\CommandLine\Process\ProcessRunner;
 
 class DiffCheckableFileFinderTest extends TestCase
 {
-    /** @var array<string>  */
+    /** @var array<string> */
     private array $forgedFileSet;
     private string $forgedRawDiffUnfilteredString;
 
@@ -95,9 +94,6 @@ class DiffCheckableFileFinderTest extends TestCase
         string $forgedRawDiffUnfilteredString,
     ): Container {
         $targetMergeBase = '123asdasdMergeBase123123asd';
-
-        $mockedComposerLocator = Mockery::mock('overload:' . ComposerLocator::class);
-        $mockedComposerLocator->shouldReceive('getRootPath')->andReturn($forgedRootDirectory);
 
         $mockedProcessRunner = Mockery::mock(ProcessRunner::class)->makePartial();
         $mockedProcessRunner->shouldReceive('runAsProcess')
