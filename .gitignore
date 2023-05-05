@@ -1,7 +1,7 @@
 .DS_Store
 .idea
 .phpunit.result.cache
-vendor
+/vendor
 vendor-bin
 config/phpstan/phpstan.neon
 composer.lock

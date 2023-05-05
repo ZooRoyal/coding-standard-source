@@ -7,6 +7,7 @@ namespace Zooroyal\CodingStandard\CommandLine\ExclusionList\Excluders;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfoFactory;
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
+use Zooroyal\CodingStandard\CommandLine\FileSearch\FileSearchInterface;
 
 class GitPathsExcluder implements ExcluderInterface
 {
@@ -20,7 +21,7 @@ class GitPathsExcluder implements ExcluderInterface
         private readonly Environment $environment,
         private readonly EnhancedFileInfoFactory $enhancedFileInfoFactory,
         private readonly CacheKeyGenerator $cacheKeyGenerator,
-        private readonly FastCachedFileSearch $fastCachedFileSearch,
+        private readonly FileSearchInterface $fileSearch,
     ) {
     }
 
@@ -42,9 +43,9 @@ class GitPathsExcluder implements ExcluderInterface
 
         $rootDirectory = $this->environment->getRootDirectory();
 
-        $foundFiles = $this->fastCachedFileSearch->listFolderFiles('.git', $rootDirectory, $alreadyExcludedPaths, 1);
+        $foundFiles = $this->fileSearch->listFolderFiles('.git', $rootDirectory, $alreadyExcludedPaths, 1);
 
-         $absoluteDirectories = array_map(static fn(EnhancedFileInfo $file) => $file->getPath(), $foundFiles);
+        $absoluteDirectories = array_map(static fn(EnhancedFileInfo $file) => $file->getPath(), $foundFiles);
         $result = $this->enhancedFileInfoFactory->buildFromArrayOfPaths($absoluteDirectories);
 
         $this->cache[$cacheKey] = $result;

@@ -7,6 +7,7 @@ namespace Zooroyal\CodingStandard\CommandLine\ExclusionList\Excluders;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfoFactory;
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
+use Zooroyal\CodingStandard\CommandLine\FileSearch\FileSearchInterface;
 
 class TokenExcluder implements ExcluderInterface
 {
@@ -20,7 +21,7 @@ class TokenExcluder implements ExcluderInterface
         private readonly Environment $environment,
         private readonly EnhancedFileInfoFactory $enhancedFileInfoFactory,
         private readonly CacheKeyGenerator $cacheKeyGenerator,
-        private readonly FastCachedFileSearch $fastCachedFileSearch,
+        private readonly FileSearchInterface $fileSearch,
     ) {
     }
 
@@ -49,7 +50,7 @@ class TokenExcluder implements ExcluderInterface
 
         $rootDirectory = $this->environment->getRootDirectory();
 
-        $foundFiles = $this->fastCachedFileSearch->listFolderFiles($token, $rootDirectory, $alreadyExcludedPaths);
+        $foundFiles = $this->fileSearch->listFolderFiles($token, $rootDirectory, $alreadyExcludedPaths);
 
         $absoluteDirectories = array_map(static fn(EnhancedFileInfo $file) => $file->getPath(), $foundFiles);
         $result = $this->enhancedFileInfoFactory->buildFromArrayOfPaths($absoluteDirectories);

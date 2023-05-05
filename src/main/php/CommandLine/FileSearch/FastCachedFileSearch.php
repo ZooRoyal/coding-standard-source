@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Zooroyal\CodingStandard\CommandLine\ExclusionList\Excluders;
+namespace Zooroyal\CodingStandard\CommandLine\FileSearch;
 
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfoFactory;
 
 use function is_dir;
 
-class FastCachedFileSearch
+class FastCachedFileSearch implements FileSearchInterface
 {
     /** @var array<string,array<string>> */
     private array $fileSystemCache = [];
@@ -19,19 +19,14 @@ class FastCachedFileSearch
     }
 
     /**
-     * This method searches for files of a given name in a directory and its subdirectories. It returns an array of
-     * EnhancedFileInfo matching the search criteria.
-     *
-     * @param EnhancedFileInfo        $path The directory to search in
-     * @param array<EnhancedFileInfo> $exclusions
-     *
-     * @return array<EnhancedFileInfo>
+     * {@inheritDoc}
      */
     public function listFolderFiles(
-        string $name,
+        string $fileName,
         EnhancedFileInfo $path,
         array $exclusions = [],
         int $minDepth = 0,
+        ?int $maxDepth = null,
     ): array {
         $dir = $path->getPathname();
         $exclusionPaths = array_map(
@@ -39,7 +34,7 @@ class FastCachedFileSearch
             $exclusions
         );
 
-        $resultingPathnames = $this->doTheSearch($name, $dir, $exclusionPaths, $minDepth, 0);
+        $resultingPathnames = $this->doTheSearch($fileName, $dir, $exclusionPaths, $minDepth, $maxDepth, 0);
 
         return $this->enhancedFileInfoFactory->buildFromArrayOfPaths($resultingPathnames);
     }
@@ -57,9 +52,14 @@ class FastCachedFileSearch
         string $directory,
         array &$exclusions,
         int $minDepth,
+        ?int $maxDepth,
         int $depthNow,
     ): array {
         $result = [];
+
+        if ($maxDepth === $depthNow) {
+            return $result;
+        }
 
         // If name is not a directory, return empty array
         if (
@@ -70,15 +70,6 @@ class FastCachedFileSearch
             return $result;
         }
 
-        // If directory is excluded, return empty array
-        if ($exclusions !== []) {
-            $key = array_search($directory, $exclusions, true);
-            if ($key !== false) {
-                unset($exclusions[$key]);
-                $this->fileSystemCache[$directory] = [];
-                return $result;
-            }
-        }
 
         // Writing the cache for the current directory
         $this->writeDirectoryToCache($directory);
@@ -93,7 +84,8 @@ class FastCachedFileSearch
             $directory,
             $exclusions,
             $minDepth,
-            $depthNow
+            $maxDepth,
+            $depthNow,
         );
 
         return $result;
@@ -129,6 +121,7 @@ class FastCachedFileSearch
         string $directory,
         array &$exclusions,
         int $minDepth,
+        ?int $maxDepth,
         int $depthNow,
     ): array {
         $result = [];
@@ -140,12 +133,22 @@ class FastCachedFileSearch
                 $result[] = $filePathname;
             }
 
+            // If directory is excluded, jump to next iteration
+            if ($exclusions !== []) {
+                $key = array_search($filePathname, $exclusions, true);
+                if ($key !== false) {
+                    unset($exclusions[$key]);
+                    continue;
+                }
+            }
+
             // Try searching for name in $filePathname. Starting point for recursion.
             $subFolderResults = $this->doTheSearch(
                 $name,
                 $filePathname,
                 $exclusions,
                 $minDepth,
+                $maxDepth,
                 $depthNow + 1
             );
 

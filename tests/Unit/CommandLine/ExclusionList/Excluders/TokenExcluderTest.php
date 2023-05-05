@@ -11,8 +11,8 @@ use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfoFactory;
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
 use Zooroyal\CodingStandard\CommandLine\ExclusionList\Excluders\CacheKeyGenerator;
-use Zooroyal\CodingStandard\CommandLine\ExclusionList\Excluders\FastCachedFileSearch;
 use Zooroyal\CodingStandard\CommandLine\ExclusionList\Excluders\TokenExcluder;
+use Zooroyal\CodingStandard\CommandLine\FileSearch\FileSearchInterface;
 use Zooroyal\CodingStandard\Tests\Tools\SubjectFactory;
 
 class TokenExcluderTest extends TestCase
@@ -53,7 +53,7 @@ class TokenExcluderTest extends TestCase
         $this->subjectParameters[CacheKeyGenerator::class]->shouldReceive('generateCacheKey')->once()
             ->with([], $forgedConfig)->andReturn('asdasdqweqwe12123');
 
-        $this->subjectParameters[FastCachedFileSearch::class]->shouldReceive('listFolderFiles')->once()
+        $this->subjectParameters[FileSearchInterface::class]->shouldReceive('listFolderFiles')->once()
             ->with($forgedConfig['token'], $this->forgedRootDirectory, [])->andReturn([]);
         $this->subjectParameters[EnhancedFileInfoFactory::class]->shouldReceive('buildFromArrayOfPaths')
             ->once()->with([])->andReturn([]);
@@ -89,7 +89,7 @@ class TokenExcluderTest extends TestCase
         $this->subjectParameters[CacheKeyGenerator::class]->shouldReceive('generateCacheKey')->atLeast()->once()
             ->with($mockedExcludes, $forgedConfig)->andReturn('asdasdqweqwe12123');
 
-        $this->subjectParameters[FastCachedFileSearch::class]->shouldReceive('listFolderFiles')->once()
+        $this->subjectParameters[FileSearchInterface::class]->shouldReceive('listFolderFiles')->once()
             ->with($forgedConfig['token'], $this->forgedRootDirectory, $mockedExcludes)
             ->andReturn($forgedSearchResult);
 

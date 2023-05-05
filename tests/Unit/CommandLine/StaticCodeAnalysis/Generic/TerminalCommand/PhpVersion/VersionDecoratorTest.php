@@ -8,8 +8,10 @@ use Mockery;
 use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Output\OutputInterface;
+use Zooroyal\CodingStandard\CommandLine\ApplicationLifeCycle\ContainerFactory;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
+use Zooroyal\CodingStandard\CommandLine\FileSearch\FileSearchInterface;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\DecorateEvent;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\VersionDecorator;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\VersionDependentTerminalCommand;
@@ -23,6 +25,8 @@ class VersionDecoratorTest extends TestCase
     private MockInterface|Environment $mockedEnvironment;
     private MockInterface|VersionDependentTerminalCommand $mockedTerminalCommand;
     private MockInterface|OutputInterface $mockedOutput;
+    /** @var Mockery\LegacyMockInterface|MockInterface|FileSearchInterface|(FileSearchInterface&Mockery\LegacyMockInterface)|(FileSearchInterface&MockInterface) */
+    private FileSearchInterface|MockInterface $forgedFileSearch;
 
     protected function setUp(): void
     {
@@ -30,10 +34,11 @@ class VersionDecoratorTest extends TestCase
         $this->mockedTerminalCommand = Mockery::mock(VersionDependentTerminalCommand::class);
         $this->mockedEnvironment = Mockery::mock(Environment::class);
         $this->mockedOutput = Mockery::mock(OutputInterface::class);
+        $this->forgedFileSearch = ContainerFactory::getUnboundContainerInstance()->get(FileSearchInterface::class);
 
         $this->mockedEvent->shouldReceive('getOutput')->andReturn($this->mockedOutput);
 
-        $this->subject = new VersionDecorator($this->mockedEnvironment);
+        $this->subject = new VersionDecorator($this->mockedEnvironment, $this->forgedFileSearch);
     }
 
     protected function tearDown(): void
@@ -66,13 +71,17 @@ class VersionDecoratorTest extends TestCase
     public function setVersionsDataProvider(): array
     {
         return [
-            'version 7.4' => ['path' => __DIR__ . '/fixture/versions/7.4', 'expectedVersion' => '7.4',],
+            'version 7.4' => ['path' => __DIR__ . '/fixture/versions/7.4', 'expectedVersion' => '7.4.0',],
             'version 8.0' => ['path' => __DIR__ . '/fixture/versions/8.0', 'expectedVersion' => '8.0.1',],
-            'version 8.1' => ['path' => __DIR__ . '/fixture/versions/8.1', 'expectedVersion' => '8.1',],
-            'version 8.2' => ['path' => __DIR__ . '/fixture/versions/8.2', 'expectedVersion' => '8.2',],
-            'version 8.placeholder' => ['path' => __DIR__ . '/fixture/versions/8.placeholder', 'expectedVersion' => '8.0',],
-            'config' => ['path' => __DIR__ . '/fixture/places/config', 'expectedVersion' => '8.1',],
-            'require' => ['path' => __DIR__ . '/fixture/places/require', 'expectedVersion' => '8.1',],
+            'version 8.1' => ['path' => __DIR__ . '/fixture/versions/8.1', 'expectedVersion' => '8.1.0',],
+            'version 8.2' => ['path' => __DIR__ . '/fixture/versions/8.2', 'expectedVersion' => '8.2.0',],
+            'version 8.placeholder' => [
+                'path' => __DIR__ . '/fixture/versions/8.placeholder',
+                'expectedVersion' => '8.0.0',
+            ],
+            'config' => ['path' => __DIR__ . '/fixture/places/config', 'expectedVersion' => '8.1.0',],
+            'require' => ['path' => __DIR__ . '/fixture/places/require', 'expectedVersion' => '8.1.0',],
+            'deepSearch' => ['path' => __DIR__ . '/fixture/deepSearch', 'expectedVersion' => '8.0.3',],
         ];
     }
 
@@ -85,9 +94,10 @@ class VersionDecoratorTest extends TestCase
         $mockedEnhancedFileInfo = Mockery::mock(EnhancedFileInfo::class);
 
         $mockedEnhancedFileInfo->expects()->getRealPath()->andReturn($path);
+        $mockedEnhancedFileInfo->expects()->getPathname()->andReturn($path);
 
         $this->mockedEvent->expects()->getTerminalCommand()->once()->andReturn($this->mockedTerminalCommand);
-        $this->mockedEnvironment->expects()->getRootDirectory()->once()->andReturn($mockedEnhancedFileInfo);
+        $this->mockedEnvironment->expects()->getRootDirectory()->twice()->andReturn($mockedEnhancedFileInfo);
         $this->mockedTerminalCommand->expects()->setPhpVersion($expectedVersion)->once();
 
         $this->mockedOutput->expects()->writeln(
