@@ -70,7 +70,6 @@ class FastCachedFileSearch implements FileSearchInterface
             return $result;
         }
 
-
         // Writing the cache for the current directory
         $this->writeDirectoryToCache($directory);
 

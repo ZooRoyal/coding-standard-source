@@ -106,15 +106,16 @@ class VersionDecoratorTest extends TestCase
         $mockedEnhancedFileInfo->expects()->getRealPath()->andReturn($path);
         $mockedEnhancedFileInfo->expects()->getPathname()->andReturn($path);
 
-        $this->mockedEvent->expects()->getTerminalCommand()->once()->andReturn($this->mockedTerminalCommand);
-        $this->mockedEnvironment->expects()->getRootDirectory()->twice()->andReturn($mockedEnhancedFileInfo);
-        $this->mockedTerminalCommand->expects()->setPhpVersion($expectedVersion)->once();
+        $this->mockedEvent->expects()->getTerminalCommand()->twice()->andReturn($this->mockedTerminalCommand);
+        $this->mockedEnvironment->expects()->getRootDirectory()->once()->andReturn($mockedEnhancedFileInfo);
+        $this->mockedTerminalCommand->expects()->setPhpVersion($expectedVersion)->twice();
 
         $this->mockedOutput->expects()->writeln(
             '<info>Targeted PHP version is ' . $expectedVersion . '</info>' . PHP_EOL,
             OutputInterface::VERBOSITY_VERBOSE,
         )->once();
 
+        $this->subject->decorate($this->mockedEvent);
         $this->subject->decorate($this->mockedEvent);
     }
 }

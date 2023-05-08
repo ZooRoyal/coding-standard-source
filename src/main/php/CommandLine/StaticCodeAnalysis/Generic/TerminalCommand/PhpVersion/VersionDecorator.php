@@ -17,6 +17,7 @@ class VersionDecorator extends TerminalCommandDecorator
 {
     /** @var array<string> */
     private array $phpVersions = [];
+    private ?string $cachedMinPhpVersion = null;
 
     public function __construct(
         private readonly Environment $environment,
@@ -46,8 +47,15 @@ class VersionDecorator extends TerminalCommandDecorator
             return;
         }
 
+        if ($this->cachedMinPhpVersion !== null) {
+            $terminalCommand->setPhpVersion($this->cachedMinPhpVersion);
+            return;
+        }
+
         $composerFiles = $this->gatherComposerFiles();
         $minPhpVersion = $this->searchMinimalViablePhpVersion($composerFiles);
+
+        $this->cachedMinPhpVersion = $minPhpVersion;
 
         $terminalCommand->setPhpVersion($minPhpVersion);
 
@@ -84,12 +92,13 @@ class VersionDecorator extends TerminalCommandDecorator
      */
     private function gatherComposerFiles(): array
     {
-        $path = $this->environment->getRootDirectory()->getRealPath();
+        $rootDirectory = $this->environment->getRootDirectory();
+        $path = $rootDirectory->getRealPath();
         $composerFiles[] = $this->enhancedFileInfoFactory->buildFromPath($path . '/composer.json');
 
         $foundComposerFiles = $this->fileSearchInterface->listFolderFiles(
             fileName: 'composer.json',
-            path: $this->environment->getRootDirectory(),
+            path: $rootDirectory,
             minDepth: 1,
             maxDepth: 4
         );
