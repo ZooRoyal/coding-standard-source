@@ -48,7 +48,7 @@ class StaticExcluderTest extends TestCase
             '.pnpm-store',
         ];
 
-        $forgedResult = [Mockery::mock(EnhancedFileInfo::class)];
+        $forgedResult = [Mockery::mock(EnhancedFileInfo::class), Mockery::mock(EnhancedFileInfo::class)];
 
         $this->subjectParameters[EnhancedFileInfoFactory::class]->shouldReceive('buildFromArrayOfPaths')
             ->once()->with($expectedExclusionPaths)->andReturn($forgedResult);
@@ -73,7 +73,7 @@ class StaticExcluderTest extends TestCase
             '.pnpm-store',
         ];
 
-        $forgedResult = [Mockery::mock(EnhancedFileInfo::class)];
+        $forgedResult = [Mockery::mock(EnhancedFileInfo::class), Mockery::mock(EnhancedFileInfo::class)];
 
         $this->subjectParameters[EnhancedFileInfoFactory::class]->shouldReceive('buildFromArrayOfPaths')
             ->once()->with($expectedExclusionPaths)->andReturn($forgedResult);

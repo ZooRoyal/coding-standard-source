@@ -16,7 +16,7 @@ class CacheKeyGenerator
      */
     public function generateCacheKey(array $alreadyExcludedPaths = [], array $config = []): string
     {
-        $hashSource = ' ' . implode('', $alreadyExcludedPaths);
+        $hashSource =  implode('', $alreadyExcludedPaths);
 
         if ($config !== []) {
             $hashSource .= md5(serialize($config));

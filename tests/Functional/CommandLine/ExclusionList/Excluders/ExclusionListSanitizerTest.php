@@ -23,17 +23,19 @@ class ExclusionListSanitizerTest extends TestCase
     public function sanitizeExclusionList(): void
     {
         $expectedResult = $this->prepareMockedEnhancedFileInfo([
-            __DIR__ . '/../../../fixtures/asd',
-            __DIR__ . '/../../../fixtures/asdqwe',
-            __DIR__ . '/../../../fixtures/yxc/asd',
+            '0' => __DIR__ . '/../../../fixtures/asd',
+            '1' => __DIR__ . '/../../../fixtures/asdqwe',
+            '2' => __DIR__ . '/../../../fixtures/yxc/asd',
         ]);
-        $input = array_merge(
-            $expectedResult,
-            $this->prepareMockedEnhancedFileInfo([
+        $input = [
+            $expectedResult[0],
+            ...$this->prepareMockedEnhancedFileInfo([
                 __DIR__ . '/../../../fixtures/asd',
                 __DIR__ . '/../../../fixtures/asd/asdqwe',
             ]),
-        );
+            $expectedResult[1],
+            $expectedResult[2],
+        ];
 
         $result = $this->subject->sanitizeExclusionList($input);
 

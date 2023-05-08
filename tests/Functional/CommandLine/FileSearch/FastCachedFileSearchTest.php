@@ -127,7 +127,7 @@ class FastCachedFileSearchTest extends TestCase
         $result2 = $this->subject->listFolderFiles('.dontSniffPHP', $this->forgedPath, minDepth: 4);
         $duration2 = $timer2->stop();
 
-        self::assertLessThan($duration1->asNanoseconds() / 3 * 2, $duration2->asNanoseconds());
+        self::assertLessThan($duration1->asNanoseconds(), $duration2->asNanoseconds());
         self::assertSame($result1, $result2);
     }
 

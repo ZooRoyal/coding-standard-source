@@ -40,7 +40,7 @@ class GitIgnoresExcluderTest extends TestCase
      */
     public function getPathsToExclude(): void
     {
-        $forgedExcludedDirectories = ['asdasd', 'qweqwe'];
+        $forgedExcludedDirectories = ['asdasdä', 'qweqweö'];
         $expectedResult = array_map(
             fn($path) => new EnhancedFileInfo(
                 $this->forgedRootDirectory . DIRECTORY_SEPARATOR . $path . DIRECTORY_SEPARATOR,
