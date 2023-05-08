@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Output\OutputInterface;
 use Zooroyal\CodingStandard\CommandLine\ApplicationLifeCycle\ContainerFactory;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
+use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfoFactory;
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
 use Zooroyal\CodingStandard\CommandLine\FileSearch\FileSearchInterface;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\DecorateEvent;
@@ -27,6 +28,7 @@ class VersionDecoratorTest extends TestCase
     private MockInterface|OutputInterface $mockedOutput;
     /** @var Mockery\LegacyMockInterface|MockInterface|FileSearchInterface|(FileSearchInterface&Mockery\LegacyMockInterface)|(FileSearchInterface&MockInterface) */
     private FileSearchInterface|MockInterface $forgedFileSearch;
+    private EnhancedFileInfoFactory $forgedEnhancedFileInfoFactory;
 
     protected function setUp(): void
     {
@@ -34,11 +36,18 @@ class VersionDecoratorTest extends TestCase
         $this->mockedTerminalCommand = Mockery::mock(VersionDependentTerminalCommand::class);
         $this->mockedEnvironment = Mockery::mock(Environment::class);
         $this->mockedOutput = Mockery::mock(OutputInterface::class);
-        $this->forgedFileSearch = ContainerFactory::getUnboundContainerInstance()->get(FileSearchInterface::class);
+        $this->forgedFileSearch = ContainerFactory::getUnboundContainerInstance()
+            ->get(FileSearchInterface::class);
+        $this->forgedEnhancedFileInfoFactory = ContainerFactory::getUnboundContainerInstance()
+            ->get(EnhancedFileInfoFactory::class);
 
         $this->mockedEvent->shouldReceive('getOutput')->andReturn($this->mockedOutput);
 
-        $this->subject = new VersionDecorator($this->mockedEnvironment, $this->forgedFileSearch);
+        $this->subject = new VersionDecorator(
+            $this->mockedEnvironment,
+            $this->forgedFileSearch,
+            $this->forgedEnhancedFileInfoFactory
+        );
     }
 
     protected function tearDown(): void
@@ -79,6 +88,7 @@ class VersionDecoratorTest extends TestCase
                 'path' => __DIR__ . '/fixture/versions/8.placeholder',
                 'expectedVersion' => '8.0.0',
             ],
+            'version none' => ['path' => __DIR__ . '/fixture/versions/none', 'expectedVersion' => '7.4.0',],
             'config' => ['path' => __DIR__ . '/fixture/places/config', 'expectedVersion' => '8.1.0',],
             'require' => ['path' => __DIR__ . '/fixture/places/require', 'expectedVersion' => '8.1.0',],
             'deepSearch' => ['path' => __DIR__ . '/fixture/deepSearch', 'expectedVersion' => '8.0.3',],

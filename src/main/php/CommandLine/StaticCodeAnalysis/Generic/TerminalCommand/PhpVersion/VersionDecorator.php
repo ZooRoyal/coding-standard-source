@@ -6,6 +6,8 @@ namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\Termina
 
 use Composer\Semver\Semver;
 use Symfony\Component\Console\Output\OutputInterface;
+use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
+use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfoFactory;
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
 use Zooroyal\CodingStandard\CommandLine\FileSearch\FileSearchInterface;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\DecorateEvent;
@@ -19,6 +21,7 @@ class VersionDecorator extends TerminalCommandDecorator
     public function __construct(
         private readonly Environment $environment,
         private readonly FileSearchInterface $fileSearchInterface,
+        private readonly EnhancedFileInfoFactory $enhancedFileInfoFactory,
     ) {
         $phpVersionRanges = [
             '7.4.' => '33',
@@ -43,29 +46,8 @@ class VersionDecorator extends TerminalCommandDecorator
             return;
         }
 
-        $path = $this->environment->getRootDirectory()->getRealPath();
-
-        $contents = file_get_contents($path . '/composer.json');
-        $composerConfig = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
-        $initialPhpVersionConstraint = $composerConfig['config']['platform']['php']
-            ?? $composerConfig['require']['php']
-            ?? '*';
-
-        $composerFiles = $this->fileSearchInterface->listFolderFiles(
-            fileName: 'composer.json',
-            path: $this->environment->getRootDirectory(),
-            maxDepth: 4
-        );
-
-        $phpVersionConstraintComplete = '( ' . $initialPhpVersionConstraint . ' )';
-        foreach ($composerFiles as $composerFile) {
-            $contents = file_get_contents($composerFile->getRealPath());
-            $composerConfig = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
-            $phpVersionConstraint = $composerConfig['require']['php'] ?? '*';
-            $phpVersionConstraintComplete .= ' ( ' . $phpVersionConstraint . ' )';
-        }
-
-        $minPhpVersion = $this->extractActualPhpVersion($phpVersionConstraintComplete);
+        $composerFiles = $this->gatherComposerFiles();
+        $minPhpVersion = $this->searchMinimalViablePhpVersion($composerFiles);
 
         $terminalCommand->setPhpVersion($minPhpVersion);
 
@@ -81,16 +63,67 @@ class VersionDecorator extends TerminalCommandDecorator
      */
     private function extractActualPhpVersion(string $phpVersionConstraint): string
     {
-        if (preg_match('/^\d(\.\d){0,2}$/', $phpVersionConstraint)) {
-            return $phpVersionConstraint;
+        if (preg_match('/^(\d+)(\.\d)?(\.\d)?$/', $phpVersionConstraint, $matches)) {
+            return $matches[1] . ($matches[2] ?? '.0') . ($matches[3] ?? '.0');
         }
 
-        $minPhpVersion = '7.4';
+        $minPhpVersion = '7.4.0';
         foreach ($this->phpVersions as $phpVersion) {
             if (SemVer::satisfies($phpVersion, $phpVersionConstraint)) {
                 $minPhpVersion = $phpVersion;
                 break;
             }
+        }
+        return $minPhpVersion;
+    }
+
+    /**
+     * Finds all composer files in the project.
+     *
+     * @return array<EnhancedFileInfo>
+     */
+    private function gatherComposerFiles(): array
+    {
+        $path = $this->environment->getRootDirectory()->getRealPath();
+        $composerFiles[] = $this->enhancedFileInfoFactory->buildFromPath($path . '/composer.json');
+
+        $foundComposerFiles = $this->fileSearchInterface->listFolderFiles(
+            fileName: 'composer.json',
+            path: $this->environment->getRootDirectory(),
+            minDepth: 1,
+            maxDepth: 4
+        );
+
+        $composerFiles = [...$composerFiles, ...$foundComposerFiles];
+        return $composerFiles;
+    }
+
+    /**
+     * Combines Constraints of given composer files and returns the lowest possible php version.
+     *
+     * @param array<EnhancedFileInfo> $composerFiles
+     */
+    private function searchMinimalViablePhpVersion(array $composerFiles): string
+    {
+        $minPhpVersion = '7.4.0';
+
+        foreach ($composerFiles as $key => $composerFile) {
+            $contents = file_get_contents($composerFile->getRealPath());
+            $composerConfig = json_decode($contents, true, 512, JSON_THROW_ON_ERROR);
+
+            // The first file is the root composer file, so we need to check the platform config.
+            if ($key === 0) {
+                $phpVersionConstraint = $composerConfig['config']['platform']['php']
+                    ?? $composerConfig['require']['php']
+                    ?? '*';
+            } else {
+                $phpVersionConstraint = $composerConfig['require']['php'] ?? '*';
+            }
+
+            $minPhpVersionPackage = $this->extractActualPhpVersion($phpVersionConstraint);
+            $minPhpVersion = version_compare($minPhpVersion, $minPhpVersionPackage, '<')
+                ? $minPhpVersionPackage
+                : $minPhpVersion;
         }
         return $minPhpVersion;
     }
