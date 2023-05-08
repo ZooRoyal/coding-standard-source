@@ -22,7 +22,6 @@ class AdaptableFileFinder implements FileFinderInterface
     ) {
     }
 
-
     /**
      * {@inheritDoc}
      *

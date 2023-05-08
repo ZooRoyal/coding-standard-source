@@ -15,6 +15,8 @@ use Zooroyal\CodingStandard\CommandLine\ExclusionList\Excluders\GitIgnoresExclud
 use Zooroyal\CodingStandard\CommandLine\ExclusionList\Excluders\GitPathsExcluder;
 use Zooroyal\CodingStandard\CommandLine\ExclusionList\Excluders\StaticExcluder;
 use Zooroyal\CodingStandard\CommandLine\ExclusionList\Excluders\TokenExcluder;
+use Zooroyal\CodingStandard\CommandLine\FileSearch\FastCachedFileSearch;
+use Zooroyal\CodingStandard\CommandLine\FileSearch\FileSearchInterface;
 
 use function DI\factory;
 use function DI\get;
@@ -24,6 +26,7 @@ return [
     EventDispatcherInterface::class => factory(EventDispatcherFactory::class . '::build'),
     InputInterface::class => get(ArgvInput::class),
     OutputInterface::class => get(ConsoleOutput::class),
+    FileSearchInterface::class => get(FastCachedFileSearch::class),
 
     'excluders' => factory(
         static function (Container $container) {

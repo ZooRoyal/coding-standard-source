@@ -1,5 +1,5 @@
 {
-    "timeout": 10,
+    "timeout": 20,
     "minMsi": 94,
     "minCoveredMsi": 94,
     "source": {

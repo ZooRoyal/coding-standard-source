@@ -11,8 +11,8 @@ use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfoFactory;
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
 use Zooroyal\CodingStandard\CommandLine\ExclusionList\Excluders\CacheKeyGenerator;
-use Zooroyal\CodingStandard\CommandLine\ExclusionList\Excluders\FastCachedFileSearch;
 use Zooroyal\CodingStandard\CommandLine\ExclusionList\Excluders\GitPathsExcluder;
+use Zooroyal\CodingStandard\CommandLine\FileSearch\FileSearchInterface;
 use Zooroyal\CodingStandard\Tests\Tools\SubjectFactory;
 
 class GitPathsExcluderTest extends TestCase
@@ -41,7 +41,6 @@ class GitPathsExcluderTest extends TestCase
         parent::tearDown();
     }
 
-
     /**
      * @test
      */
@@ -52,7 +51,7 @@ class GitPathsExcluderTest extends TestCase
         $this->subjectParameters[CacheKeyGenerator::class]->shouldReceive('generateCacheKey')->once()
             ->with([])->andReturn('asdasdqweqwe12123');
 
-        $this->subjectParameters[FastCachedFileSearch::class]->shouldReceive('listFolderFiles')->once()
+        $this->subjectParameters[FileSearchInterface::class]->shouldReceive('listFolderFiles')->once()
             ->with('.git', $this->forgedRootDirectory, [], 1)->andReturn([]);
         $this->subjectParameters[EnhancedFileInfoFactory::class]->shouldReceive('buildFromArrayOfPaths')
             ->once()->with([])->andReturn([]);
@@ -85,7 +84,7 @@ class GitPathsExcluderTest extends TestCase
         $this->subjectParameters[CacheKeyGenerator::class]->shouldReceive('generateCacheKey')->atLeast()->once()
             ->with($mockedExcludes)->andReturn('asdasdqweqwe12123');
 
-        $this->subjectParameters[FastCachedFileSearch::class]->shouldReceive('listFolderFiles')->once()
+        $this->subjectParameters[FileSearchInterface::class]->shouldReceive('listFolderFiles')->once()
             ->with('.git', $this->forgedRootDirectory, $mockedExcludes, 1)
             ->andReturn($forgedSearchResult);
 

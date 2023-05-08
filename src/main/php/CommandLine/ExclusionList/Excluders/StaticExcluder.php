@@ -47,7 +47,7 @@ class StaticExcluder implements ExcluderInterface
             return $this->cache;
         }
 
-        $result = $this->enhancedFileInfoFactory->buildFromArrayOfPaths(array_values(self::PATHS_TO_EXCLUDE));
+        $result = $this->enhancedFileInfoFactory->buildFromArrayOfPaths(self::PATHS_TO_EXCLUDE);
 
         $this->cache = $result;
         return $result;

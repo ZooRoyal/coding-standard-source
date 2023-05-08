@@ -41,9 +41,10 @@ class AdaptableFileFinderTest extends TestCase
      */
     public function findFilesWithInvalidTargetThrowsException(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionCode('1553766210');
         $mockedTargetBranchInput = 'blaaaa';
+        $this->expectExceptionObject(
+            new InvalidArgumentException('Target ' . $mockedTargetBranchInput . ' is no valid commit-ish.', 1553766210)
+        );
         $this->subjectParameters[GitInputValidator::class]->shouldReceive('isCommitishValid')
             ->with($mockedTargetBranchInput)->andReturn(false);
 
