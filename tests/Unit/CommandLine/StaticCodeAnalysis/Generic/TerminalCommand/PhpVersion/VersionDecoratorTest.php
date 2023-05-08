@@ -26,7 +26,6 @@ class VersionDecoratorTest extends TestCase
     private MockInterface|Environment $mockedEnvironment;
     private MockInterface|VersionDependentTerminalCommand $mockedTerminalCommand;
     private MockInterface|OutputInterface $mockedOutput;
-    /** @var Mockery\LegacyMockInterface|MockInterface|FileSearchInterface|(FileSearchInterface&Mockery\LegacyMockInterface)|(FileSearchInterface&MockInterface) */
     private FileSearchInterface|MockInterface $forgedFileSearch;
     private EnhancedFileInfoFactory $forgedEnhancedFileInfoFactory;
 
