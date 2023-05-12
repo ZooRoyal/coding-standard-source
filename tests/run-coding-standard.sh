@@ -27,7 +27,7 @@ fi
 echo execute coding-standard
 set +e
 
-docker exec -it cs-container /coding-standard/src/bin/coding-standard $@
+docker exec -t cs-container /coding-standard/src/bin/coding-standard $@
 CS_EXIT_CODE=$?
 
 set -e

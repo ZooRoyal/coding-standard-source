@@ -3,6 +3,9 @@
 declare(strict_types=1);
 
 use DI\Container;
+use PhpParser\Parser;
+use PhpParser\ParserFactory;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,9 +27,12 @@ use function DI\get;
 return [
     Application::class => factory(ApplicationFactory::class . '::build'),
     EventDispatcherInterface::class => factory(EventDispatcherFactory::class . '::build'),
+    FileSearchInterface::class => get(FastCachedFileSearch::class),
     InputInterface::class => get(ArgvInput::class),
     OutputInterface::class => get(ConsoleOutput::class),
-    FileSearchInterface::class => get(FastCachedFileSearch::class),
+    Parser::class => factory(static function (ContainerInterface $container) {
+        return $container->get(ParserFactory::class)->create(ParserFactory::PREFER_PHP7);
+    }),
 
     'excluders' => factory(
         static function (Container $container) {

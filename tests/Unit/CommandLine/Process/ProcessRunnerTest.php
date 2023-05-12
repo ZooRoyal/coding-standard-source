@@ -12,6 +12,8 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 use Zooroyal\CodingStandard\CommandLine\Process\ProcessRunner;
 
+use function Safe\getcwd;
+
 class ProcessRunnerTest extends TestCase
 {
     private ProcessRunner $subject;

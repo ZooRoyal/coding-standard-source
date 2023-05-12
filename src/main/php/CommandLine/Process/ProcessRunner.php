@@ -6,6 +6,8 @@ namespace Zooroyal\CodingStandard\CommandLine\Process;
 
 use Symfony\Component\Process\Process;
 
+use function Safe\getcwd;
+
 class ProcessRunner
 {
     /**

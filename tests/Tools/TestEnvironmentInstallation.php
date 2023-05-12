@@ -89,7 +89,7 @@ class TestEnvironmentInstallation
     /**
      * Actually install the test environment.
      */
-    public function installComposerInstance(): self
+    public function installComposerInstance(bool $installNpm = true): self
     {
         $this->filesystem->mkdir($this->installationPath);
         $composerTemplate = json_decode(file_get_contents($this->getComposerJson()), true);
@@ -103,19 +103,21 @@ class TestEnvironmentInstallation
             $this->installationPath,
         ))
             ->setIdleTimeout(240)->setTimeout(480)->mustRun();
-        $this->filesystem->remove($this->installationPath . '/vendor/zooroyal/coding-standard-source/node_modules');
-        (new Process(
-            [
-                'npm',
-                '--prefer-offline',
-                '--no-audit',
-                '--progress=false',
-                'install',
-                'vendor/zooroyal/coding-standard-source',
-            ],
-            $this->installationPath,
-        ))
-            ->setIdleTimeout(60)->setTimeout(120)->mustRun();
+        if ($installNpm) {
+            $this->filesystem->remove($this->installationPath . '/vendor/zooroyal/coding-standard-source/node_modules');
+            (new Process(
+                [
+                    'npm',
+                    '--prefer-offline',
+                    '--no-audit',
+                    '--progress=false',
+                    'install',
+                    'vendor/zooroyal/coding-standard-source',
+                ],
+                $this->installationPath,
+            ))->setIdleTimeout(60)->setTimeout(120)->mustRun();
+        }
+
         $this->isInstalled = true;
 
         return $this;
