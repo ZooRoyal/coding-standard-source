@@ -7,7 +7,7 @@ namespace Zooroyal\CodingStandard\CommandLine\FileSearch;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfoFactory;
 
-use function is_dir;
+use function Safe\scandir;
 
 class FastCachedFileSearch implements FileSearchInterface
 {

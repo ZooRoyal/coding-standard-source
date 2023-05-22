@@ -8,6 +8,8 @@ use InvalidArgumentException;
 use Webmozart\PathUtil\Path;
 use Zooroyal\CodingStandard\CommandLine\Process\ProcessRunner;
 
+use function Safe\fileinode;
+
 class EnhancedFileInfoFactory
 {
     /** @var array<int,EnhancedFileInfo> */

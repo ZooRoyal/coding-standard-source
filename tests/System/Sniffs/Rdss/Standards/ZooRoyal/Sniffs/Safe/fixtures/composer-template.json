@@ -1,0 +1,14 @@
+{
+    "version": "0.0.1",
+    "type": "test",
+    "name": "test/test",
+    "repositories":{
+        "localRepo":{
+            "type": "path",
+            "url": "",
+            "options": {
+                "symlink": false
+            }
+        }
+    }
+}

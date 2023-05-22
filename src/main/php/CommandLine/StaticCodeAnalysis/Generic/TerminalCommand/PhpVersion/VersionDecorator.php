@@ -13,6 +13,9 @@ use Zooroyal\CodingStandard\CommandLine\FileSearch\FileSearchInterface;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\DecorateEvent;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\TerminalCommandDecorator;
 
+use function Safe\file_get_contents;
+use function Safe\preg_match;
+
 class VersionDecorator extends TerminalCommandDecorator
 {
     /** @var array<string> */
