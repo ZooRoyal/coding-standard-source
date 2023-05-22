@@ -94,7 +94,7 @@ class CheckSafeFunctionUsageSniff implements Sniff
 
         try {
             $this->assertNextTokenParenthesisOpener($phpcsFile, $stackPtr);
-            $this->assertGlobaleFunctionCall($phpcsFile, $stackPtr);
+            $this->assertGlobalFunctionCall($phpcsFile, $stackPtr);
             $this->assertFunctionProvidedBySafe($tokens[$stackPtr]['content']);
             $this->assertFunctionUnused($phpcsFile, $functionName);
         } catch (AssertionException $exception) {
@@ -120,7 +120,7 @@ class CheckSafeFunctionUsageSniff implements Sniff
         }
     }
 
-    private function assertGlobaleFunctionCall(File $phpcsFile, int $stackPtr): void
+    private function assertGlobalFunctionCall(File $phpcsFile, int $stackPtr): void
     {
         $previousPointer = TokenHelper::findPreviousEffective($phpcsFile, $stackPtr - 1);
         if (
