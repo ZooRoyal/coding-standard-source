@@ -6,16 +6,16 @@ namespace Zooroyal\CodingStandard\Tests\Unit\Sniffs\Rdss\Standards\ZooRoyal\Snif
 
 use PHPUnit\Framework\TestCase;
 use RuntimeException as GeneralRuntimeException;
-use Zooroyal\CodingStandard\Sniffs\Rdss\Standards\ZooRoyal\Sniffs\Safe\RuntimeException;
+use Zooroyal\CodingStandard\Sniffs\Rdss\Standards\ZooRoyal\Sniffs\Safe\AssertionException;
 
-class RuntimeExceptionTest extends TestCase
+class AssertionExceptionTest extends TestCase
 {
     /**
      * @test
      */
     public function instanceOfRuntimeException(): void
     {
-        $subject = new RuntimeException('foo', 1);
+        $subject = new AssertionException('foo', 1);
         self::assertInstanceOf(GeneralRuntimeException::class, $subject);
     }
 }

@@ -78,12 +78,12 @@ class CheckSafeFunctionUsageSniff implements Sniff
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingAnyTypeHint We must
      *                stay compatible with the interface even if we don't like it.
      *
-     * @throws RuntimeException
+     * @throws AssertionException
      */
     public function process(File $phpcsFile, $stackPtr): void
     {
         if (!isset($this->functionNames)) {
-            throw new RuntimeException(
+            throw new AssertionException(
                 'No function names found! Did you forget to install thecodingmachine/Safe?',
                 1684240278
             );
@@ -97,7 +97,7 @@ class CheckSafeFunctionUsageSniff implements Sniff
             $this->assertGlobaleFunctionCall($phpcsFile, $stackPtr);
             $this->assertFunctionProvidedBySafe($tokens[$stackPtr]['content']);
             $this->assertFunctionUnused($phpcsFile, $functionName);
-        } catch (RuntimeException $exception) {
+        } catch (AssertionException $exception) {
             // If this is the case we found no Safe function. Continue...
             return;
         }
@@ -109,14 +109,14 @@ class CheckSafeFunctionUsageSniff implements Sniff
     {
         $parenthesisOpenerPointer = TokenHelper::findNextEffective($phpcsFile, $stackPtr + 1);
         if ($phpcsFile->getTokens()[$parenthesisOpenerPointer]['code'] !== T_OPEN_PARENTHESIS) {
-            throw new RuntimeException('No parenthesis opener found!', 1684230169);
+            throw new AssertionException('No parenthesis opener found!', 1684230169);
         }
     }
 
     private function assertFunctionProvidedBySafe(string $functionName): void
     {
         if (!in_array($functionName, $this->functionNames, true)) {
-            throw new RuntimeException('Function ' . $functionName . ' not found in Safe!', 1684230170);
+            throw new AssertionException('Function ' . $functionName . ' not found in Safe!', 1684230170);
         }
     }
 
@@ -130,7 +130,7 @@ class CheckSafeFunctionUsageSniff implements Sniff
                 true
             )
         ) {
-            throw new RuntimeException('Token is not a global function call!', 1684230171);
+            throw new AssertionException('Token is not a global function call!', 1684230171);
         }
     }
 
@@ -152,7 +152,7 @@ class CheckSafeFunctionUsageSniff implements Sniff
             static fn(UseStatement $useStatement) => $useStatement->getNameAsReferencedInFile() === $functionName
         );
         if (count($useStatementOfFunctionName) !== 0) {
-            throw new RuntimeException('Function is already annotated as used.', 1684230172);
+            throw new AssertionException('Function is already annotated as used.', 1684230172);
         }
     }
 

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\Sniffs\Rdss\Standards\ZooRoyal\Sniffs\Safe;
 
-use RuntimeException as GeneralRuntimeException;
+use RuntimeException;
 
-class RuntimeException extends GeneralRuntimeException
+class AssertionException extends RuntimeException
 {
 }
