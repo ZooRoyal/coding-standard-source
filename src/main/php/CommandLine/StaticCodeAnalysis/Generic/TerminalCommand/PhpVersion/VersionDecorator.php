@@ -50,20 +50,15 @@ class VersionDecorator extends TerminalCommandDecorator
             return;
         }
 
-        if ($this->cachedMinPhpVersion !== null) {
-            $terminalCommand->setPhpVersion($this->cachedMinPhpVersion);
-            return;
+        if ($this->cachedMinPhpVersion === null) {
+            $composerFiles = $this->gatherComposerFiles();
+            $this->cachedMinPhpVersion = $this->searchMinimalViablePhpVersion($composerFiles);
         }
 
-        $composerFiles = $this->gatherComposerFiles();
-        $minPhpVersion = $this->searchMinimalViablePhpVersion($composerFiles);
-
-        $this->cachedMinPhpVersion = $minPhpVersion;
-
-        $terminalCommand->setPhpVersion($minPhpVersion);
+        $terminalCommand->setPhpVersion($this->cachedMinPhpVersion);
 
         $event->getOutput()->writeln(
-            '<info>Targeted PHP version is ' . $minPhpVersion . '</info>' . PHP_EOL,
+            '<info>Targeted PHP version is ' . $this->cachedMinPhpVersion . '</info>' . PHP_EOL,
             OutputInterface::VERBOSITY_VERBOSE,
         );
     }

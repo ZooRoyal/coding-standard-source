@@ -5,40 +5,43 @@
 
 # ZooRoyal Coding Standard Source
 
-This repository holds the necessary sources to use and build the ZooRoyal 
-Coding Standard. 
+---
+
+This repository holds the necessary sources to use and build the ZooRoyal
+Coding Standard.
 
 It incorporates
-* [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer) 
+* [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer)
   and its configuration
 * [PHP Mess Detector](https://github.com/phpmd/phpmd) and its configuration
 * [PHP Copy Paste Detector](https://github.com/sebastianbergmann/phpcpd)
 * [PHP-Parallel-Lint](https://github.com/JakubOnderka/PHP-Parallel-Lint)
-* [PHPStan - PHP Static Analysis Tool](https://github.com/phpstan/phpstan) 
+* [PHPStan - PHP Static Analysis Tool](https://github.com/phpstan/phpstan)
   and its configuration
 * [ES-LINT](https://github.com/eslint/eslint) and its configuration
 * [STYLE-LINT](https://github.com/stylelint/stylelint) and its configuration
 
-In addition, there is a PHP script in src/bin to be used by a 
-continuous integration tool of your choice. It searches your source code to 
-find files to check with its static code analysis tools. Information about 
+In addition, there is a PHP script in src/bin to be used by a
+continuous integration tool of your choice. It searches your source code to
+find files to check with its static code analysis tools. Information about
 its usage can be found by calling it with -h option.
 
-# Installation
+## Installation (as intendet)
 
-## Docker
+### Docker
 
-The ZooRoyal Coding Standard is designed to be used as a docker isolated 
-application. Therefore, no installation is needed if you have a docker 
-daemon available on your system. 
-## Composer
+The ZooRoyal Coding Standard is designed to be used as a docker isolated
+application. Therefore, no installation is needed if you have a docker
+daemon available on your system.
+
+### Composer
 
 If ...
-* ... you don't feel comfortable with the docker user experience ... 
-* .. want to bind your source code to a certain version of the ZooRoyal 
+* ... you don't feel comfortable with the docker user experience ...
+* ... want to bind your source code to a certain version of the ZooRoyal
   Coding Standard ...
 
-... you find a ready made composer package at https://github.com/ZooRoyal/coding-standard
+... you find a ready-made composer package at https://github.com/ZooRoyal/coding-standard
 
 ```bash
 composer require --dev "zooroyal/coding-standard"
@@ -46,79 +49,122 @@ composer require --dev "zooroyal/coding-standard"
 
 It will still require you to have a docker daemon available on your system.
 
+The ZooRoyal Coding Standard application will be available under
+`vendor/bin/coding-standard`.
+
 ## Install from source (not recommended)
 
-### Composer from source
-
-If all else fails, you can install the ZooRoyal Coding Standard from this source 
-package. **Please be aware that this is not recommended**. There will be 
-tons of dependencies the rest of you project will have to comply with. They 
+If all else fails, you can install the ZooRoyal Coding Standard from this source
+package. **Please be aware that this is not recommended**. There will be
+tons of dependencies the rest of your project will have to comply with. They
 will be very specific and change as we see fit.
+
+#### Standalone
+
+If you want to use the ZooRoyal Coding Standard as a standalone application, you
+can use the following commands:
+
+```bash
+git clone git@github.com:ZooRoyal/coding-standard-source.git
+cd coding-standard-source
+composer install
+```
+
+The ZooRoyal Coding Standard application will be available under
+`src/bin/coding-standard`.
+
+#### As composer dependency
+
+To use the ZooRoyal Coding Standard as a composer dependency, you can
+require it via composer but this alone won't be enough. You will have to install
+the necessary tools as well. For this to happen, you can use the following
+process:
 
 ```bash
 composer require --dev "zooroyal/coding-standard-source"
 ```
 
-### Eslint and StyleLint
+Now you need to add the following lines to your composer.json:
 
-In case you want to use eslint and stylelint checks you have to install the packages from the package.json in the root folder of your project.
-
-### Local Installation
-
-You may install the packages locally in your project. For this to happen you need to follow the following  steps:
-
-1. `composer require --dev zooroyal/coding-standard`
-2. `npm install --save-dev vendor/zooroyal/coding-standard`
-
-#### Global Installation
-
-You may have installed eslint and stylelint globally in your system. If you want ZooRoyal Coding Standard to try to use them
- just make sure ZooRoyal Coding Standard is installed properly.
-
-```bash
-composer require --dev zooroyal/coding-standard-source
+```json
+{
+    [...]
+    "extra": {
+        [...]
+        "bamarni-bin": {
+            "bin-links": true,
+            "forward-command": true
+        }
+    }
+    [...]
+}
 ```
 
-### Update
-
-To update this package just run
+The final step is to install the necessary tools. This can be done by
+running the following command:
 
 ```bash
-composer update "zooroyal/coding-standard-source"
+cp -r vendor/zooroyal/coding-standard-source/vendor-bin .
+composer update
+# If you need Javascript support ...
+npm install --save-dev vendor/zooroyal/coding-standard-source
 ```
 
-# Usage ZooRoyal Coding Standard
+This will install the following tools in several directories under `vendor-bin`:
 
-Please keep in mind, that ZooRoyal Coding Standard can only check source 
+* [PHPStan](https://phpstan.org/) ([composer.json](./vendor-bin/phpstan/composer.json))
+* [PHP-Parallel-Lint](https://github.com/php-parallel-lint/PHP-Parallel-Lint)
+  ([composer.json](./vendor-bin/php-parallel-lint/composer.json))
+* [PHPCPD](https://packagist.org/packages/sebastian/phpcpd)
+  ([composer.json](./vendor-bin/phpcpd/composer.json))
+* [PHPMD](https://phpmd.org/)
+  ([composer.json](./vendor-bin/phpmd/composer.json))
+
+This tools will be installed in `node_modules`:
+* [EsLint](https://eslint.org/)
+  ([package.json](./package.json))
+* [StyleLint](https://stylelint.io/)
+  ([package.json](./package.json))
+
+The ZooRoyal Coding Standard application will be available under
+`vendor/bin/coding-standard`.
+
+## Usage ZooRoyal Coding Standard
+
+Please keep in mind, that ZooRoyal Coding Standard can only check source
 code which is a **git repository** as well as a **composer project**
 
-## Using the docker image directly
+### Using the docker image directly
 
 If you want to use the docker image directly, you can use the following command:
 
 ```bash
-docker run --rm -it -v $(pwd):/app zooroyal/coding-standard
+docker run --rm -t -v $(pwd):/app ghcr.io/zooroyal/coding-standard-source:latest <parameter>
 ```
 
-This will mount your current working directory as the root directory of the 
+This will mount your current working directory as the root directory of the
 source code you want to check.
 
 For your convenience, you can create an alias for this command:
 ```bash
-alias coding-standard="docker run --rm -it -v \$(pwd):/app zooroyal/coding-standard"
+alias coding-standard="docker run --rm -t -v $(pwd):/app ghcr.io/zooroyal/coding-standard-source:latest"
 ```
 
 To use a certain version of the coding-standard, just add the version tag to the image name:
 ```bash
-docker run --rm -it -v \$(pwd):/app zooroyal/coding-standard:4.0.1
+docker run --rm -t -v $(pwd):/app ghcr.io/zooroyal/coding-standard-source:4.0.0 <parameter>
 ```
 
-## Using one of the composer packages
+### Using one of the composer packages
 
-The composer package will install a script in your `vendor/bin` folder of 
-your composer project. This can be used to run the coding standard.
+The composer package will install a script in your `vendor/bin` folder of your composer project
+or `src/bin`  of the standalone installation folder. Use them to run the
+ZooRoyal Coding Standard.
 
-## Using the ZooRoyal Coding Standard
+The ZooRoyal Coding Standard application must be executed from the root of
+your project.
+
+### Using the ZooRoyal Coding Standard
 
 Run the command to get usage instructions.
 ```bash
@@ -142,7 +188,7 @@ Available commands:
   sca:stan                  Run PHPStan on PHP files.
 ```
 
-## Example `sca:all`
+### Example `sca:all`
 
 ```bash
 coding-standard sca:all -h
@@ -189,9 +235,9 @@ This command computes the diff to the branch origin/master and searches for all 
 
 For examples just have a look an the .travis.yml
 
-# Extend the Coding Standard
+## Extend the Coding Standard
 
-If you want to extend the ZooRoyal Coding Standard with your own tools there are two 
+If you want to extend the ZooRoyal Coding Standard with your own tools there are two
 tutorials available:
 
 * [How to add a new static code analysis tool](doc/howto/HowToAddANewTool.md)

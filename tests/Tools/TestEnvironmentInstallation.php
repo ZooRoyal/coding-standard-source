@@ -92,31 +92,10 @@ class TestEnvironmentInstallation
     public function installComposerInstance(bool $installNpm = true): self
     {
         $this->filesystem->mkdir($this->installationPath);
-        $composerTemplate = json_decode(file_get_contents($this->getComposerJson()), true);
-        $composerTemplate['repositories']['localRepo']['url'] = $this->composerPath;
-        $renderedComposerFile = json_encode($composerTemplate);
-        file_put_contents($this->installationPath . DIRECTORY_SEPARATOR . 'composer.json', $renderedComposerFile);
 
-        (new Process(['git', 'init'], $this->installationPath))->mustRun();
-        (new Process(
-            ['composer', 'install', '--no-interaction', '--no-progress', '--no-suggest'],
-            $this->installationPath,
-        ))
-            ->setIdleTimeout(240)->setTimeout(480)->mustRun();
-        if ($installNpm) {
-            $this->filesystem->remove($this->installationPath . '/vendor/zooroyal/coding-standard-source/node_modules');
-            (new Process(
-                [
-                    'npm',
-                    '--prefer-offline',
-                    '--no-audit',
-                    '--progress=false',
-                    'install',
-                    'vendor/zooroyal/coding-standard-source',
-                ],
-                $this->installationPath,
-            ))->setIdleTimeout(60)->setTimeout(120)->mustRun();
-        }
+        $this->installGit();
+        $this->installComposer();
+        $this->installNpm($installNpm);
 
         $this->isInstalled = true;
 
@@ -138,5 +117,56 @@ class TestEnvironmentInstallation
         $this->composerJsonPath = '';
 
         return $this;
+    }
+
+    private function installNpm(bool $installNpm): void
+    {
+        if ($installNpm) {
+            $this->filesystem->remove($this->installationPath . '/vendor/zooroyal/coding-standard-source/node_modules');
+            (new Process(
+                [
+                    'npm',
+                    '--prefer-offline',
+                    '--no-audit',
+                    '--progress=false',
+                    'install',
+                    'vendor/zooroyal/coding-standard-source',
+                ],
+                $this->installationPath,
+            ))->setIdleTimeout(60)->setTimeout(120)->mustRun();
+        }
+    }
+
+    private function installGit(): void
+    {
+        (new Process(['git', 'init'], $this->installationPath))->mustRun();
+    }
+
+    private function installComposer(): void
+    {
+        $composerTemplate = json_decode(file_get_contents($this->getComposerJson()), true);
+        $composerTemplate['repositories']['localRepo']['url'] = $this->composerPath;
+        $renderedComposerFile = json_encode($composerTemplate);
+        file_put_contents($this->installationPath . DIRECTORY_SEPARATOR . 'composer.json', $renderedComposerFile);
+
+        (new Process(
+            ['composer', 'install', '--no-interaction', '--no-progress'],
+            $this->installationPath,
+        ))
+            ->setIdleTimeout(240)->setTimeout(480)->mustRun();
+
+        $vendorBinSourceDirectory = $this->installationPath . '/vendor/zooroyal/coding-standard-source/vendor-bin';
+        if ($this->filesystem->exists($vendorBinSourceDirectory)) {
+            $this->filesystem->mirror(
+                $vendorBinSourceDirectory,
+                $this->installationPath . '/vendor-bin'
+            );
+
+            (new Process(
+                ['composer', 'update', '--no-interaction', '--no-progress', '--no-suggest'],
+                $this->installationPath,
+            ))
+                ->setIdleTimeout(240)->setTimeout(480)->mustRun();
+        }
     }
 }

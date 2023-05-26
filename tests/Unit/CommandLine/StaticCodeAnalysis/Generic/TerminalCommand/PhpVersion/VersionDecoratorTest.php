@@ -112,7 +112,7 @@ class VersionDecoratorTest extends TestCase
         $this->mockedOutput->expects()->writeln(
             '<info>Targeted PHP version is ' . $expectedVersion . '</info>' . PHP_EOL,
             OutputInterface::VERBOSITY_VERBOSE,
-        )->once();
+        )->twice();
 
         $this->subject->decorate($this->mockedEvent);
         $this->subject->decorate($this->mockedEvent);

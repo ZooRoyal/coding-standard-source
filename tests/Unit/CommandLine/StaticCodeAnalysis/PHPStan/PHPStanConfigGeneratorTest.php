@@ -108,9 +108,10 @@ class PHPStanConfigGeneratorTest extends TestCase
         );
 
         $functionsMatcher = H::hasKeyValuePair(
-            'bootstrapFiles',
+            'scanFiles',
             H::hasItems(
                 $this->mockedVendorDirectory . '/hamcrest/hamcrest-php/hamcrest/Hamcrest.php',
+                $this->mockedVendorDirectory . '/sebastianknott/hamcrest-object-accessor/src/functions.php',
                 $this->mockedVendorDirectory . '/mockery/mockery/library/helpers.php'
             ),
         );
@@ -144,11 +145,12 @@ class PHPStanConfigGeneratorTest extends TestCase
      */
     private function prepareMockedFilesystem(): void
     {
-        $this->mockedFilesystem->shouldReceive('exists')->twice()
+        $this->mockedFilesystem->shouldReceive('exists')->times(3)
             ->with(
                 H::anyOf(
                     $this->mockedRootDirectory . '/custom/plugins',
-                    $this->mockedVendorDirectory . '/deployer/deployer'
+                    $this->mockedVendorDirectory . '/deployer/deployer',
+                    $this->mockedVendorDirectory . '-bin',
                 )
             )->andReturn(false);
 

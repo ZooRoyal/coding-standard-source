@@ -3,11 +3,11 @@
   "require": {
     "php": "^8.1"
   },
-  "require-dev":  {
+  "require-dev": {
     "zooroyal/coding-standard-source": "@dev"
   },
-  "repositories":{
-    "localRepo":{
+  "repositories": {
+    "localRepo": {
       "type": "path",
       "url": "",
       "options": {
@@ -24,7 +24,14 @@
       "infection/extension-installer": true,
       "mindplay/composer-locator": true,
       "phpstan/extension-installer": true,
-      "dealerdirect/phpcodesniffer-composer-installer": true
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "bamarni/composer-bin-plugin": true
+    }
+  },
+  "extra": {
+    "bamarni-bin": {
+      "bin-links": true,
+      "forward-command": true
     }
   }
 }
