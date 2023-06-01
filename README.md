@@ -26,7 +26,7 @@ continuous integration tool of your choice. It searches your source code to
 find files to check with its static code analysis tools. Information about
 its usage can be found by calling it with -h option.
 
-## Installation (as intendet)
+## Installation (as intended)
 
 ### Docker
 
