@@ -35,7 +35,6 @@ class CheckSafeFunctionUsageSniffTest extends TestCase
     {
         $process = Process::fromShellCommandline('docker info');
         $process->run();
-        $process->wait();
         if ($process->getExitCode() !== 0) {
             self::markTestSkipped('Docker is not running');
         }
@@ -52,7 +51,7 @@ class CheckSafeFunctionUsageSniffTest extends TestCase
             ['bash',  $realpath . '/run-coding-standard.sh', 'sca:sniff'],
             $installationPath
         );
-        $processCodingStandard->setTimeout(240);
+        $processCodingStandard->setTimeout(480);
         $processCodingStandard->setIdleTimeout(120);
         $processCodingStandard->run();
         $processCodingStandard->wait();

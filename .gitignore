@@ -2,7 +2,6 @@
 .idea
 .phpunit.result.cache
 /vendor
-vendor-bin
 config/phpstan/phpstan.neon
 composer.lock
 node_modules
@@ -17,3 +16,7 @@ tmp/*
 !tmp/.keep
 pnpm-lock.yaml
 gha-creds-*.json
+
+/vendor-bin/**/vendor/
+/vendor-bin/**/composer.lock
+

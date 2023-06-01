@@ -26,6 +26,7 @@ class PHPStanConfigGenerator
             '/custom/plugins',
             '/custom/project',
             '/vendor',
+            '/vendor-bin',
         ];
 
     private string $phpStanConfigPath;
@@ -108,7 +109,7 @@ class PHPStanConfigGenerator
                 continue;
             }
             foreach ($functionsFiles as $functionsFile) {
-                $configValues['parameters']['bootstrapFiles'][] = $toolPath . $functionsFile;
+                $configValues['parameters']['scanFiles'][] = $toolPath . $functionsFile;
             }
         }
         return $configValues;

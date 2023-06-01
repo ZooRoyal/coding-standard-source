@@ -4,23 +4,25 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\Tests\System\Complete;
 
-use Amp\PHPUnit\AsyncTestCase;
-use Amp\Process\Process;
-use Amp\Promise;
-use Amp\Success;
-use Generator;
 use Hamcrest\MatcherAssert;
 use Hamcrest\Matchers as H;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Process\Process;
 use Zooroyal\CodingStandard\Tests\Tools\TestEnvironmentInstallation;
 
-use function Amp\call;
-use function Amp\Promise\all;
-use function Amp\Promise\timeout;
-
-class GlobalSystemTest extends AsyncTestCase
+class GlobalSystemTest extends TestCase
 {
     private Filesystem $filesystem;
+
+    public static function setUpBeforeClass(): void
+    {
+        $dockerCheckProcess = new Process(['docker', 'info']);
+        $dockerCheckProcess->run();
+        if ($dockerCheckProcess->getExitCode() !== 0) {
+            self::markTestSkipped('Docker is not available. Skipping Test.');
+        }
+    }
 
     protected function setUp(): void
     {
@@ -40,10 +42,8 @@ class GlobalSystemTest extends AsyncTestCase
      * @coversNothing
      *
      * @depends runCodingStandardToFindErrors
-     *
-     * @return iterable<Promise>
      */
-    public function dontFilesMakeAllGood(): iterable
+    public function dontFilesMakeAllGood(): void
     {
         $environmentDirectory = $this->prepareInstallationDirectory();
         $badCodeDirectory = $environmentDirectory . DIRECTORY_SEPARATOR . 'BadCode';
@@ -59,12 +59,12 @@ class GlobalSystemTest extends AsyncTestCase
         ];
 
         foreach ($dotFiles as $dotFile) {
-            yield call([$this->filesystem, 'dumpFile'], $badCodeDirectory . DIRECTORY_SEPARATOR . $dotFile, '');
+            $this->filesystem->dumpFile($badCodeDirectory . DIRECTORY_SEPARATOR . $dotFile, '');
         }
 
-        $result = yield from $this->runTools($environmentDirectory, false);
+        $result = $this->runTools($environmentDirectory, false);
 
-        MatcherAssert::assertThat('All Tools are satisfied.', $result, H::not(H::hasItems(H::greaterThan(0))));
+        MatcherAssert::assertThat('All Tools should be satisfied!', $result, H::not(H::hasItems(H::greaterThan(0))));
     }
 
     /**
@@ -72,14 +72,90 @@ class GlobalSystemTest extends AsyncTestCase
      *
      * @large
      * @coversNothing
-     *
-     * @return iterable<Promise<int>>
      */
-    public function runCodingStandardToFindErrors(): iterable
+    public function runCodingStandardToFindErrors(): void
     {
         $environmentDirectory = $this->prepareInstallationDirectory();
 
-        $fixtureDirectory = dirname(__DIR__) . '/fixtures';
+        $this->copyFilesForFindErrorsTest($environmentDirectory);
+
+        $result = $this->runTools($environmentDirectory, true);
+
+        MatcherAssert::assertThat('All tools should be throwing an error.', $result, H::not(H::hasItems(0)));
+    }
+
+    /**
+     * Provides an composer environment to run tests on.
+     */
+    private function prepareInstallationDirectory(): string
+    {
+        $environment = TestEnvironmentInstallation::getInstance();
+        if ($environment->isInstalled() === false) {
+            $environment->addComposerJson(
+                dirname(__DIR__)
+                . '/fixtures/complete/composer-template.json',
+            )->installComposerInstance();
+        }
+        return $environment->getInstallationPath();
+    }
+
+    /**
+     * Run all available coding-standard tools in $environmentDirectory and returns promises for use in Amp.
+     *
+     * @return array<string,int>
+     */
+    private function runTools(string $environmentDirectory, bool $errorsAreGood = false): array
+    {
+        $tools = [
+            'sca:sniff',
+            'sca:mess',
+            'sca:para',
+            'sca:copy',
+            'sca:stan',
+            'sca:style',
+            'sca:eslint',
+        ];
+
+        /** @var array<Process> $processes */
+        $processes = [];
+        /** @var array<string,int> $existCodes */
+        $existCodes = [];
+
+        foreach ($tools as $tool) {
+            $processes[$tool] = new Process(
+                [$environmentDirectory . '/vendor/bin/coding-standard', $tool],
+                $environmentDirectory,
+            );
+
+            $processes[$tool]->setTimeout(120);
+            $processes[$tool]->setIdleTimeout(60);
+            $processes[$tool]->run();
+            $existCodes[$tool] = $processes[$tool]->getExitCode();
+
+            if (($existCodes[$tool] === 0) === $errorsAreGood) {
+                $this->echoOutput($processes[$tool]);
+            }
+        }
+
+        return $existCodes;
+    }
+
+    /**
+     * Writes unexpected tool output to test log.
+     */
+    private function echoOutput(Process $process): void
+    {
+        echo PHP_EOL . PHP_EOL . 'UNEXPECTED TOOL ' . TestEnvironmentInstallation::getInstance()->getInstallationPath()
+            . ':' . PHP_EOL;
+
+        echo $process->getOutput();
+        echo $process->getErrorOutput();
+    }
+
+    private function copyFilesForFindErrorsTest(string $environmentDirectory): void
+    {
+        $codingStandardDirectory = dirname(__DIR__, 3);
+        $fixtureDirectory = $codingStandardDirectory . '/tests/System/fixtures';
         $badCodeDirectory = $environmentDirectory . DIRECTORY_SEPARATOR . 'BadCode';
         $mockedPluginDirectory = $environmentDirectory . '/custom/plugins';
         $badPhpSnifferFilePath = dirname(__DIR__, 2)
@@ -89,6 +165,7 @@ class GlobalSystemTest extends AsyncTestCase
         $this->filesystem->mkdir($badCodeDirectory);
 
         $copyFiles = [
+            [$codingStandardDirectory . '/.gitignore', $environmentDirectory . '/.gitignore'],
             [
                 $fixtureDirectory . '/complete/GoodPhp.php',
                 $environmentDirectory . '/custom/plugins/blubblub/Installer.php',
@@ -112,85 +189,7 @@ class GlobalSystemTest extends AsyncTestCase
         ];
 
         foreach ($copyFiles as $copyFile) {
-            yield call([$this->filesystem, 'copy'], $copyFile[0], $copyFile[1]);
+            $this->filesystem->copy($copyFile[0], $copyFile[1]);
         }
-
-        $result = yield from $this->runTools($environmentDirectory, true);
-
-        MatcherAssert::assertThat('All tools are not satisfied', $result, H::not(H::hasItems(0)));
-    }
-
-    /**
-     * Provides an composer environment to run tests on.
-     */
-    private function prepareInstallationDirectory(): string
-    {
-        $environment = TestEnvironmentInstallation::getInstance();
-        if ($environment->isInstalled() === false) {
-            $environment->addComposerJson(
-                dirname(__DIR__)
-                . '/fixtures/complete/composer-template.json',
-            )->installComposerInstance();
-        }
-        return $environment->getInstallationPath();
-    }
-
-    /**
-     * Run all available coding-standard tools in $environmentDirectory and returns promises for use in Amp.
-     *
-     * @return Generator<Promise>
-     */
-    private function runTools(string $environmentDirectory, bool $errorsAreGood = false): Generator
-    {
-        $tools = [
-            'sca:sniff',
-            'sca:mess',
-            'sca:para',
-            'sca:copy',
-            'sca:stan',
-            'sca:style',
-            'sca:eslint',
-        ];
-
-        /** @var array<Process> $processes */
-        $processes = [];
-        foreach ($tools as $tool) {
-            $processes[$tool] = new Process(
-                [$environmentDirectory . '/vendor/bin/coding-standard', $tool],
-                $environmentDirectory,
-            );
-        }
-
-        $startPromises = array_map(static fn(Process $process) => $process->start(), $processes);
-        yield all($startPromises);
-
-        $endPromises = array_map(static fn(Process $process) => $process->join(), $processes);
-        $exitCodes = yield timeout(all($endPromises), 30000);
-
-        foreach ($exitCodes as $tool => $exitCode) {
-            if (($exitCode === 0) === $errorsAreGood) {
-                $process = $processes[$tool];
-
-                yield from $this->echoStream('Stderr', $process);
-                yield from $this->echoStream('Stdout', $process);
-            }
-        }
-
-        return yield new Success($exitCodes);
-    }
-
-    /**
-     * Writes unexpected tool output to test log.
-     */
-    private function echoStream(string $streamName, Process $process): Generator
-    {
-        echo PHP_EOL . PHP_EOL . 'UNEXPECTED TOOL ' . TestEnvironmentInstallation::getInstance()->getInstallationPath()
-            . ':' . $streamName . ':' . PHP_EOL;
-        $buffer = '';
-        $streamMethod = 'get' . $streamName;
-        while (($chunk = yield $process->$streamMethod()->read()) !== null) {
-            $buffer .= $chunk;
-        }
-        echo $buffer;
     }
 }
