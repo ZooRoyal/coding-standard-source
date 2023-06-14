@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<psalm
+    errorLevel="6"
+    resolveFromConfigFile="false"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+    xmlns:xi="http://www.w3.org/2001/XInclude"
+    findUnusedBaselineEntry="true"
+>
+    <projectFiles xmlns:xi="http://www.w3.org/2001/XInclude">
+         <xi:include href="targeted-files.xml"/>
+         <xi:include href="excluded-files.xml"/>
+    </projectFiles>
+    <xi:include href="file-extensions.xml"/>
+</psalm>

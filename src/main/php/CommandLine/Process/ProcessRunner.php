@@ -17,6 +17,8 @@ class ProcessRunner
     {
         $process = new Process([...explode(' ', $command), ...$arguments], getcwd());
 
+        var_export([...explode(' ', $command), ...$arguments]);
+
         $process->setTimeout(null);
         $process->setIdleTimeout(120);
 

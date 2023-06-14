@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileExtensions xmlns="https://getpsalm.org/schema/config">
+    <extension name=".php" />
+</fileExtensions>

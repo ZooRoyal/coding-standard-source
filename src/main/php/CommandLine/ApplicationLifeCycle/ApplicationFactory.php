@@ -15,6 +15,7 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPCodeSniffer\PHPCod
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPCopyPasteDetector\PHPCopyPasteDetectorCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPMessDetector\PHPMessDetectorCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPParallelLint\PHPParallelLintCommand;
+use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPPsalm\PHPPsalmCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPStan\PHPStanCommand;
 
 /**
@@ -35,6 +36,7 @@ class ApplicationFactory
             PHPParallelLintCommand::class,
             PHPMessDetectorCommand::class,
             PHPStanCommand::class,
+            PHPPsalmCommand::class,
             JSESLintCommand::class,
             JSStyleLintCommand::class,
         ];
