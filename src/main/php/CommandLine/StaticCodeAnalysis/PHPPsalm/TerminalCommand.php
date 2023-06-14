@@ -44,8 +44,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
     public function __construct(
         private readonly Environment $environment,
         private readonly PhpVersionConverter $phpVersionConverter,
-        private readonly PHPPsalmExcludedFilesGenerator $PHPPsalmExcludedFilesGenerator,
-        private readonly PHPPsalmTargetedFilesGenerator $PHPPsalmTargetedFilesGenerator,
+        private readonly PHPPsalmProjectFilesGenerator $PHPPsalmProjectFilesGenerator,
     ) {
     }
 
@@ -55,8 +54,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
     protected function compile(): void
     {
         $this->validateTargets();
-        $this->PHPPsalmExcludedFilesGenerator->writeExcludedFilesFile($this->output, $this->excludesFiles);
-        $this->PHPPsalmTargetedFilesGenerator->writeTargetedFilesFile($this->output, $this->targetedFiles);
+        $this->PHPPsalmProjectFilesGenerator->writeProjectFilesFile($this->output, $this->excludesFiles, $this->targetedFiles);
         $vendorPath = $this->environment->getVendorDirectory()->getRealPath();
         $phpPsalmConfigPath = $this->environment->getPackageDirectory()->getRealPath()
             . '/config/psalm/psalm.xml';
@@ -125,7 +123,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
     private function buildFixModeString() : string
     {
         $result =  $this->fixingMode
-            ? ' --alter --issues=all'
+            ? ' --alter --issues=MissingReturnType,MissingClosureReturnType,InvalidReturnType,InvalidNullableReturnType,InvalidFalsableReturnType,MissingParamType,MissingPropertyType,MismatchingDocblockParamType,MismatchingDocblockReturnType,LessSpecificReturnType,PossiblyUndefinedVariable,PossiblyUndefinedGlobalVariable,UnusedMethod,PossiblyUnusedMethod,UnusedProperty,PossiblyUnusedProperty,UnusedVariable,UnnecessaryVarAnnotation,ParamNameMismatch --allow-backwards-incompatible-changes=false'
             : '';
 
         return $result;

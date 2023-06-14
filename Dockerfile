@@ -14,6 +14,12 @@ RUN set -eux ; \
     $([ "$(apk --print-arch)" != "x86" ] && echo mercurial) \
     $([ "$(apk --print-arch)" != "armhf" ] && echo p7zip)
 
+# extension install for psalm
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+RUN chmod +x /usr/local/bin/install-php-extensions
+RUN install-php-extensions pcntl
+RUN install-php-extensions posix
+
 # Config Git
 RUN git config --global --add safe.directory /app
 RUN git config --global user.email "noone@rewe-digital.com" && \

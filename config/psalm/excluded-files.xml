@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-        <ignoreFiles>
-            <directory name=".git" />
-<directory name=".idea" />
-<directory name="vendor" />
-<directory name="custom/plugins" />
-
-        </ignoreFiles>

@@ -16,7 +16,7 @@ tmp/*
 !tmp/.keep
 pnpm-lock.yaml
 gha-creds-*.json
-
+/config/psalm/project-files.xml
 /vendor-bin/**/vendor/
 /vendor-bin/**/composer.lock
 

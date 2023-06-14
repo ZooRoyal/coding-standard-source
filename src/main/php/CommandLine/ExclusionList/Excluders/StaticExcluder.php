@@ -17,6 +17,7 @@ class StaticExcluder implements ExcluderInterface
             '.vagrant',
             'node_modules',
             'vendor',
+            'vendor-bin',
             'bower_components',
             '.pnpm',
             '.pnpm-store',
