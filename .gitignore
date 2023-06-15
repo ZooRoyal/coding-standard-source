@@ -2,7 +2,10 @@
 .idea
 .phpunit.result.cache
 /vendor
+
 config/phpstan/phpstan.neon
+config/psalm/project-files.xml
+
 composer.lock
 node_modules
 package-lock.json
@@ -16,7 +19,7 @@ tmp/*
 !tmp/.keep
 pnpm-lock.yaml
 gha-creds-*.json
-/config/psalm/project-files.xml
+
 /vendor-bin/**/vendor/
 /vendor-bin/**/composer.lock
 

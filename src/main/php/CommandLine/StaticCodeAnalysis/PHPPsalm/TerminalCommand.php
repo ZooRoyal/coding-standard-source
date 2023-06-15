@@ -39,6 +39,18 @@ class TerminalCommand extends AbstractTerminalCommand implements
     use MultiprocessTrait;
     use VersionDependentTrait;
 
+    private const PSALTER_ALLOWED_ISSUES_FIXER = [
+        'MissingReturnType',
+        'MissingClosureReturnType',
+        'InvalidReturnType',
+        'InvalidNullableReturnType',
+        'InvalidFalsableReturnType',
+        'MissingPropertyType',
+        'MismatchingDocblockParamType'.
+        'MismatchingDocblockReturnType',
+        'ParamNameMismatch'
+    ];
+
     private const TEMPLATE = 'php %1$s --config=%2$s%3$s%4$s%5$s%6$s';
 
     public function __construct(
@@ -123,7 +135,8 @@ class TerminalCommand extends AbstractTerminalCommand implements
     private function buildFixModeString() : string
     {
         $result =  $this->fixingMode
-            ? ' --alter --issues=MissingReturnType,MissingClosureReturnType,InvalidReturnType,InvalidNullableReturnType,InvalidFalsableReturnType,MissingParamType,MissingPropertyType,MismatchingDocblockParamType,MismatchingDocblockReturnType,LessSpecificReturnType,PossiblyUndefinedVariable,PossiblyUndefinedGlobalVariable,UnusedMethod,PossiblyUnusedMethod,UnusedProperty,PossiblyUnusedProperty,UnusedVariable,UnnecessaryVarAnnotation,ParamNameMismatch --allow-backwards-incompatible-changes=false'
+            ? ' --alter --issues='.implode(',', self::PSALTER_ALLOWED_ISSUES_FIXER).
+              ' --allow-backwards-incompatible-changes=false'
             : '';
 
         return $result;
