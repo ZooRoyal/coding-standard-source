@@ -14,6 +14,7 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalComma
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Extension\FileExtensionTrait;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Fix\FixTerminalCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Fix\FixTrait;
+use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\FunctionMapping\FunctionMappingTrait;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Multiprocess\MultiprocessTerminalCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Multiprocess\MultiprocessTrait;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\PhpVersionConverter;
@@ -38,15 +39,15 @@ class TerminalCommand extends AbstractTerminalCommand implements
     use VerboseTrait;
     use MultiprocessTrait;
     use VersionDependentTrait;
+    use FunctionMappingTrait;
 
     private const PSALTER_ALLOWED_ISSUES_FIXER = [
         'MissingReturnType',
         'MissingClosureReturnType',
-        'InvalidReturnType',
         'InvalidNullableReturnType',
         'InvalidFalsableReturnType',
         'MissingPropertyType',
-        'MismatchingDocblockParamType'.
+        'MismatchingDocblockParamType',
         'MismatchingDocblockReturnType',
         'ParamNameMismatch'
     ];
@@ -57,6 +58,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
         private readonly Environment $environment,
         private readonly PhpVersionConverter $phpVersionConverter,
         private readonly PHPPsalmProjectFilesGenerator $PHPPsalmProjectFilesGenerator,
+        private readonly PHPPsalmStubsFilesGenerator $PHPPsalmStubsFilesGenerator
     ) {
     }
 
@@ -67,6 +69,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
     {
         $this->validateTargets();
         $this->PHPPsalmProjectFilesGenerator->writeProjectFilesFile($this->output, $this->excludesFiles, $this->targetedFiles);
+        $this->PHPPsalmStubsFilesGenerator->writeStubsFilesFile($this->output, self::TOOL_FUNCTIONS_FILE_MAPPING);
         $vendorPath = $this->environment->getVendorDirectory()->getRealPath();
         $phpPsalmConfigPath = $this->environment->getPackageDirectory()->getRealPath()
             . '/config/psalm/psalm.xml';

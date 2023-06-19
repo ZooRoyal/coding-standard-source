@@ -9,7 +9,16 @@
     findUnusedBaselineEntry="true"
     findUnusedCode="true"
     findUnusedPsalmSuppress="true">
-
+    <xi:include href="stubs-files.xml"/>
     <xi:include href="project-files.xml"/>
     <xi:include href="file-extensions.xml"/>
-<plugins><pluginClass class="Psalm\MockeryPlugin\Plugin"/><pluginClass class="Psalm\PhpUnitPlugin\Plugin"/><pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin"/></plugins></psalm>
+<plugins>
+    <pluginClass class="Psalm\MockeryPlugin\Plugin"/>
+    <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
+    <pluginClass class="Psalm\SymfonyPsalmPlugin\Plugin"/>
+</plugins>
+<issueHandlers>
+    <InvalidReturnStatement errorLevel="info" />
+    <InvalidReturnType errorLevel="info" />
+</issueHandlers>
+</psalm>

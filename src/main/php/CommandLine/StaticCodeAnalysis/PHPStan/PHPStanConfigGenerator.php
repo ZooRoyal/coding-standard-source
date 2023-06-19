@@ -13,13 +13,6 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalComma
 
 class PHPStanConfigGenerator
 {
-    private const TOOL_FUNCTIONS_FILE_MAPPING
-        = [
-            'hamcrest/hamcrest-php' => ['/hamcrest/Hamcrest.php'],
-            'sebastianknott/hamcrest-object-accessor' => ['/src/functions.php'],
-            'mockery/mockery' => ['/library/helpers.php'],
-            'deployer/deployer' => ['/src/functions.php'],
-        ];
     private const STATIC_DIRECTORIES_TO_SCAN
         = [
             '/Plugins',
@@ -51,16 +44,22 @@ class PHPStanConfigGenerator
     /**
      * Writes a custom config file just in time for PHPStan to read.
      *
+     * @param OutputInterface $output
      * @param array<EnhancedFileInfo> $exclusionList
+     * @param string $phpVersion
+     * @param array<string, array<int,string>> $functionsFiles
      */
-    public function writeConfigFile(OutputInterface $output, array $exclusionList, string $phpVersion): void
+    public function writeConfigFile(OutputInterface $output,
+                                    array $exclusionList,
+                                    string $phpVersion,
+                                    array $functionsFiles): void
     {
         $output->writeln(
             '<info>Writing new PHPStan configuration.</info>' . PHP_EOL,
             OutputInterface::VERBOSITY_VERBOSE,
         );
 
-        $configValues = $this->generateConfig($output, $exclusionList, $phpVersion);
+        $configValues = $this->generateConfig($output, $exclusionList, $phpVersion, $functionsFiles);
 
         /** @phpstan-ignore-next-line */
         $onTheFlyConfig = Neon::encode($configValues);
@@ -71,17 +70,21 @@ class PHPStanConfigGenerator
      * Adds function bootstraps to PHPStan config so imported functions won't show up as unknown.
      *
      * @param array<EnhancedFileInfo> $exclusionList
+     * @param array<string, array<int,string>> $functionsFiles
      *
      * @return array<string,array<int|string,array<int,string>|string>>>
      */
-    private function generateConfig(OutputInterface $output, array $exclusionList, string $phpVersion): array
+    private function generateConfig(OutputInterface $output,
+                                    array $exclusionList,
+                                    string $phpVersion,
+                                    array $functionsFiles): array
     {
         $configValues = [
             'includes' => [
                 $this->environment->getPackageDirectory()->getRealPath() . '/config/phpstan/phpstan.neon.dist',
             ],
         ];
-        $configValues = $this->addFunctionsFiles($configValues, $output);
+        $configValues = $this->addFunctionsFiles($configValues, $output, $functionsFiles);
         $configValues = $this->addExcludedFiles($configValues, $exclusionList);
         $configValues = $this->addPhpVersion($configValues, $phpVersion);
         $configValues = $this->addStaticDirectoriesToScan($configValues);
@@ -94,22 +97,23 @@ class PHPStanConfigGenerator
      * unknown functions if this should fail.
      *
      * @param array<string,array<string>> $configValues
+     * @param array<string, array<int,string>> $functionsFiles
      *
      * @return array<string,array<string|int,array<string>>>
      */
-    private function addFunctionsFiles(array $configValues, OutputInterface $output): array
+    private function addFunctionsFiles(array $configValues, OutputInterface $output, array $functionsFiles): array
     {
-        foreach (self::TOOL_FUNCTIONS_FILE_MAPPING as $tool => $functionsFiles) {
+        foreach ($functionsFiles as $tool => $functionsFile) {
             $toolPath = $this->environment->getRootDirectory()->getRealPath() . '/vendor/' . $tool;
             if (!$this->filesystem->exists($toolPath)) {
                 $output->writeln(
-                    '<info>' . $tool . ' not found. Skip loading ' . implode(', ', $functionsFiles) . '.</info>',
+                    '<info>' . $tool . ' not found. Skip loading ' . implode(', ', $functionsFile) . '.</info>',
                     OutputInterface::VERBOSITY_VERBOSE,
                 );
                 continue;
             }
-            foreach ($functionsFiles as $functionsFile) {
-                $configValues['parameters']['scanFiles'][] = $toolPath . $functionsFile;
+            foreach ($functionsFile as $file) {
+                $configValues['parameters']['scanFiles'][] = $toolPath . $file;
             }
         }
         return $configValues;
