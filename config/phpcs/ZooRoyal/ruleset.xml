@@ -187,81 +187,81 @@
     <rule ref="SlevomatCodingStandard.Functions.DisallowEmptyFunction"/>
 <!--    <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInCall"/>-->
     <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInClosureUse"/>
-    <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInDeclaration"/>
-    <rule ref="SlevomatCodingStandard.Functions.StaticClosure"/>
-    <rule ref="SlevomatCodingStandard.Functions.StrictCall"/>
-    <rule ref="SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses"/>
-    <rule ref="SlevomatCodingStandard.Namespaces.DisallowGroupUse"/>
-    <rule ref="SlevomatCodingStandard.Namespaces.MultipleUsesPerLine"/>
-    <rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly">
-        <properties>
-            <property name="allowPartialUses" type="bool" value="true"/>
-            <property name="allowFullyQualifiedNameForCollidingClasses" type="bool" value="false"/>
-            <property name="allowFullyQualifiedGlobalFunctions" type="bool" value="true"/>
-        </properties>
-    </rule>
-    <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
-        <properties>
-            <property name="searchAnnotations" type="bool" value="true"/>
-        </properties>
-    </rule>
-    <rule ref="SlevomatCodingStandard.Namespaces.UseDoesNotStartWithBackslash"/>
-    <rule ref="SlevomatCodingStandard.Namespaces.UseFromSameNamespace"/>
-    <rule ref="SlevomatCodingStandard.Operators.DisallowEqualOperators"/>
-    <rule ref="SlevomatCodingStandard.TypeHints.DisallowArrayTypeHintSyntax"/>
-    <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
-        <properties>
-            <property name="linesCountBeforeDeclare" type="int" value="1"/>
-            <property name="linesCountAfterDeclare" type="int" value="1"/>
-            <property name="spacesCountAroundEqualsSign" type="int" value="0"/>
-        </properties>
-    </rule>
-    <rule ref="SlevomatCodingStandard.TypeHints.LongTypeHints"/>
-    <rule ref="SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue"/>
-    <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHintSpacing"/>
-    <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHint">
-        <properties>
-            <property name="enableMixedTypeHint" type="bool" value="false"/>
-            <property name="enableUnionTypeHint" type="bool" value="false"/>
-            <property name="enableIntersectionTypeHint" type="bool" value="false"/>
-            <property name="enableStandaloneNullTrueFalseTypeHints" type="bool" value="false"/>
-        </properties>
-    </rule>
-    <rule ref="SlevomatCodingStandard.TypeHints.PropertyTypeHint">
-        <properties>
-            <property name="enableMixedTypeHint" type="bool" value="false"/>
-            <property name="enableUnionTypeHint" type="bool" value="false"/>
-            <property name="enableIntersectionTypeHint" type="bool" value="false"/>
-            <property name="enableStandaloneNullTrueFalseTypeHints" type="bool" value="false"/>
-        </properties>
-    </rule>
-    <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint">
-        <properties>
-            <property name="enableStaticTypeHint" type="bool" value="false"/>
-            <property name="enableMixedTypeHint" type="bool" value="false"/>
-            <property name="enableUnionTypeHint" type="bool" value="false"/>
-            <property name="enableIntersectionTypeHint" type="bool" value="false"/>
-            <property name="enableIntersectionTypeHint" type="bool" value="false"/>
-            <property name="enableNeverTypeHint" type="bool" value="false"/>
-            <property name="enableStandaloneNullTrueFalseTypeHints" type="bool" value="false"/>
-        </properties>
-    </rule>
-    <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing"/>
-    <!--
-        https://packagist.org/packages/bmitch/codor are planed for PHP > 7.0
+<!--    <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInDeclaration"/>-->
+        <rule ref="SlevomatCodingStandard.Functions.StaticClosure"/>
+        <rule ref="SlevomatCodingStandard.Functions.StrictCall"/>
+        <rule ref="SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses"/>
+        <rule ref="SlevomatCodingStandard.Namespaces.DisallowGroupUse"/>
+        <rule ref="SlevomatCodingStandard.Namespaces.MultipleUsesPerLine"/>
+        <rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly">
+            <properties>
+                <property name="allowPartialUses" type="bool" value="true"/>
+                <property name="allowFullyQualifiedNameForCollidingClasses" type="bool" value="false"/>
+                <property name="allowFullyQualifiedGlobalFunctions" type="bool" value="true"/>
+            </properties>
+        </rule>
+        <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
+            <properties>
+                <property name="searchAnnotations" type="bool" value="true"/>
+            </properties>
+        </rule>
+        <rule ref="SlevomatCodingStandard.Namespaces.UseDoesNotStartWithBackslash"/>
+        <rule ref="SlevomatCodingStandard.Namespaces.UseFromSameNamespace"/>
+        <rule ref="SlevomatCodingStandard.Operators.DisallowEqualOperators"/>
+        <rule ref="SlevomatCodingStandard.TypeHints.DisallowArrayTypeHintSyntax"/>
+        <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
+            <properties>
+                <property name="linesCountBeforeDeclare" type="int" value="1"/>
+                <property name="linesCountAfterDeclare" type="int" value="1"/>
+                <property name="spacesCountAroundEqualsSign" type="int" value="0"/>
+            </properties>
+        </rule>
+        <rule ref="SlevomatCodingStandard.TypeHints.LongTypeHints"/>
+        <rule ref="SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue"/>
+        <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHintSpacing"/>
+        <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHint">
+            <properties>
+                <property name="enableMixedTypeHint" type="bool" value="false"/>
+                <property name="enableUnionTypeHint" type="bool" value="false"/>
+                <property name="enableIntersectionTypeHint" type="bool" value="false"/>
+                <property name="enableStandaloneNullTrueFalseTypeHints" type="bool" value="false"/>
+            </properties>
+        </rule>
+        <rule ref="SlevomatCodingStandard.TypeHints.PropertyTypeHint">
+            <properties>
+                <property name="enableMixedTypeHint" type="bool" value="false"/>
+                <property name="enableUnionTypeHint" type="bool" value="false"/>
+                <property name="enableIntersectionTypeHint" type="bool" value="false"/>
+                <property name="enableStandaloneNullTrueFalseTypeHints" type="bool" value="false"/>
+            </properties>
+        </rule>
+        <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint">
+            <properties>
+                <property name="enableStaticTypeHint" type="bool" value="false"/>
+                <property name="enableMixedTypeHint" type="bool" value="false"/>
+                <property name="enableUnionTypeHint" type="bool" value="false"/>
+                <property name="enableIntersectionTypeHint" type="bool" value="false"/>
+                <property name="enableIntersectionTypeHint" type="bool" value="false"/>
+                <property name="enableNeverTypeHint" type="bool" value="false"/>
+                <property name="enableStandaloneNullTrueFalseTypeHints" type="bool" value="false"/>
+            </properties>
+        </rule>
+        <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing"/>
+        <!--
+            https://packagist.org/packages/bmitch/codor are planed for PHP > 7.0
 
-        Codor.Files.MethodFlagParameter
-        Codor.Classes.ConstructorLoop
-        Codor.Classes.FinalPrivate
-        Codor.Classes.PropertyDeclaration
-        Codor.Syntax.NullCoalescing
-        Codor.Syntax.LinesAfterMethod
+            Codor.Files.MethodFlagParameter
+            Codor.Classes.ConstructorLoop
+            Codor.Classes.FinalPrivate
+            Codor.Classes.PropertyDeclaration
+            Codor.Syntax.NullCoalescing
+            Codor.Syntax.LinesAfterMethod
 
-        Codor.TypeHints.MixedReturnType
-        Codor.Files.FunctionParameter
-        Codor.Files.ReturnNull
-        Codor.Files.IndentationLevel
-    -->
+            Codor.TypeHints.MixedReturnType
+            Codor.Files.FunctionParameter
+            Codor.Files.ReturnNull
+            Codor.Files.IndentationLevel
+        -->
 
     <rule ref="Squiz.Arrays.ArrayBracketSpacing"/>
     <rule ref="Squiz.Classes.ClassDeclaration"/>
