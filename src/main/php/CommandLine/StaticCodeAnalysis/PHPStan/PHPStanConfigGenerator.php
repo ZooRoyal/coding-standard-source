@@ -72,7 +72,7 @@ class PHPStanConfigGenerator
      *
      * @param array<EnhancedFileInfo> $exclusionList
      *
-     * @return array<string,array<int|string,array<int,string>|string>>>
+     * @return \string[][]|\string[][][]
      */
     private function generateConfig(OutputInterface $output, array $exclusionList, string $phpVersion): array
     {
