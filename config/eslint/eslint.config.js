@@ -72,6 +72,21 @@ module.exports = {
                 ],
             },
         },
+        {
+            files: ['cypress/**/*.js', 'cypress/**/*.ts', 'cypress/**/*.json'],
+            plugins: ['cypress'],
+            extends: ['plugin:cypress/recommended'],
+            env: {
+                "cypress/globals": true
+            },
+            "rules": {
+                "cypress/no-assigning-return-values": "error",
+                "cypress/no-unnecessary-waiting": "error",
+                "cypress/no-force": "error",
+                "cypress/no-async-tests": "error",
+                "cypress/no-pause": "error"
+            },
+        },
     ],
     root: true,
     env: {
