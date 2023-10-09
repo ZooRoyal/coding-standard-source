@@ -45,10 +45,27 @@ module.exports = {
                         ],
                     },
                 ],
+                'jsdoc/check-tag-names': [
+                    'error',
+                    {
+                        definedTags: [
+                            'jest-environment',
+                            'widgetName',
+                            'widgetIcon',
+                            'widgetFieldType',
+                            'widgetFieldLabel',
+                            'widgetFieldDefaultValue',
+                            'widgetFieldSupportText',
+                            'widgetFieldIgnore',
+                            'widgetFieldStore',
+                            'widgetFieldHelpMessage',
+                        ],
+                    }
+                ]
             },
         },
         {
-            files: ['*.ts', '*.tsx'],
+            files: ['*.tsx'],
             rules: {
                 '@typescript-eslint/no-unused-vars': [
                     'error',
