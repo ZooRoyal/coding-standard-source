@@ -45,6 +45,23 @@ module.exports = {
                         ],
                     },
                 ],
+                'jsdoc/check-tag-names': [
+                    'error',
+                    {
+                        definedTags: [
+                            'jest-environment',
+                            'widgetName',
+                            'widgetIcon',
+                            'widgetFieldType',
+                            'widgetFieldLabel',
+                            'widgetFieldDefaultValue',
+                            'widgetFieldSupportText',
+                            'widgetFieldIgnore',
+                            'widgetFieldStore',
+                            'widgetFieldHelpMessage',
+                        ],
+                    }
+                ]
             },
         },
         {
