@@ -8,11 +8,9 @@
     <arg name="report-checkstyle" value="../../../tmp/checkstyle"/>
 
     <!-- Referenced Rulesets -->
-    <rule ref="PSR1" />
-    <rule ref="PSR12" />
-
-    <config name="testVersion" value="7.4-"/>
-    <rule ref="PHPCompatibility"/>
+    <rule ref="PSR12" >
+        <exclude name="PSR1.Files.SideEffects.FoundWithSymbols" />
+    </rule>
 
     <!-- Custom Rule-->
     <rule ref="../../../src/main/php/Sniffs/PHPCodeSniffer/Standards/ZooRoyal"/>
@@ -264,7 +262,9 @@
     -->
 
     <rule ref="Squiz.Arrays.ArrayBracketSpacing"/>
-    <rule ref="Squiz.Classes.ClassDeclaration"/>
+    <rule ref="Squiz.Classes.ClassDeclaration">
+        <exclude name="Squiz.Classes.ClassDeclaration.SpaceBeforeKeyword" />
+    </rule>
     <rule ref="Squiz.Classes.ClassFileName"/>
     <rule ref="Squiz.Classes.DuplicateProperty"/>
     <rule ref="Squiz.Classes.LowercaseClassKeywords"/>
