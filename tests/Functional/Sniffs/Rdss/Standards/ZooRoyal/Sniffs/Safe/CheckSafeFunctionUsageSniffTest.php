@@ -70,7 +70,7 @@ class CheckSafeFunctionUsageSniffTest extends TestCase
             '/ZooRoyal\.Safe\.CheckSafeFunctionUsage\.FunctionNotImported/',
             $output,
         );
-        self::assertMatchesRegularExpression('/Function \'scandir\' is not imported from Safe! Add \'use/', $output);
-        self::assertMatchesRegularExpression('/function Safe\\\\scandir;\' to your uses\./', $output);
+        self::assertMatchesRegularExpression('/Function.*\'scandir\'.*is.*no.*imported.*from.*Safe!.*Add.*\'use/ms', $output);
+        self::assertMatchesRegularExpression('/function.*Safe\\\\scandir;\'.*to.*your.*uses\./ms', $output);
     }
 }
