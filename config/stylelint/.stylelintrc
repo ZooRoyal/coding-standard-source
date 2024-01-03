@@ -38,6 +38,10 @@
       }
     ],
     "scss/double-slash-comment-empty-line-before": "always",
-    "scss/map-keys-quotes": "always"
+    "scss/map-keys-quotes": "always",
+    "scss/percent-placeholder-pattern": null,
+    "function-url-quotes": null,
+    "custom-property-pattern": null,
+    "selector-class-pattern": null
   }
 }
