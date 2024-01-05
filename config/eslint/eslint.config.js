@@ -12,7 +12,7 @@ module.exports = {
         'plugin:jest/style',
     ],
     parserOptions: {
-        ecmaVersion: 2016,
+        ecmaVersion: 2021,
         sourceType: 'module'
     },
     overrides: [
