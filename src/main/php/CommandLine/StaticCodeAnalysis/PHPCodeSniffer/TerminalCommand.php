@@ -16,9 +16,10 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalComma
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Fix\FixTrait;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Multiprocess\MultiprocessTerminalCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Multiprocess\MultiprocessTrait;
+// phpcs:ignore -- I did not find a way to either break this line or to make it shorter.
+use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\MinimalVersionDependantTerminalCommand;
+use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\MinimalVersionDependentTrait;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\PhpVersionConverter;
-use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\VersionDependentTerminalCommand;
-use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\VersionDependentTrait;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Target\TargetTerminalCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Target\TargetTrait;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Verbose\VerboseTerminalCommand;
@@ -31,7 +32,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
     FileExtensionTerminalCommand,
     VerboseTerminalCommand,
     MultiprocessTerminalCommand,
-    VersionDependentTerminalCommand
+    MinimalVersionDependantTerminalCommand
 {
     use TargetTrait;
     use FixTrait;
@@ -39,7 +40,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
     use FileExtensionTrait;
     use VerboseTrait;
     use MultiprocessTrait;
-    use VersionDependentTrait;
+    use MinimalVersionDependentTrait;
 
     private const TEMPLATE = 'php %1$s %5$s%6$s--parallel=%7$d -p --standard=%2$s%3$s%8$s%4$s';
 
@@ -148,7 +149,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
     private function buildPhpVersionString(): string
     {
         $template = ' --runtime-set php_version %d';
-        $phpVersion = $this->phpVersionConverter->convertSemVerToPhpString($this->phpVersion);
+        $phpVersion = $this->phpVersionConverter->convertSemVerToPhpString($this->minimalPhpVersion);
 
         $result = sprintf($template, $phpVersion);
 
