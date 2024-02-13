@@ -88,7 +88,7 @@ class TerminalCommandTest extends TestCase
         if ($data->getTargets() !== null) {
             $this->subject->addTargets($data->getTargets());
         }
-        $this->subject->setPhpVersion($data->getPhpVersion());
+        $this->subject->setMinimalPhpVersion($data->getPhpVersion());
 
         $result = (string) $this->subject;
         $resultingArray = $this->subject->toArray();
