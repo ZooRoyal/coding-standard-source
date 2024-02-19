@@ -31,7 +31,7 @@ class ComposerInterpreterTest extends TestCase
         $this->subject = new ComposerInterpreter(
             $this->mockedEnvironment,
             $this->mockedEnhancedFileInfoFactory,
-            $this->mockedConstraintToVersionConverter
+            $this->mockedConstraintToVersionConverter,
         );
     }
 

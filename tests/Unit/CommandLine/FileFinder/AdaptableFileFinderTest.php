@@ -43,7 +43,7 @@ class AdaptableFileFinderTest extends TestCase
     {
         $mockedTargetBranchInput = 'blaaaa';
         $this->expectExceptionObject(
-            new InvalidArgumentException('Target ' . $mockedTargetBranchInput . ' is no valid commit-ish.', 1553766210)
+            new InvalidArgumentException('Target ' . $mockedTargetBranchInput . ' is no valid commit-ish.', 1553766210),
         );
         $this->subjectParameters[GitInputValidator::class]->shouldReceive('isCommitishValid')
             ->with($mockedTargetBranchInput)->andReturn(false);

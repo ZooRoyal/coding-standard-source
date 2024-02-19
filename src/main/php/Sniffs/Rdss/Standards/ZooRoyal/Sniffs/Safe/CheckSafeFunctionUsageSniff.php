@@ -32,7 +32,7 @@ class CheckSafeFunctionUsageSniff implements Sniff
         try {
             // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
             $filesUnfiltered = @scandir($path);
-        } catch (DirException $exception) {
+        } catch (DirException) {
             return;
         }
 
@@ -85,7 +85,7 @@ class CheckSafeFunctionUsageSniff implements Sniff
         if (!isset($this->functionNames)) {
             throw new AssertionException(
                 'No function names found! Did you forget to install thecodingmachine/Safe?',
-                1684240278
+                1684240278,
             );
         }
 
@@ -97,7 +97,7 @@ class CheckSafeFunctionUsageSniff implements Sniff
             $this->assertGlobalFunctionCall($phpcsFile, $stackPtr);
             $this->assertFunctionProvidedBySafe($tokens[$stackPtr]['content']);
             $this->assertFunctionUnused($phpcsFile, $functionName);
-        } catch (AssertionException $exception) {
+        } catch (AssertionException) {
             // If this is the case we found no Safe function. Continue...
             return;
         }
@@ -127,7 +127,7 @@ class CheckSafeFunctionUsageSniff implements Sniff
             in_array(
                 $phpcsFile->getTokens()[$previousPointer]['code'],
                 [T_OBJECT_OPERATOR, T_DOUBLE_COLON, T_FUNCTION],
-                true
+                true,
             )
         ) {
             throw new AssertionException('Token is not a global function call!', 1684230171);
@@ -163,7 +163,7 @@ class CheckSafeFunctionUsageSniff implements Sniff
             'Function \'' . $functionName . '\' is not imported from Safe! Add \'' . $missingUseStatement
             . '\' to your uses.',
             $stackPtr,
-            'FunctionNotImported'
+            'FunctionNotImported',
         );
     }
 }

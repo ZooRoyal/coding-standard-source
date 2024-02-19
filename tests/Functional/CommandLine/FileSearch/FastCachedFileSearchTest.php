@@ -50,8 +50,8 @@ class FastCachedFileSearchTest extends TestCase
                     'tests/Functional/Sniffs/Rdss/Standards/ZooRoyal/Sniffs/TypeHints/Fixtures/ReturnType/.dontSniffPHP',
                     'tests/Functional/Sniffs/Rdss/Standards/ZooRoyal/Sniffs/Safe/fixtures/.dontSniffPHP',
                     'tests/System/fixtures/complete/.dontSniffPHP',
-                ])
-            )
+                ]),
+            ),
         );
     }
 
@@ -79,9 +79,9 @@ class FastCachedFileSearchTest extends TestCase
                         'tests/Functional/Sniffs/Rdss/Standards/ZooRoyal/Sniffs/TypeHints/Fixtures/ReturnType/.dontSniffPHP',
                         'tests/Functional/Sniffs/Rdss/Standards/ZooRoyal/Sniffs/Safe/fixtures/.dontSniffPHP',
                         'tests/System/fixtures/complete/.dontSniffPHP',
-                    ])
-                )
-            )
+                    ]),
+                ),
+            ),
         );
     }
 
@@ -100,7 +100,7 @@ class FastCachedFileSearchTest extends TestCase
             Matchers::not(
                 Matchers::containsInAnyOrder([
                     'tests/System/fixtures/complete/.dontSniffPHP',
-                ])
+                ]),
             ),
         );
         MatcherAssert::assertThat(
@@ -111,7 +111,7 @@ class FastCachedFileSearchTest extends TestCase
                 'tests/Functional/Sniffs/Rdss/Standards/ZooRoyal/Sniffs/TypeHints/Fixtures/ReturnType/.dontSniffPHP',
                 'tests/Functional/Sniffs/Rdss/Standards/ZooRoyal/Sniffs/Safe/fixtures/.dontSniffPHP',
                 'src/main/php/Sniffs/PHPCodeSniffer/.dontSniffPHP',
-            )
+            ),
         );
     }
 
@@ -147,8 +147,8 @@ class FastCachedFileSearchTest extends TestCase
         MatcherAssert::assertThat(
             $result,
             Matchers::hasValue(
-                HasProperty::hasProperty('relativePathname', 'tests/System/fixtures/complete/.dontSniffPHP')
-            )
+                HasProperty::hasProperty('relativePathname', 'tests/System/fixtures/complete/.dontSniffPHP'),
+            ),
         );
     }
 
@@ -166,7 +166,7 @@ class FastCachedFileSearchTest extends TestCase
             $resultPaths,
             Matchers::containsInAnyOrder([
                 'tests/System/fixtures/complete/.dontSniffPHP',
-            ])
+            ]),
         );
         MatcherAssert::assertThat(
             $resultPaths,
@@ -177,8 +177,8 @@ class FastCachedFileSearchTest extends TestCase
                     'tests/Functional/Sniffs/Rdss/Standards/ZooRoyal/Sniffs/TypeHints/Fixtures/ReturnType/.dontSniffPHP',
                     'tests/Functional/Sniffs/Rdss/Standards/ZooRoyal/Sniffs/Safe/fixtures/.dontSniffPHP',
                     'src/main/php/Sniffs/PHPCodeSniffer/.dontSniffPHP',
-                )
-            )
+                ),
+            ),
         );
     }
 }

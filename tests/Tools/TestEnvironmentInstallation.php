@@ -159,7 +159,7 @@ class TestEnvironmentInstallation
         if ($this->filesystem->exists($vendorBinSourceDirectory)) {
             $this->filesystem->mirror(
                 $vendorBinSourceDirectory,
-                $this->installationPath . '/vendor-bin'
+                $this->installationPath . '/vendor-bin',
             );
 
             (new Process(

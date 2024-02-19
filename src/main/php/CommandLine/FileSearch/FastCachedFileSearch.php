@@ -31,7 +31,7 @@ class FastCachedFileSearch implements FileSearchInterface
         $dir = $path->getPathname();
         $exclusionPaths = array_map(
             static fn(EnhancedFileInfo $exclusion) => $exclusion->getPathname(),
-            $exclusions
+            $exclusions,
         );
 
         $resultingPathnames = $this->doTheSearch($fileName, $dir, $exclusionPaths, $minDepth, $maxDepth, 0);
@@ -100,7 +100,7 @@ class FastCachedFileSearch implements FileSearchInterface
 
             unset(
                 $filenamesInDirectory[array_search('.', $filenamesInDirectory, true)],
-                $filenamesInDirectory[array_search('..', $filenamesInDirectory, true)]
+                $filenamesInDirectory[array_search('..', $filenamesInDirectory, true)],
             );
 
             $this->fileSystemCache[$dir] = $filenamesInDirectory;
@@ -148,7 +148,7 @@ class FastCachedFileSearch implements FileSearchInterface
                 $exclusions,
                 $minDepth,
                 $maxDepth,
-                $depthNow + 1
+                $depthNow + 1,
             );
 
             $result = [...$result, ...$subFolderResults];

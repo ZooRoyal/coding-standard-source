@@ -34,7 +34,7 @@ class ComposerInterpreter
         $composerConfig = json_decode(
             file_get_contents($composerFile->getRealPath()),
             associative: true,
-            flags: JSON_THROW_ON_ERROR
+            flags: JSON_THROW_ON_ERROR,
         );
 
         $phpVersionConstraint = $composerConfig['config']['platform']['php']

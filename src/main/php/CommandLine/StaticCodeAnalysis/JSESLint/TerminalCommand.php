@@ -57,7 +57,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
             $this->buildTargetingString(),
             $this->buildVerbosityString(),
             $this->buildFixingString(),
-            $this->buildPrefixString()
+            $this->buildPrefixString(),
         );
 
         $this->command = $sprintfCommand;

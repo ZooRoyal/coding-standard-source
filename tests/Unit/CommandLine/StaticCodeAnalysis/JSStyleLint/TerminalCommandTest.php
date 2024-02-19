@@ -112,11 +112,11 @@ class TerminalCommandTest extends TestCase
                         'excluded' => [
                             new EnhancedFileInfo(
                                 self::FORGED_ABSOLUTE_ROOT . '/a',
-                                self::FORGED_ABSOLUTE_ROOT
+                                self::FORGED_ABSOLUTE_ROOT,
                             ),
                             new EnhancedFileInfo(
                                 self::FORGED_ABSOLUTE_ROOT . '/b',
-                                self::FORGED_ABSOLUTE_ROOT
+                                self::FORGED_ABSOLUTE_ROOT,
                             ),
                         ],
                         'extensions' => ['qweasd', 'argh'],
@@ -124,11 +124,11 @@ class TerminalCommandTest extends TestCase
                         'targets' => [
                             new EnhancedFileInfo(
                                 self::FORGED_ABSOLUTE_ROOT . '/c',
-                                self::FORGED_ABSOLUTE_ROOT
+                                self::FORGED_ABSOLUTE_ROOT,
                             ),
                             new EnhancedFileInfo(
                                 self::FORGED_ABSOLUTE_ROOT . '/d',
-                                self::FORGED_ABSOLUTE_ROOT
+                                self::FORGED_ABSOLUTE_ROOT,
                             ),
                         ],
                         'verbosityLevel' => OutputInterface::VERBOSITY_QUIET,
@@ -155,11 +155,11 @@ class TerminalCommandTest extends TestCase
                         'excluded' => [
                             new EnhancedFileInfo(
                                 self::FORGED_ABSOLUTE_ROOT . '/a',
-                                self::FORGED_ABSOLUTE_ROOT
+                                self::FORGED_ABSOLUTE_ROOT,
                             ),
                             new EnhancedFileInfo(
                                 self::FORGED_ABSOLUTE_ROOT . '/b',
-                                self::FORGED_ABSOLUTE_ROOT
+                                self::FORGED_ABSOLUTE_ROOT,
                             ),
                         ],
                     ],
@@ -197,11 +197,11 @@ class TerminalCommandTest extends TestCase
                         'targets' => [
                             new EnhancedFileInfo(
                                 self::FORGED_ABSOLUTE_ROOT . '/c',
-                                self::FORGED_ABSOLUTE_ROOT
+                                self::FORGED_ABSOLUTE_ROOT,
                             ),
                             new EnhancedFileInfo(
                                 self::FORGED_ABSOLUTE_ROOT . '/d',
-                                self::FORGED_ABSOLUTE_ROOT
+                                self::FORGED_ABSOLUTE_ROOT,
                             ),
                         ],
                     ],

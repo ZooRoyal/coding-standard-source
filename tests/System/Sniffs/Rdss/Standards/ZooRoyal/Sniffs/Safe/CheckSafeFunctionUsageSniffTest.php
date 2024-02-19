@@ -43,13 +43,13 @@ class CheckSafeFunctionUsageSniffTest extends TestCase
 
         $this->filesystem->copy(
             __DIR__ . '/fixtures/GoodPhp.php',
-            $installationPath . '/src/GoodPhp.php'
+            $installationPath . '/src/GoodPhp.php',
         );
 
         $realpath = realpath(__DIR__ . '/../../../../../../../');
         $processCodingStandard = new Process(
             ['bash',  $realpath . '/run-coding-standard.sh', 'sca:sniff'],
-            $installationPath
+            $installationPath,
         );
         $processCodingStandard->setTimeout(480);
         $processCodingStandard->setIdleTimeout(120);
