@@ -49,7 +49,7 @@ class DocCommentAlignmentSniff implements Sniff
     /**
      * Returns an array of tokens this test wants to listen for.
      *
-     * @return array
+     * @return array<int|string>
      */
     public function register()
     {
@@ -82,6 +82,8 @@ class DocCommentAlignmentSniff implements Sniff
         $ignore    = [
             T_CLASS     => true,
             T_INTERFACE => true,
+            T_ENUM      => true,
+            T_ENUM_CASE => true,
             T_FUNCTION  => true,
             T_PUBLIC    => true,
             T_PRIVATE   => true,
@@ -92,6 +94,7 @@ class DocCommentAlignmentSniff implements Sniff
             T_OBJECT    => true,
             T_PROTOTYPE => true,
             T_VAR       => true,
+            T_READONLY  => true,
         ];
 
         if ($nextToken === false || isset($ignore[$tokens[$nextToken]['code']]) === false) {
@@ -127,7 +130,12 @@ class DocCommentAlignmentSniff implements Sniff
             }
 
             if ($tokens[$i]['column'] !== $requiredColumn) {
-                $error = 'Expected %s space(s) before asterisk; %s found';
+                $pluralizeSpace = 's';
+                if (($requiredColumn - 1) === 1) {
+                    $pluralizeSpace = '';
+                }
+
+                $error = 'Expected %s space%s before asterisk; %s found';
                 $data  = [
                     ($requiredColumn - 1),
                     ($tokens[$i]['column'] - 1),
@@ -141,7 +149,7 @@ class DocCommentAlignmentSniff implements Sniff
                         $phpcsFile->fixer->replaceToken(($i - 1), $padding);
                     }
                 }
-            }
+            }//end if
 
             if ($tokens[$i]['code'] !== T_DOC_COMMENT_STAR) {
                 continue;
@@ -162,6 +170,7 @@ class DocCommentAlignmentSniff implements Sniff
                 && $tokens[($i + 1)]['content'] !== ' '
                 && strtolower(substr($tokens[($i + 1)]['content'], 0, 3)) !== '@oa'
                 && strtolower(substr($tokens[($i + 2)]['content'], 0, 3)) !== '@oa'
+                && !str_starts_with(strtolower($tokens[($i + 1)]['content']), '@orm')
             ) {
                 $error = 'Expected 1 space after asterisk; %s found';
                 $data  = [$tokens[($i + 1)]['length']];
