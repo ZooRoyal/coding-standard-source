@@ -49,7 +49,7 @@ class PHPStanConfigGeneratorTest extends TestCase
         $this->subject = new PHPStanConfigGenerator(
             $this->mockedFilesystem,
             $mockedEnvironment,
-            $this->mockedPhpVersionConverter
+            $this->mockedPhpVersionConverter,
         );
     }
 
@@ -112,7 +112,7 @@ class PHPStanConfigGeneratorTest extends TestCase
             H::hasItems(
                 $this->mockedVendorDirectory . '/hamcrest/hamcrest-php/hamcrest/Hamcrest.php',
                 $this->mockedVendorDirectory . '/sebastianknott/hamcrest-object-accessor/src/functions.php',
-                $this->mockedVendorDirectory . '/mockery/mockery/library/helpers.php'
+                $this->mockedVendorDirectory . '/mockery/mockery/library/helpers.php',
             ),
         );
 
@@ -151,7 +151,7 @@ class PHPStanConfigGeneratorTest extends TestCase
                     $this->mockedRootDirectory . '/custom/plugins',
                     $this->mockedVendorDirectory . '/deployer/deployer',
                     $this->mockedVendorDirectory . '-bin',
-                )
+                ),
             )->andReturn(false);
 
         $this->mockedFilesystem->shouldReceive('exists')->times(6)
@@ -162,8 +162,8 @@ class PHPStanConfigGeneratorTest extends TestCase
                     $this->mockedVendorDirectory,
                     $this->mockedVendorDirectory . '/hamcrest/hamcrest-php',
                     $this->mockedVendorDirectory . '/sebastianknott/hamcrest-object-accessor',
-                    $this->mockedVendorDirectory . '/mockery/mockery'
-                )
+                    $this->mockedVendorDirectory . '/mockery/mockery',
+                ),
             )->andReturn(true);
 
         $this->mockedFilesystem->shouldReceive('dumpFile')->once()
@@ -173,7 +173,7 @@ class PHPStanConfigGeneratorTest extends TestCase
                     $configuration = Neon::decode($parameter);
                     MatcherAssert::assertThat($configuration, $this->buildConfigMatcher());
                     return true;
-                })
+                }),
             );
     }
 }

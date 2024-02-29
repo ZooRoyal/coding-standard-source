@@ -38,7 +38,7 @@ class MinimalVersionDecoratorTest extends TestCase
 
         $this->subject = new MinimalVersionDecorator(
             $this->mockedConstraintToVersionConverter,
-            $this->mockedComposerInterpreter
+            $this->mockedComposerInterpreter,
         );
     }
 
@@ -82,7 +82,7 @@ class MinimalVersionDecoratorTest extends TestCase
         $this->mockedTerminalCommand->expects()->setMinimalPhpVersion('7.4.33')->twice();
         $this->mockedOutput->expects()->writeln(
             '<info>Targeted minimal PHP version is 7.4.33</info>' . PHP_EOL,
-            OutputInterface::VERBOSITY_VERBOSE
+            OutputInterface::VERBOSITY_VERBOSE,
         )->twice();
 
         $this->subject->decorate($this->mockedEvent);

@@ -77,7 +77,7 @@ class RunStylelintWithConfigTest extends AsyncTestCase
                 __DIR__ . '/../../../node_modules/.bin/stylelint',
                 '--config=' . __DIR__ . '/../../../config/stylelint/.stylelintrc',
                 __DIR__ . '/../fixtures/stylelint/GoodCode.scss',
-            ]
+            ],
         );
 
         yield $process->start();
