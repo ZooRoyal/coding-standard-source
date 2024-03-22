@@ -148,10 +148,13 @@ class TerminalCommand extends AbstractTerminalCommand implements
      */
     private function buildPhpVersionString(): string
     {
-        $template = ' --runtime-set php_version %d';
-        $phpVersion = $this->phpVersionConverter->convertSemVerToPhpString($this->minimalPhpVersion);
+        $template = ' --runtime-set php_version %1$d --runtime-set testVersion %2$s';
+        $phpVersionPhpStyle = $this->phpVersionConverter->convertSemVerToPhpString($this->minimalPhpVersion);
 
-        $result = sprintf($template, $phpVersion);
+        $phpVersionLevels = explode('.', $this->minimalPhpVersion);
+        $phpVersionWithoutPatchLevel = implode('.', [$phpVersionLevels[0], $phpVersionLevels[1]]);
+
+        $result = sprintf($template, $phpVersionPhpStyle, $phpVersionWithoutPatchLevel . '-');
 
         return $result;
     }
