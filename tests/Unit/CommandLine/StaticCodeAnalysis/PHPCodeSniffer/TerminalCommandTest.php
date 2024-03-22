@@ -77,7 +77,7 @@ class TerminalCommandTest extends TestCase
             );
 
         $this->mockedPhpVersionConverter->shouldReceive('convertSemVerToPhpString')
-            ->with('7.4')
+            ->with('7.4.0')
             ->andReturn(70400);
 
         $this->subject->addAllowedFileExtensions($data->getExtensions());
@@ -120,11 +120,12 @@ class TerminalCommandTest extends TestCase
                         'expectedCommand' => 'php ' . self::FORGED_ABSOLUTE_VENDOR
                             . '/bin/phpcbf -q --extensions=qweasd,argh --parallel=7 -p --standard='
                             . self::FORGED_PACKAGE_DIRECTORY
-                            . '/config/phpcs/ZooRoyal/ruleset.xml --ignore=a,b --runtime-set php_version 70400 c d',
+                            . '/config/phpcs/ZooRoyal/ruleset.xml --ignore=a,b --runtime-set php_version 70400 '
+                            . '--runtime-set testVersion 7.4- c d',
                         'excluded' => [$mockedEnhancedFileInfo1, $mockedEnhancedFileInfo1],
                         'extensions' => ['qweasd', 'argh'],
                         'fixingMode' => true,
-                        'phpVersion' => '7.4',
+                        'phpVersion' => '7.4.0',
                         'targets' => [
                             new EnhancedFileInfo(self::FORGED_ABSOLUTE_VENDOR . '/c', self::FORGED_ABSOLUTE_VENDOR),
                             new EnhancedFileInfo(self::FORGED_ABSOLUTE_VENDOR . '/d', self::FORGED_ABSOLUTE_VENDOR),
@@ -140,7 +141,7 @@ class TerminalCommandTest extends TestCase
                         'expectedCommand' => 'php ' . self::FORGED_ABSOLUTE_VENDOR
                             . '/bin/phpcs -s --parallel=1 -p --standard=' . self::FORGED_PACKAGE_DIRECTORY
                             . '/config/phpcs/ZooRoyal/ruleset.xml --runtime-set php_version 70400 '
-                            . self::FORGED_RELATIV_ROOT,
+                            . '--runtime-set testVersion 7.4- ' . self::FORGED_RELATIV_ROOT,
                     ],
                 ),
             ],
@@ -150,8 +151,8 @@ class TerminalCommandTest extends TestCase
                         'expectedCommand' => 'php ' . self::FORGED_ABSOLUTE_VENDOR
                             . '/bin/phpcs -s --parallel=1 -p --standard=' . self::FORGED_PACKAGE_DIRECTORY
                             . '/config/phpcs/ZooRoyal/ruleset.xml --runtime-set php_version 70400 '
-                            . self::FORGED_RELATIV_ROOT,
-                        'phpVersion' => '7.4',
+                            . '--runtime-set testVersion 7.4- ' . self::FORGED_RELATIV_ROOT,
+                        'phpVersion' => '7.4.0',
                     ],
                 ),
             ],
@@ -161,7 +162,7 @@ class TerminalCommandTest extends TestCase
                         'expectedCommand' => 'php ' . self::FORGED_ABSOLUTE_VENDOR
                             . '/bin/phpcs -s --parallel=1 -p --standard=' . self::FORGED_PACKAGE_DIRECTORY
                             . '/config/phpcs/ZooRoyal/ruleset.xml --ignore=a,b --runtime-set php_version 70400 '
-                            . self::FORGED_RELATIV_ROOT,
+                            . '--runtime-set testVersion 7.4- ' . self::FORGED_RELATIV_ROOT,
                         'excluded' => [$mockedEnhancedFileInfo2, $mockedEnhancedFileInfo2],
                     ],
                 ),
@@ -173,7 +174,7 @@ class TerminalCommandTest extends TestCase
                             . '/bin/phpcs -s --extensions=asdqwe,qweasd --parallel=1 -p --standard='
                             . self::FORGED_PACKAGE_DIRECTORY
                             . '/config/phpcs/ZooRoyal/ruleset.xml --runtime-set php_version 70400 '
-                            . self::FORGED_RELATIV_ROOT,
+                            . '--runtime-set testVersion 7.4- ' . self::FORGED_RELATIV_ROOT,
                         'extensions' => ['asdqwe', 'qweasd'],
                     ],
                 ),
@@ -184,7 +185,7 @@ class TerminalCommandTest extends TestCase
                         'expectedCommand' => 'php ' . self::FORGED_ABSOLUTE_VENDOR
                             . '/bin/phpcbf --parallel=1 -p --standard=' . self::FORGED_PACKAGE_DIRECTORY
                             . '/config/phpcs/ZooRoyal/ruleset.xml --runtime-set php_version 70400 '
-                            . self::FORGED_RELATIV_ROOT,
+                            . '--runtime-set testVersion 7.4- ' . self::FORGED_RELATIV_ROOT,
                         'fixingMode' => true,
                     ],
                 ),
@@ -194,7 +195,8 @@ class TerminalCommandTest extends TestCase
                     [
                         'expectedCommand' => 'php ' . self::FORGED_ABSOLUTE_VENDOR
                             . '/bin/phpcs -s --parallel=1 -p --standard=' . self::FORGED_PACKAGE_DIRECTORY
-                            . '/config/phpcs/ZooRoyal/ruleset.xml --runtime-set php_version 70400 c d',
+                            . '/config/phpcs/ZooRoyal/ruleset.xml --runtime-set php_version 70400 '
+                            . '--runtime-set testVersion 7.4- c d',
                         'targets' => [
                             new EnhancedFileInfo(self::FORGED_ABSOLUTE_VENDOR . '/c', self::FORGED_ABSOLUTE_VENDOR),
                             new EnhancedFileInfo(self::FORGED_ABSOLUTE_VENDOR . '/d', self::FORGED_ABSOLUTE_VENDOR),
@@ -208,7 +210,7 @@ class TerminalCommandTest extends TestCase
                         'expectedCommand' => 'php ' . self::FORGED_ABSOLUTE_VENDOR
                             . '/bin/phpcs -s -q --parallel=1 -p --standard=' . self::FORGED_PACKAGE_DIRECTORY
                             . '/config/phpcs/ZooRoyal/ruleset.xml --runtime-set php_version 70400 '
-                            . self::FORGED_RELATIV_ROOT,
+                            . '--runtime-set testVersion 7.4- ' . self::FORGED_RELATIV_ROOT,
                         'verbosityLevel' => OutputInterface::VERBOSITY_QUIET,
                     ],
                 ),
@@ -219,7 +221,7 @@ class TerminalCommandTest extends TestCase
                         'expectedCommand' => 'php ' . self::FORGED_ABSOLUTE_VENDOR
                             . '/bin/phpcs -s -v --parallel=1 -p --standard=' . self::FORGED_PACKAGE_DIRECTORY
                             . '/config/phpcs/ZooRoyal/ruleset.xml --runtime-set php_version 70400 '
-                            . self::FORGED_RELATIV_ROOT,
+                            . '--runtime-set testVersion 7.4- ' . self::FORGED_RELATIV_ROOT,
                         'verbosityLevel' => OutputInterface::VERBOSITY_VERBOSE,
                     ],
                 ),
@@ -230,7 +232,7 @@ class TerminalCommandTest extends TestCase
                         'expectedCommand' => 'php ' . self::FORGED_ABSOLUTE_VENDOR
                             . '/bin/phpcs -s -vv --parallel=1 -p --standard=' . self::FORGED_PACKAGE_DIRECTORY
                             . '/config/phpcs/ZooRoyal/ruleset.xml --runtime-set php_version 70400 '
-                            . self::FORGED_RELATIV_ROOT,
+                            . '--runtime-set testVersion 7.4- ' . self::FORGED_RELATIV_ROOT,
                         'fixingMode' => false,
                         'verbosityLevel' => OutputInterface::VERBOSITY_VERY_VERBOSE,
                     ],
@@ -242,7 +244,7 @@ class TerminalCommandTest extends TestCase
                         'expectedCommand' => 'php ' . self::FORGED_ABSOLUTE_VENDOR
                             . '/bin/phpcs -s -vvv --parallel=1 -p --standard=' . self::FORGED_PACKAGE_DIRECTORY
                             . '/config/phpcs/ZooRoyal/ruleset.xml --runtime-set php_version 70400 '
-                            . self::FORGED_RELATIV_ROOT,
+                            . '--runtime-set testVersion 7.4- ' . self::FORGED_RELATIV_ROOT,
                         'verbosityLevel' => OutputInterface::VERBOSITY_DEBUG,
                     ],
                 ),
@@ -253,7 +255,7 @@ class TerminalCommandTest extends TestCase
                         'expectedCommand' => 'php ' . self::FORGED_ABSOLUTE_VENDOR
                             . '/bin/phpcs -s --parallel=28 -p --standard=' . self::FORGED_PACKAGE_DIRECTORY
                             . '/config/phpcs/ZooRoyal/ruleset.xml --runtime-set php_version 70400 '
-                            . self::FORGED_RELATIV_ROOT,
+                            . '--runtime-set testVersion 7.4- ' . self::FORGED_RELATIV_ROOT,
                         'processes' => 28,
                     ],
                 ),

@@ -22,7 +22,7 @@ class TerminalCommandTestData
     /** @var array<string>  */
     private array $extensions = [];
     private int $processes = 1;
-    private string $phpVersion = '7.4';
+    private string $phpVersion = '7.4.0';
 
     /**
      * TerminalCommandTestData constructor.
