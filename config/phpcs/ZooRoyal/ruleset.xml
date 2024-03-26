@@ -15,6 +15,7 @@
     <rule ref="PHPCompatibility">
         <!-- Sniff generates false positives if classname is used in another namespace -->
         <exclude name="PHPCompatibility.Classes.NewClasses.attributeFound"/>
+        <exclude name="PHPCompatibility.Attributes.NewAttributes.Found"/>
     </rule>
 
     <!-- Custom Rule-->
