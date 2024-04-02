@@ -86,6 +86,7 @@ module.exports = {
                             'widgetFieldIgnore',
                             'widgetFieldStore',
                             'widgetFieldHelpMessage',
+                            'part'
                         ],
                     },
                 ],
