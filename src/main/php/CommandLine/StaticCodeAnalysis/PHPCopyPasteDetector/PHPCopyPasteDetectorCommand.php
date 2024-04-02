@@ -6,9 +6,9 @@ namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPCopyPasteDet
 
 use DI\Attribute\Inject;
 use DI\Container;
-use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\AbstractToolCommand;
+use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TargetableToolsCommand;
 
-class PHPCopyPasteDetectorCommand extends AbstractToolCommand
+class PHPCopyPasteDetectorCommand extends TargetableToolsCommand
 {
     /** @var string string */
     protected string $exclusionListToken = '.dontCopyPasteDetectPHP';
@@ -21,6 +21,7 @@ class PHPCopyPasteDetectorCommand extends AbstractToolCommand
      */
     protected function configure(): void
     {
+        parent::configure();
         $this->setName('sca:copy-paste-detect');
         $this->setDescription('Run PHP-CPD on PHP files.');
         $this->setHelp(
