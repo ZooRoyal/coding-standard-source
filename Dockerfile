@@ -1,4 +1,4 @@
-FROM php:8-cli-alpine
+FROM php:8.2-cli-alpine
 
 RUN set -eux ; \
   apk add --no-cache --virtual .composer-rundeps \
