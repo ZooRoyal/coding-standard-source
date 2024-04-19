@@ -27,6 +27,7 @@ class PhpVersionConverterTest extends TestCase
     {
         return [
             '7.2.4' => ['7.2.4', 70204],
+            '9.23.23' => ['9.23.23', 92323],
             '7.4' => ['7.4', 70400],
             'just 8' => ['8', 80000],
         ];
