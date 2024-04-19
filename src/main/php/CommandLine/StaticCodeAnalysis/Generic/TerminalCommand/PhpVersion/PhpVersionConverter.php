@@ -8,12 +8,14 @@ class PhpVersionConverter
 {
     public function convertSemVerToPhpString(string $semVer): int
     {
-        $versionTemplate = '%d0%d0%d';
-
         $digits = explode('.', $semVer);
-        $digits = array_pad($digits, 3, 0);
 
-        $result = (int) sprintf($versionTemplate, ...$digits);
+        $major = (int) $digits[0] * 10000;
+        $minor = isset($digits[1]) ? (int) $digits[1] * 100 : 0;
+        $patch = isset($digits[2]) ? (int) $digits[2] : 0;
+
+        $result = $major + $minor + $patch;
+
         return $result;
     }
 }
