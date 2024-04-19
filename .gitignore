@@ -16,6 +16,7 @@ tmp/*
 !tmp/.keep
 pnpm-lock.yaml
 gha-creds-*.json
+/coverage/
 
 /vendor-bin/**/vendor/
 /vendor-bin/**/composer.lock
