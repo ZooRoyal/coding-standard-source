@@ -1,6 +1,6 @@
 {
     "timeout": 20,
-    "minMsi": 86,
+    "minMsi": 88,
     "minCoveredMsi": 94,
     "source": {
         "directories": [
@@ -16,6 +16,16 @@
         "github": true
     },
     "mutators": {
-        "@default": true
+        "@default": true,
+        "DecrementInteger": {
+            "ignoreSourceCodeByRegex": [
+                ".*json_decode\\([^,\\\\)]+, (true|false), 512[^\\\\)]*\\).*"
+            ]
+        },
+        "IncrementInteger": {
+            "ignoreSourceCodeByRegex": [
+                ".*json_decode\\([^,\\\\)]+, (true|false), 512[^\\\\)]*\\).*"
+            ]
+        }
     }
 }

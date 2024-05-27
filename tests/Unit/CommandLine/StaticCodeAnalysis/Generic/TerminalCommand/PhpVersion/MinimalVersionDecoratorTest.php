@@ -10,7 +10,6 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Output\OutputInterface;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\DecorateEvent;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\ComposerInterpreter;
-use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\ConstraintToVersionConverter;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\MinimalVersionDecorator;
 // phpcs:ignore -- I did not find a way to either break this line or to make it shorter.
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\MinimalVersionDependantTerminalCommand;
@@ -19,7 +18,6 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalComma
 
 class MinimalVersionDecoratorTest extends TestCase
 {
-    private MockInterface&ConstraintToVersionConverter $mockedConstraintToVersionConverter;
     private MockInterface&ComposerInterpreter $mockedComposerInterpreter;
     private MockInterface&DecorateEvent $mockedEvent;
     private MockInterface&MinimalVersionDependantTerminalCommand $mockedTerminalCommand;
@@ -28,7 +26,6 @@ class MinimalVersionDecoratorTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->mockedConstraintToVersionConverter = Mockery::mock(ConstraintToVersionConverter::class);
         $this->mockedComposerInterpreter = Mockery::mock(ComposerInterpreter::class);
         $this->mockedEvent = Mockery::mock(DecorateEvent::class);
         $this->mockedTerminalCommand = Mockery::mock(MinimalVersionDependantTerminalCommand::class);
@@ -36,10 +33,7 @@ class MinimalVersionDecoratorTest extends TestCase
 
         $this->mockedEvent->allows()->getOutput()->andReturn($this->mockedOutput);
 
-        $this->subject = new MinimalVersionDecorator(
-            $this->mockedConstraintToVersionConverter,
-            $this->mockedComposerInterpreter,
-        );
+        $this->subject = new MinimalVersionDecorator($this->mockedComposerInterpreter);
     }
 
     protected function tearDown(): void
@@ -74,18 +68,14 @@ class MinimalVersionDecoratorTest extends TestCase
     public function decorate(): void
     {
         $this->mockedEvent->allows()->getTerminalCommand()->andReturn($this->mockedTerminalCommand);
-        $this->mockedComposerInterpreter->expects()->getLocalPhpVersionConstraint()->once()->andReturn('7.4.*');
+        $this->mockedComposerInterpreter->expects()->getMinimalRootPackagePhpVersion()->andReturn('7.4.33');
 
-        $this->mockedConstraintToVersionConverter->allows()
-            ->extractActualPhpVersion('7.4.*')->andReturn('7.4.33');
-
-        $this->mockedTerminalCommand->expects()->setMinimalPhpVersion('7.4.33')->twice();
+        $this->mockedTerminalCommand->expects()->setMinimalPhpVersion('7.4.33');
         $this->mockedOutput->expects()->writeln(
             '<info>Targeted minimal PHP version is 7.4.33</info>' . PHP_EOL,
             OutputInterface::VERBOSITY_VERBOSE,
-        )->twice();
+        );
 
-        $this->subject->decorate($this->mockedEvent);
         $this->subject->decorate($this->mockedEvent);
     }
 }

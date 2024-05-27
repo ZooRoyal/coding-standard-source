@@ -49,11 +49,13 @@ class ConstraintToVersionConverterTest extends TestCase
     {
         return [
             'version 7.4' => ['givenVersion' => '>=7.4', 'expectedVersion' => '7.4.0',],
+            'version >7.4' => ['givenVersion' => '>7.4.33', 'expectedVersion' => '8.0.0',],
             'version 8.0' => ['givenVersion' => '8.0.1', 'expectedVersion' => '8.0.1',],
             'version 8.1' => ['givenVersion' => '^8.1', 'expectedVersion' => '8.1.0',],
             'version 8.2' => ['givenVersion' => '8.2', 'expectedVersion' => '8.2.0',],
             'version 10.23.24' => ['givenVersion' => '10.23.24', 'expectedVersion' => '10.23.24',],
             'version 8.placeholder' => ['givenVersion' => '8.*', 'expectedVersion' => '8.0.0',],
+            'version alpha' => ['givenVersion' => '7-BETA', 'expectedVersion' => '7.4.0',],
         ];
     }
 }

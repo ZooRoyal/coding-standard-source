@@ -10,12 +10,8 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalComma
 
 class MinimalVersionDecorator extends TerminalCommandDecorator
 {
-    private ?string $cachedMinPhpVersion = null;
-
-    public function __construct(
-        private readonly ConstraintToVersionConverter $constraintToVersionConverter,
-        private readonly ComposerInterpreter $composerInterpreter,
-    ) {
+    public function __construct(private readonly ComposerInterpreter $composerInterpreter)
+    {
     }
 
     public function decorate(DecorateEvent $event): void
@@ -26,17 +22,11 @@ class MinimalVersionDecorator extends TerminalCommandDecorator
             return;
         }
 
-        if ($this->cachedMinPhpVersion === null) {
-            $phpVersionConstraint = $this->composerInterpreter->getLocalPhpVersionConstraint();
-
-            $this->cachedMinPhpVersion = $this->constraintToVersionConverter
-                ->extractActualPhpVersion($phpVersionConstraint);
-        }
-
-        $terminalCommand->setMinimalPhpVersion($this->cachedMinPhpVersion);
+        $minimalPhpVersion = $this->composerInterpreter->getMinimalRootPackagePhpVersion();
+        $terminalCommand->setMinimalPhpVersion($minimalPhpVersion);
 
         $event->getOutput()->writeln(
-            '<info>Targeted minimal PHP version is ' . $this->cachedMinPhpVersion . '</info>' . PHP_EOL,
+            '<info>Targeted minimal PHP version is ' . $minimalPhpVersion . '</info>' . PHP_EOL,
             OutputInterface::VERBOSITY_VERBOSE,
         );
     }

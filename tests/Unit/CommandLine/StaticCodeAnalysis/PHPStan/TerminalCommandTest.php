@@ -13,43 +13,38 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\NoUsefulCommandFoundException;
-use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPStan\PHPStanConfigGenerator;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPStan\TerminalCommand;
 use Zooroyal\CodingStandard\Tests\Tools\TerminalCommandTestData;
 
 class TerminalCommandTest extends TestCase
 {
-    private const FORGED_PACKAGE_DIRECTORY = '/packageDirectory';
-    private const FORGED_RELATIV_ROOT = '.';
-    private const FORGED_ABSOLUTE_ROOT = '/RootDirectory';
-    private const FORGED_ABSOLUTE_VENDOR = '/vendor';
-    private const FORGED_ABSOLUTE_CONFIG = '/configpath';
+    private const PACKAGE_DIRECTORY = '/packageDirectory';
+    private const RELATIVE_ROOT = '.';
+    private const ABSOLUTE_ROOT = '/RootDirectory';
+    private const ABSOLUTE_VENDOR = '/vendor';
+    private const ABSOLUTE_CONFIG = '/packageDirectory/config/phpstan/phpstan.neon';
 
     private TerminalCommand $subject;
     /** @var MockInterface|Environment */
     private Environment $mockedEnvironment;
     /** @var MockInterface|OutputInterface */
     private OutputInterface $mockedOutput;
-    private MockInterface|PHPStanConfigGenerator $mockedConfigGenereator;
 
     protected function setUp(): void
     {
-        $this->mockedConfigGenereator = Mockery::mock(PHPStanConfigGenerator::class);
         $this->mockedEnvironment = Mockery::mock(Environment::class);
         $this->mockedOutput = Mockery::mock(OutputInterface::class);
 
-        $this->mockedConfigGenereator->shouldReceive('getConfigPath')->andReturn(self::FORGED_ABSOLUTE_CONFIG);
-
         $this->mockedEnvironment->shouldReceive('getPackageDirectory->getRealPath')
-            ->andReturn(self::FORGED_PACKAGE_DIRECTORY);
+            ->andReturn(self::PACKAGE_DIRECTORY);
         $this->mockedEnvironment->shouldReceive('getRootDirectory->getRelativePathname')
-            ->andReturn(self::FORGED_RELATIV_ROOT);
+            ->andReturn(self::RELATIVE_ROOT);
         $this->mockedEnvironment->shouldReceive('getRootDirectory->getRealPath')
-            ->andReturn(self::FORGED_ABSOLUTE_ROOT);
+            ->andReturn(self::ABSOLUTE_ROOT);
         $this->mockedEnvironment->shouldReceive('getVendorDirectory->getRealPath')
-            ->andReturn(self::FORGED_ABSOLUTE_VENDOR);
+            ->andReturn(self::ABSOLUTE_VENDOR);
 
-        $this->subject = new TerminalCommand($this->mockedEnvironment, $this->mockedConfigGenereator);
+        $this->subject = new TerminalCommand($this->mockedEnvironment);
         $this->subject->injectDependenciesAbstractTerminalCommand($this->mockedOutput);
     }
 
@@ -85,10 +80,6 @@ class TerminalCommandTest extends TestCase
                 OutputInterface::VERBOSITY_VERY_VERBOSE,
             );
 
-        $this->mockedConfigGenereator->shouldReceive('writeConfigFile')->once()
-            ->with($this->mockedOutput, $data->getExcluded(), $data->getPhpVersion());
-
-        $this->subject->addExclusions($data->getExcluded());
         $this->subject->addVerbosityLevel($data->getVerbosityLevel());
         if ($data->getTargets() !== null) {
             $this->subject->addTargets($data->getTargets());
@@ -128,16 +119,16 @@ class TerminalCommandTest extends TestCase
             'all' => [
                 new TerminalCommandTestData(
                     [
-                        'expectedCommand' => 'php ' . self::FORGED_ABSOLUTE_VENDOR
-                            . '/bin/phpstan analyse -vv --no-progress --error-format=github -c /configpath c d',
+                        'expectedCommand' => 'php ' . self::ABSOLUTE_VENDOR
+                            . '/bin/phpstan analyse -vv --no-progress --error-format=github -c ' . self::ABSOLUTE_CONFIG . ' c d',
                         'excluded' => [
-                            new EnhancedFileInfo(self::FORGED_ABSOLUTE_VENDOR . '/a', self::FORGED_ABSOLUTE_VENDOR),
-                            new EnhancedFileInfo(self::FORGED_ABSOLUTE_VENDOR . '/b', self::FORGED_ABSOLUTE_VENDOR),
+                            new EnhancedFileInfo(self::ABSOLUTE_VENDOR . '/a', self::ABSOLUTE_VENDOR),
+                            new EnhancedFileInfo(self::ABSOLUTE_VENDOR . '/b', self::ABSOLUTE_VENDOR),
                         ],
                         'phpVersion' => '8.1',
                         'targets' => [
-                            new EnhancedFileInfo(self::FORGED_ABSOLUTE_VENDOR . '/c', self::FORGED_ABSOLUTE_VENDOR),
-                            new EnhancedFileInfo(self::FORGED_ABSOLUTE_VENDOR . '/d', self::FORGED_ABSOLUTE_VENDOR),
+                            new EnhancedFileInfo(self::ABSOLUTE_VENDOR . '/c', self::ABSOLUTE_VENDOR),
+                            new EnhancedFileInfo(self::ABSOLUTE_VENDOR . '/d', self::ABSOLUTE_VENDOR),
                         ],
                         'verbosityLevel' => OutputInterface::VERBOSITY_VERY_VERBOSE,
                     ],
@@ -146,16 +137,16 @@ class TerminalCommandTest extends TestCase
             'empty optionals' => [
                 new TerminalCommandTestData(
                     [
-                        'expectedCommand' => 'php ' . self::FORGED_ABSOLUTE_VENDOR
-                            . '/bin/phpstan analyse --no-progress --error-format=github -c /configpath .',
+                        'expectedCommand' => 'php ' . self::ABSOLUTE_VENDOR
+                            . '/bin/phpstan analyse --no-progress --error-format=github -c ' . self::ABSOLUTE_CONFIG . ' .',
                     ],
                 ),
             ],
             'php version' => [
                 new TerminalCommandTestData(
                     [
-                        'expectedCommand' => 'php ' . self::FORGED_ABSOLUTE_VENDOR
-                            . '/bin/phpstan analyse --no-progress --error-format=github -c /configpath .',
+                        'expectedCommand' => 'php ' . self::ABSOLUTE_VENDOR
+                            . '/bin/phpstan analyse --no-progress --error-format=github -c ' . self::ABSOLUTE_CONFIG . ' .',
                         'phpVersion' => '>8.0',
                     ],
                 ),
@@ -163,11 +154,11 @@ class TerminalCommandTest extends TestCase
             'excluding' => [
                 new TerminalCommandTestData(
                     [
-                        'expectedCommand' => 'php ' . self::FORGED_ABSOLUTE_VENDOR
-                            . '/bin/phpstan analyse --no-progress --error-format=github -c /configpath .',
+                        'expectedCommand' => 'php ' . self::ABSOLUTE_VENDOR
+                            . '/bin/phpstan analyse --no-progress --error-format=github -c ' . self::ABSOLUTE_CONFIG . ' .',
                         'excluded' => [
-                            new EnhancedFileInfo(self::FORGED_ABSOLUTE_VENDOR . '/a', self::FORGED_ABSOLUTE_VENDOR),
-                            new EnhancedFileInfo(self::FORGED_ABSOLUTE_VENDOR . '/b', self::FORGED_ABSOLUTE_VENDOR),
+                            new EnhancedFileInfo(self::ABSOLUTE_VENDOR . '/a', self::ABSOLUTE_VENDOR),
+                            new EnhancedFileInfo(self::ABSOLUTE_VENDOR . '/b', self::ABSOLUTE_VENDOR),
                         ],
                     ],
                 ),
@@ -175,11 +166,11 @@ class TerminalCommandTest extends TestCase
             'targeted' => [
                 new TerminalCommandTestData(
                     [
-                        'expectedCommand' => 'php ' . self::FORGED_ABSOLUTE_VENDOR
-                            . '/bin/phpstan analyse --no-progress --error-format=github -c /configpath c d',
+                        'expectedCommand' => 'php ' . self::ABSOLUTE_VENDOR
+                            . '/bin/phpstan analyse --no-progress --error-format=github -c ' . self::ABSOLUTE_CONFIG . ' c d',
                         'targets' => [
-                            new EnhancedFileInfo(self::FORGED_ABSOLUTE_VENDOR . '/c', self::FORGED_ABSOLUTE_VENDOR),
-                            new EnhancedFileInfo(self::FORGED_ABSOLUTE_VENDOR . '/d', self::FORGED_ABSOLUTE_VENDOR),
+                            new EnhancedFileInfo(self::ABSOLUTE_VENDOR . '/c', self::ABSOLUTE_VENDOR),
+                            new EnhancedFileInfo(self::ABSOLUTE_VENDOR . '/d', self::ABSOLUTE_VENDOR),
                         ],
                     ],
                 ),
@@ -188,8 +179,8 @@ class TerminalCommandTest extends TestCase
             'verbosity quiet' => [
                 new TerminalCommandTestData(
                     [
-                        'expectedCommand' => 'php ' . self::FORGED_ABSOLUTE_VENDOR
-                            . '/bin/phpstan analyse -q --no-progress --error-format=github -c /configpath .',
+                        'expectedCommand' => 'php ' . self::ABSOLUTE_VENDOR
+                            . '/bin/phpstan analyse -q --no-progress --error-format=github -c ' . self::ABSOLUTE_CONFIG . ' .',
                         'verbosityLevel' => OutputInterface::VERBOSITY_QUIET,
                     ],
                 ),
@@ -197,8 +188,8 @@ class TerminalCommandTest extends TestCase
             'verbosity verbose' => [
                 new TerminalCommandTestData(
                     [
-                        'expectedCommand' => 'php ' . self::FORGED_ABSOLUTE_VENDOR
-                            . '/bin/phpstan analyse -v --no-progress --error-format=github -c /configpath .',
+                        'expectedCommand' => 'php ' . self::ABSOLUTE_VENDOR
+                            . '/bin/phpstan analyse -v --no-progress --error-format=github -c ' . self::ABSOLUTE_CONFIG . ' .',
                         'verbosityLevel' => OutputInterface::VERBOSITY_VERBOSE,
                     ],
                 ),
@@ -206,8 +197,8 @@ class TerminalCommandTest extends TestCase
             'verbosity very verbose' => [
                 new TerminalCommandTestData(
                     [
-                        'expectedCommand' => 'php ' . self::FORGED_ABSOLUTE_VENDOR
-                            . '/bin/phpstan analyse -vv --no-progress --error-format=github -c /configpath .',
+                        'expectedCommand' => 'php ' . self::ABSOLUTE_VENDOR
+                            . '/bin/phpstan analyse -vv --no-progress --error-format=github -c ' . self::ABSOLUTE_CONFIG . ' .',
                         'fixingMode' => false,
                         'verbosityLevel' => OutputInterface::VERBOSITY_VERY_VERBOSE,
                     ],
@@ -216,8 +207,9 @@ class TerminalCommandTest extends TestCase
             'verbosity debug verbose' => [
                 new TerminalCommandTestData(
                     [
-                        'expectedCommand' => 'php ' . self::FORGED_ABSOLUTE_VENDOR
-                            . '/bin/phpstan analyse -vvv --no-progress --error-format=github -c /configpath .',
+                        'expectedCommand' => 'php ' . self::ABSOLUTE_VENDOR
+                            . '/bin/phpstan analyse -vvv --debug --no-progress --error-format=github -c ' .
+                            self::ABSOLUTE_CONFIG . ' .',
                         'verbosityLevel' => OutputInterface::VERBOSITY_DEBUG,
                     ],
                 ),

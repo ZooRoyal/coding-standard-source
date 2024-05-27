@@ -8,8 +8,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\AbstractTerminalCommand;
-use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Exclusion\ExclusionTerminalCommand;
-use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Exclusion\ExclusionTrait;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\VersionDependentTerminalCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\VersionDependentTrait;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Target\TargetTerminalCommand;
@@ -18,12 +16,10 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalComma
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Verbose\VerboseTrait;
 
 class TerminalCommand extends AbstractTerminalCommand implements
-    ExclusionTerminalCommand,
     TargetTerminalCommand,
     VerboseTerminalCommand,
     VersionDependentTerminalCommand
 {
-    use ExclusionTrait;
     use TargetTrait;
     use VerboseTrait;
     use VersionDependentTrait;
@@ -32,7 +28,6 @@ class TerminalCommand extends AbstractTerminalCommand implements
 
     public function __construct(
         private readonly Environment $environment,
-        private readonly PHPStanConfigGenerator $phpstanConfigGenerator,
     ) {
     }
 
@@ -43,16 +38,16 @@ class TerminalCommand extends AbstractTerminalCommand implements
     {
         $this->validateTargets();
 
-        $this->phpstanConfigGenerator->writeConfigFile($this->output, $this->excludesFiles, $this->phpVersion);
-
         $vendorPath = $this->environment->getVendorDirectory()->getRealPath();
 
         $terminalApplication = $vendorPath . '/bin/phpstan';
+        $configPath = $this->environment->getPackageDirectory()->getRealPath()
+            . '/config/phpstan/phpstan.neon';
 
         $sprintfCommand = sprintf(
             self::TEMPLATE,
             $terminalApplication,
-            $this->phpstanConfigGenerator->getConfigPath(),
+            $configPath,
             $this->buildTargetingString(),
             $this->buildVerbosityString(),
         );
@@ -72,7 +67,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
         } elseif ($this->verbosityLevel === OutputInterface::VERBOSITY_VERY_VERBOSE) {
             $verbosityString = '-vv ';
         } elseif ($this->verbosityLevel === OutputInterface::VERBOSITY_DEBUG) {
-            $verbosityString = '-vvv ';
+            $verbosityString = '-vvv --debug ';
         } elseif ($this->verbosityLevel < OutputInterface::VERBOSITY_NORMAL) {
             $verbosityString = '-q ';
         }

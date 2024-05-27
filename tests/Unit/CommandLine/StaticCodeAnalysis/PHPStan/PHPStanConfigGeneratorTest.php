@@ -9,32 +9,38 @@ use Hamcrest\MatcherAssert;
 use Hamcrest\Matchers as H;
 use Mockery;
 use Mockery\MockInterface;
-use Nette\Neon\Neon;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
+use Zooroyal\CodingStandard\CommandLine\ExclusionList\ExclusionListFactory;
+use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\ComposerInterpreter;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\PhpVersionConverter;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPStan\PHPStanConfigGenerator;
 
 class PHPStanConfigGeneratorTest extends TestCase
 {
     private PHPStanConfigGenerator $subject;
-    private MockInterface|Filesystem $mockedFilesystem;
-    private MockInterface|PhpVersionConverter $mockedPhpVersionConverter;
-    private MockInterface|OutputInterface $mockedOutput;
+    private MockInterface&Filesystem $mockedFilesystem;
+    private MockInterface&PhpVersionConverter $mockedPhpVersionConverter;
+    private MockInterface&OutputInterface $mockedOutput;
+    private MockInterface&ComposerInterpreter $mockedComposerInterpreter;
+    private MockInterface&ExclusionListFactory $mockedExclusionListFactory;
     private string $mockedPackageDirectory = '/tmp/phpunitTest';
     private string $mockedRootDirectory = '/tmp';
     private string $mockedVendorDirectory = '/tmp/vendor';
-    private string $forgedExcludedFilePath = '/asdqweqwe/ww';
+    /** @var array<string|string> */
+    private array $forgedExcludedFilePaths = ['a', 'b'];
 
     protected function setUp(): void
     {
-        $this->mockedPhpVersionConverter = Mockery::mock(PhpVersionConverter::class);
-        $mockedEnvironment = Mockery::mock(Environment::class);
         $this->mockedFilesystem = Mockery::mock(Filesystem::class);
+        $mockedEnvironment = Mockery::mock(Environment::class);
+        $this->mockedPhpVersionConverter = Mockery::mock(PhpVersionConverter::class);
         $this->mockedOutput = Mockery::mock(OutputInterface::class);
+        $this->mockedComposerInterpreter = Mockery::mock(ComposerInterpreter::class);
+        $this->mockedExclusionListFactory = Mockery::mock(ExclusionListFactory::class);
 
         $mockedEnvironment
             ->shouldReceive('getPackageDirectory->getRealPath')
@@ -50,6 +56,9 @@ class PHPStanConfigGeneratorTest extends TestCase
             $this->mockedFilesystem,
             $mockedEnvironment,
             $this->mockedPhpVersionConverter,
+            $this->mockedOutput,
+            $this->mockedComposerInterpreter,
+            $this->mockedExclusionListFactory,
         );
     }
 
@@ -61,52 +70,36 @@ class PHPStanConfigGeneratorTest extends TestCase
     /**
      * @test
      */
-    public function getConfigPathReturnsConfigPath(): void
+    public function addDynamicConfigValuesModifiesArray(): void
     {
-        $result = $this->subject->getConfigPath();
-
-        self::assertSame($this->mockedPackageDirectory . '/config/phpstan/phpstan.neon', $result);
-    }
-
-    /**
-     * @test
-     */
-    public function writeConfigFileWritesConfigFileToFilesystem(): void
-    {
-        $mockedEnhancedFileInfo = Mockery::mock(EnhancedFileInfo::class);
-        $mockedExclusionList = [$mockedEnhancedFileInfo];
-        $forgedPhpVersion = '8.1.2';
-        $expectedPhpVersionString = 80102;
-
         $this->prepareMockedFilesystem();
+        $forgedBaseConfig = ['g' => 'h'];
 
-        $mockedEnhancedFileInfo->shouldReceive('getRealPath')->atLeast()->once()
-            ->andReturn($this->forgedExcludedFilePath);
-
-        $this->mockedOutput->shouldReceive('writeln')->times(2)->with(
-            H::anyOf(
-                '<info>Writing new PHPStan configuration.</info>' . PHP_EOL,
-                '<info>deployer/deployer not found. Skip loading /src/functions.php.</info>',
-            ),
+        $this->mockedOutput->shouldReceive('writeln')->once()->with(
+            '<info>deployer/deployer not found. Skip loading /src/functions.php.</info>',
             OutputInterface::VERBOSITY_VERBOSE,
         );
 
-        $this->mockedPhpVersionConverter->shouldReceive('convertSemVerToPhpString')->once()
-            ->with($forgedPhpVersion)->andReturn($expectedPhpVersionString);
+        $forgedExcludedFiles = [];
+        foreach ($this->forgedExcludedFilePaths as $forgedExcludedFilePath) {
+            $mockedEnhancedFileInfo = mock(EnhancedFileInfo::class);
+            $mockedEnhancedFileInfo->shouldReceive('getRealPath')->atLeast()->once()
+                ->andReturn($forgedExcludedFilePath);
+            $forgedExcludedFiles[] = $mockedEnhancedFileInfo;
+        }
 
-        $this->subject->writeConfigFile($this->mockedOutput, $mockedExclusionList, $forgedPhpVersion);
+        $this->mockedExclusionListFactory->shouldReceive('build')->once()->andReturn($forgedExcludedFiles);
+        $this->mockedComposerInterpreter->shouldReceive('getMinimalViablePhpVersion')->once()->andReturn('8.1.2');
+        $this->mockedPhpVersionConverter->shouldReceive('convertSemVerToPhpString')->once()->andReturn(80102);
+
+        $result = $this->subject->addDynamicConfigValues($forgedBaseConfig);
+
+        MatcherAssert::assertThat($result, $this->buildConfigMatcher($forgedBaseConfig));
     }
 
-    /**
-     * This method builds the validation matcher for the configuration.
-     */
-    private function buildConfigMatcher(): Matcher
-    {
-        $includesMatcher = H::hasKeyValuePair(
-            'includes',
-            H::hasItem($this->mockedPackageDirectory . '/config/phpstan/phpstan.neon' . '.dist'),
-        );
 
+    public function buildFunctionsMatcher(): Matcher
+    {
         $functionsMatcher = H::hasKeyValuePair(
             'scanFiles',
             H::hasItems(
@@ -115,28 +108,93 @@ class PHPStanConfigGeneratorTest extends TestCase
                 $this->mockedVendorDirectory . '/mockery/mockery/library/helpers.php',
             ),
         );
+        return $functionsMatcher;
+    }
 
-        $excludesMatcher = H::hasKeyValuePair('excludePaths', H::hasItem($this->forgedExcludedFilePath));
-        $staticDirectoriesMatcher = H::hasKeyValuePair(
+
+    public function buildExcludesMatcher(): Matcher
+    {
+        $excludesMatcher = H::hasKeyValuePair(
+            'excludePaths',
+            H::hasKeyValuePair(
+                'analyseAndScan',
+                H::arrayContainingInAnyOrder(...$this->forgedExcludedFilePaths)
+            )
+        );
+        return $excludesMatcher;
+    }
+
+    public function buildStaticDirectoriesMatcher(): Matcher
+    {
+        return H::hasKeyValuePair(
             'scanDirectories',
             H::allOf(
                 H::hasItem($this->mockedRootDirectory . '/Plugins'),
                 H::hasItem($this->mockedRootDirectory . '/custom/project'),
             ),
         );
+    }
+
+    public function buildVersionMatcher(): Matcher
+    {
         $versionMatcher = H::hasKeyValuePair('phpVersion', H::identicalTo(80102));
+        return $versionMatcher;
+    }
+
+    public function buildTmpDirMatcher(): Matcher
+    {
+        $quotedTempDir = preg_quote(sys_get_temp_dir(), '/');
+        $tmpDirMatcher = H::hasKeyValuePair(
+            'tmpDir',
+            H::matchesPattern('/' . $quotedTempDir . '\/phpstan\d+/')
+        );
+        return $tmpDirMatcher;
+    }
+
+    /**
+     * Build matcher from given array
+     *
+     * @param array<string,array<int|string,array<int,string>|string>|string> $contains
+     */
+    public function buildContainsMatcher(array $contains): Matcher
+    {
+        $containsMatcherParts = [];
+        foreach ($contains as $key => $value) {
+            $containsMatcherParts[] = H::hasKeyValuePair($key, $value);
+        }
+        $containsMatcher = H::allOf(...$containsMatcherParts);
+        return $containsMatcher;
+    }
+
+    public function buildParametersMatcher(): Matcher
+    {
+        $functionsMatcher = $this->buildFunctionsMatcher();
+        $excludesMatcher = $this->buildExcludesMatcher();
+        $staticDirectoriesMatcher = $this->buildStaticDirectoriesMatcher();
+        $versionMatcher = $this->buildVersionMatcher();
+        $tmpDirMatcher = $this->buildTmpDirMatcher();
 
         $parametersMatcher = H::hasKeyValuePair(
             'parameters',
-            H::allOf($functionsMatcher, $excludesMatcher, $staticDirectoriesMatcher, $versionMatcher),
+            H::allOf($functionsMatcher, $excludesMatcher, $staticDirectoriesMatcher, $versionMatcher, $tmpDirMatcher)
         );
 
-        $matcher = H::allOf(
-            $includesMatcher,
-            $parametersMatcher,
-        );
+        return $parametersMatcher;
+    }
 
-        return $matcher;
+    /**
+     * This method builds the validation matcher for the configuration.
+     *
+     * @param array<string,array<int|string,array<int,string>|string>|string> $contains
+     */
+    private function buildConfigMatcher(array $contains): Matcher
+    {
+        $containsMatcher = $this->buildContainsMatcher($contains);
+        $parametersMatcher = $this->buildParametersMatcher();
+
+        $configMatcher = H::allOf($parametersMatcher, $containsMatcher);
+
+        return $configMatcher;
     }
 
     /**
@@ -165,15 +223,5 @@ class PHPStanConfigGeneratorTest extends TestCase
                     $this->mockedVendorDirectory . '/mockery/mockery',
                 ),
             )->andReturn(true);
-
-        $this->mockedFilesystem->shouldReceive('dumpFile')->once()
-            ->with(
-                $this->mockedPackageDirectory . '/config/phpstan/phpstan.neon',
-                Mockery::on(function ($parameter) {
-                    $configuration = Neon::decode($parameter);
-                    MatcherAssert::assertThat($configuration, $this->buildConfigMatcher());
-                    return true;
-                }),
-            );
     }
 }
