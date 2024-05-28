@@ -242,3 +242,8 @@ tutorials available:
 
 * [How to add a new static code analysis tool](doc/howto/HowToAddANewTool.md)
 * [Adding new information to your TerminalCommand](doc/howto/HowToAddInformationSources.md)
+
+## Integrating the Coding Standard into PHPStorm
+
+If you want to integrate the ZooRoyal Coding Standard into PHPStorm, have a look
+at the guides in the [doc/ideConfig](doc/ideConfig/IdeConfig.md) folder.
