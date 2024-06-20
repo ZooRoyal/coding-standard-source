@@ -45,9 +45,10 @@ jobs:
             ${{ runner.os }}-codestyle-${{ env.cache-name }}-
 
       - name: Setup PHP and Composer
-        uses: shivammathur/setup-php@e04e1d97f0c0481c6e1ba40f8a538454fe5d7709
+        uses: shivammathur/setup-php@a4e22b60bbb9c1021113f2860347b0759f66fe5d
         with:
           php-version: '8.2'
+          extensions: gd
           tools:  cs2pr, composer
         env:
           fail-fast: true
@@ -117,7 +118,7 @@ jobs:
             ${{ runner.os }}-tests-${{ env.cache-name }}-
 
       - name: Setup PHP and Composer
-        uses: shivammathur/setup-php@e04e1d97f0c0481c6e1ba40f8a538454fe5d7709
+        uses: shivammathur/setup-php@a4e22b60bbb9c1021113f2860347b0759f66fe5d
         with:
           php-version: '8.2'
           tools:  composer:${{ matrix.composer_version }}
