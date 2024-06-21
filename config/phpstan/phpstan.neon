@@ -1,3 +1,5 @@
+includes:
+    - phpstan.config.drop.in.php
 
 parameters:
     level: 5

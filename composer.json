@@ -49,7 +49,7 @@
     "amphp/phpunit-util": "^2.0.0",
     "amphp/process": "^v1.1.4",
     "brianium/paratest": "^6.11.0",
-    "infection/infection": ">=0.27.9",
+    "infection/infection": ">=0.27.11",
     "mockery/mockery": "^1.6.7",
     "phpunit/phpunit": "^9.6.16",
     "roave/security-advisories": "dev-latest",
@@ -80,13 +80,23 @@
   "scripts": {
     "post-update-cmd": "npm update",
     "post-install-cmd": "npm install",
-    "test": [
-      "mkdir -p tmp/phpunit",
-      "paratest -p$(getconf _NPROCESSORS_ONLN)"
+    "ci": [
+        "@test-prepare",
+        "@test",
+        "@infection-command"
     ],
+    "test-mkdirs": "mkdir -p tmp/phpunit",
+    "test-paratest-command": "paratest -p$(getconf _NPROCESSORS_ONLN)",
+    "test-prepare": "mkdir -p tmp/phpunit",
+    "test": [
+        "@test-prepare",
+        "@test-paratest-command"
+    ],
+    "infection-command": "infection -n --threads=$(getconf _NPROCESSORS_ONLN) --skip-initial-tests --coverage=tmp/phpunit --no-progress",
     "infection": [
-      "@test",
-      "infection -n --threads=$(getconf _NPROCESSORS_ONLN) --skip-initial-tests --coverage=tmp/phpunit --no-progress"
+      "@test-prepare",
+      "@test --testsuite=InfectionRelevant",
+      "@infection-command"
     ]
   },
   "config": {

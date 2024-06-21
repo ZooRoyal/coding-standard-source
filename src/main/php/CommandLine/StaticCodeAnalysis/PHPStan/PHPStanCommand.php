@@ -10,8 +10,10 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TargetableToo
 
 class PHPStanCommand extends TargetableToolsCommand
 {
+    public const EXCLUSION_LIST_TOKEN = '.dontStanPHP';
+
     /** @var string string */
-    protected string $exclusionListToken = '.dontStanPHP';
+    protected string $exclusionListToken = self::EXCLUSION_LIST_TOKEN;
     /** @var array<string> */
     protected array $allowedFileEndings = ['.php'];
 

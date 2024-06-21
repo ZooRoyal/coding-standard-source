@@ -61,6 +61,7 @@ class VerboseDecoratorTest extends TestCase
 
         $this->mockedInput->shouldReceive('getOption')->atLeast()->once()->with('verbose')->andReturn($isVerbose);
         $this->mockedInput->shouldReceive('getOption')->times($quietRuns)->with('quiet')->andReturn($isQuiet);
+        $this->mockedOutput->expects('getVerbosity')->times($verboseRuns)->andReturn(OutputInterface::VERBOSITY_VERBOSE);
 
         $this->mockedTerminalCommand->shouldReceive('addVerbosityLevel')->times($verboseRuns)
             ->with(OutputInterface::VERBOSITY_VERBOSE);

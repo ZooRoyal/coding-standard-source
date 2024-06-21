@@ -25,7 +25,7 @@ class VerboseDecorator extends TerminalCommandDecorator
         $output = $event->getOutput();
 
         if ($input->getOption('verbose') === true) {
-            $terminalCommand->addVerbosityLevel(OutputInterface::VERBOSITY_VERBOSE);
+            $terminalCommand->addVerbosityLevel($output->getVerbosity());
             $output->writeln(
                 '<info>Command will be executed verbosely</info>' . PHP_EOL,
                 OutputInterface::VERBOSITY_VERBOSE,

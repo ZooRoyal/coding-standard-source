@@ -4,21 +4,22 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPStan;
 
-use Nette\Neon\Neon;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
+use Zooroyal\CodingStandard\CommandLine\ExclusionList\ExclusionListFactory;
+use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\ComposerInterpreter;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\PhpVersionConverter;
 
 class PHPStanConfigGenerator
 {
     private const TOOL_FUNCTIONS_FILE_MAPPING
         = [
-            'hamcrest/hamcrest-php' => ['/hamcrest/Hamcrest.php'],
-            'sebastianknott/hamcrest-object-accessor' => ['/src/functions.php'],
-            'mockery/mockery' => ['/library/helpers.php'],
             'deployer/deployer' => ['/src/functions.php'],
+            'hamcrest/hamcrest-php' => ['/hamcrest/Hamcrest.php'],
+            'mockery/mockery' => ['/library/helpers.php'],
+            'sebastianknott/hamcrest-object-accessor' => ['/src/functions.php'],
         ];
     private const STATIC_DIRECTORIES_TO_SCAN
         = [
@@ -28,64 +29,33 @@ class PHPStanConfigGenerator
             '/vendor',
             '/vendor-bin',
         ];
-
-    private string $phpStanConfigPath;
+    private const MAX_TMP_RANDOM = 1000000;
+    private const MIN_TMP_RANDOM = 0;
 
     public function __construct(
         private readonly Filesystem $filesystem,
         private readonly Environment $environment,
         private readonly PhpVersionConverter $phpVersionConverter,
+        private readonly OutputInterface $output,
+        private readonly ComposerInterpreter $composerInterpreter,
+        private readonly ExclusionListFactory $exclusionListFactory,
     ) {
-        $this->phpStanConfigPath = $this->environment->getPackageDirectory()->getRealPath()
-            . '/config/phpstan/phpstan.neon';
     }
 
     /**
-     * Exposes the path where the config file will be found to the world.
-     */
-    public function getConfigPath(): string
-    {
-        return $this->phpStanConfigPath;
-    }
-
-    /**
-     * Writes a custom config file just in time for PHPStan to read.
+     * This method adds dynamic config values to the given config array. This is needed for the PHPStan config drop-in.
      *
-     * @param array<EnhancedFileInfo> $exclusionList
-     */
-    public function writeConfigFile(OutputInterface $output, array $exclusionList, string $phpVersion): void
-    {
-        $output->writeln(
-            '<info>Writing new PHPStan configuration.</info>' . PHP_EOL,
-            OutputInterface::VERBOSITY_VERBOSE,
-        );
-
-        $configValues = $this->generateConfig($output, $exclusionList, $phpVersion);
-
-        /** @phpstan-ignore-next-line */
-        $onTheFlyConfig = Neon::encode($configValues);
-        $this->filesystem->dumpFile($this->phpStanConfigPath, $onTheFlyConfig);
-    }
-
-    /**
-     * Adds function bootstraps to PHPStan config so imported functions won't show up as unknown.
+     * @param array<string,array<int|string,array<int,string>|string>|string> $configValues
      *
-     * @param array<EnhancedFileInfo> $exclusionList
-     *
-     * @return array<string,array<int|string,array<int,string>|string>>
+     * @return array<string,array<int|string,array<int,string>|string>|string>
      */
-    private function generateConfig(OutputInterface $output, array $exclusionList, string $phpVersion): array
+    public function addDynamicConfigValues(array $configValues): array
     {
-        $configValues = [
-            'includes' => [
-                $this->environment->getPackageDirectory()->getRealPath() . '/config/phpstan/phpstan.neon.dist',
-            ],
-        ];
-        $configValues = $this->addFunctionsFiles($configValues, $output);
-        $configValues = $this->addExcludedFiles($configValues, $exclusionList);
-        $configValues = $this->addPhpVersion($configValues, $phpVersion);
+        $configValues = $this->addFunctionsFiles($configValues);
+        $configValues = $this->addExcludedFiles($configValues);
+        $configValues = $this->addPhpVersion($configValues);
         $configValues = $this->addStaticDirectoriesToScan($configValues);
-
+        $configValues = $this->addRandomTempDir($configValues);
         return $configValues;
     }
 
@@ -97,12 +67,12 @@ class PHPStanConfigGenerator
      *
      * @return array<string,array<string|int,array<string>>>
      */
-    private function addFunctionsFiles(array $configValues, OutputInterface $output): array
+    private function addFunctionsFiles(array $configValues): array
     {
         foreach (self::TOOL_FUNCTIONS_FILE_MAPPING as $tool => $functionsFiles) {
             $toolPath = $this->environment->getRootDirectory()->getRealPath() . '/vendor/' . $tool;
             if (!$this->filesystem->exists($toolPath)) {
-                $output->writeln(
+                $this->output->writeln(
                     '<info>' . $tool . ' not found. Skip loading ' . implode(', ', $functionsFiles) . '.</info>',
                     OutputInterface::VERBOSITY_VERBOSE,
                 );
@@ -119,17 +89,17 @@ class PHPStanConfigGenerator
      * Adds the list of files to be excluded to the config.
      *
      * @param array<string,array<string|int,string|array<string>>> $configValues
-     * @param array<EnhancedFileInfo>                              $exclusionList
      *
      * @return array<string,array<array<string|int,string>>>
      */
-    private function addExcludedFiles(array $configValues, array $exclusionList): array
+    private function addExcludedFiles(array $configValues): array
     {
+        $exclusionList = $this->exclusionListFactory->build(PHPStanCommand::EXCLUSION_LIST_TOKEN);
         $directoryExcludedFilesStrings = array_map(
             static fn(EnhancedFileInfo $file): string => $file->getRealPath(),
             $exclusionList,
         );
-        $configValues['parameters']['excludePaths'] = $directoryExcludedFilesStrings;
+        $configValues['parameters']['excludePaths']['analyseAndScan'] = $directoryExcludedFilesStrings;
         return $configValues;
     }
 
@@ -159,12 +129,32 @@ class PHPStanConfigGenerator
      *
      * @param array<string,array<string|int,string|array<string>>> $configValues
      *
-     * @return array<string,array<string|int,array<string>>>
+     * @return array<string,array<string|int,string|array<string>>>
      */
-    private function addPhpVersion(array $configValues, string $phpVersion): array
+    private function addPhpVersion(array $configValues): array
     {
+        $phpVersion = $this->composerInterpreter->getMinimalViablePhpVersion();
         $result = $this->phpVersionConverter->convertSemVerToPhpString($phpVersion);
         $configValues['parameters']['phpVersion'] = $result;
+
+        return $configValues;
+    }
+
+    /**
+     * This method adds a random temp directory to the config. This is necessary to
+     * reevaluate the config on every run. If this does not happen, PHPStan will cache
+     * the config and not reevaluate it, which prevents the dynamic config values from
+     * being applied.
+     *
+     * @param array<string,array<string|int,string|array<string>>> $configValues
+     *
+     * @return array<string,array<string|int,string|array<string>>>
+     */
+    private function addRandomTempDir(array $configValues): array
+    {
+        $configValues['parameters']['tmpDir'] = sys_get_temp_dir()
+            . '/phpstan'
+            . random_int(self::MIN_TMP_RANDOM, self::MAX_TMP_RANDOM);
 
         return $configValues;
     }

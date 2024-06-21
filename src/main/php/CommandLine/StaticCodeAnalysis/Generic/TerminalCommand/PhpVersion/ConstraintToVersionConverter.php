@@ -19,7 +19,7 @@ class ConstraintToVersionConverter
             '7.4.' => '33',
             '8.0.' => '30',
             '8.1.' => '28',
-            '8.2.' => (explode('.', phpversion()))[2],
+            '8.2.' => '19',
         ];
 
         foreach ($phpVersionRanges as $phpVersionString => $phpMaxPatchVersion) {
