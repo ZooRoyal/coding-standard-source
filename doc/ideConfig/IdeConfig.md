@@ -11,6 +11,7 @@ The Coding-Standard incorporates different tools to check and fix your code.
 Here are the guides to set up PHPStorm for each tool:
 
 - [PHP Code Sniffer](phpCS/PhpCodeSniffer.md)
+- [PHP Stan](phpStan/PhpStan.md)
 
 
 

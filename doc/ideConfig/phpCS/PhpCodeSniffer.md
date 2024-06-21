@@ -5,7 +5,7 @@ able to see code highlighting and use auto-fixing in your IDE.
 
 How long will it take: 15 minutes
 
-Pre-requisites:
+## Pre-requisites
 - Completed guide: [PHP-Interpreter](../phpInterpreter/PhpInterpreter.md)
 - A local composer project, fully installed
 
