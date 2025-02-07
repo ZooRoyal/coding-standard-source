@@ -12,12 +12,6 @@
         <exclude name="PSR1.Files.SideEffects.FoundWithSymbols" />
     </rule>
 
-    <rule ref="PHPCompatibility">
-        <!-- Sniff generates false positives if classname is used in another namespace -->
-        <exclude name="PHPCompatibility.Classes.NewClasses.attributeFound"/>
-        <exclude name="PHPCompatibility.Attributes.NewAttributes.Found"/>
-    </rule>
-
     <!-- Custom Rule-->
     <rule ref="../../../src/main/php/Sniffs/PHPCodeSniffer/Standards/ZooRoyal"/>
     <rule ref="../../../src/main/php/Sniffs/Rdss/Standards/ZooRoyal"/>

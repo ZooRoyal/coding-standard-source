@@ -94,7 +94,7 @@ class TerminalCommandTest extends TestCase
     /**
      * This data provider needs to be long because it contains all testing data.
      *
-     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     * @SuppressWarnings("PHPMD.ExcessiveMethodLength")
      *
      * @return array<string,array<int,TerminalCommandTestData>>
      */

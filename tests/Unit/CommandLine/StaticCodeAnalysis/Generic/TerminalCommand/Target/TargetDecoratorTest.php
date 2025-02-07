@@ -24,7 +24,7 @@ use Zooroyal\CodingStandard\Tests\Tools\SubjectFactory;
 /**
  * This is a very busy test and needs all the objects ;/
  *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings("PHPMD.CouplingBetweenObjects")
  */
 class TargetDecoratorTest extends TestCase
 {

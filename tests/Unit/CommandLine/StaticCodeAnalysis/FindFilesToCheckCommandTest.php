@@ -24,7 +24,7 @@ use Zooroyal\CodingStandard\Tests\Tools\SubjectFactory;
 /**
  * Class FindFilesToCheckCommandTest
  *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings("PHPMD.CouplingBetweenObjects")
  */
 class FindFilesToCheckCommandTest extends TestCase
 {

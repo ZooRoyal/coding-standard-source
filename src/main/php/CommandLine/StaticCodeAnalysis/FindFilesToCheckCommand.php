@@ -38,7 +38,7 @@ class FindFilesToCheckCommand extends Command
     /**
      * Builds InputDefinition for Command
      *
-     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     * @SuppressWarnings("PHPMD.ExcessiveMethodLength")
      */
     private function buildInputDefinition(): InputDefinition
     {

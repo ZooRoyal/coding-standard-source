@@ -38,7 +38,7 @@ class JSStyleLintCommand extends FixingToolCommand
     /**
      * {@inheritDoc}
      */
-    public function execute(InputInterface $input, OutputInterface $output): ?int
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
             $this->terminalCommandFinder->findTerminalCommand('stylelint');

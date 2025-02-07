@@ -55,7 +55,7 @@ class DisallowMixedParameterTypeHintSniff
     /**
      * Check the parameter type hints
      *
-     * @param array<TypeHint> $parametersTypeHints
+     * @param array<string,TypeHint|null> $parametersTypeHints
      */
     private function checkTypeHints(
         File $phpcsFile,

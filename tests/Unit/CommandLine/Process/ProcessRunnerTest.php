@@ -79,13 +79,13 @@ class ProcessRunnerTest extends TestCase
 
     /**
      * @test
+     * @doesNotPerformAssertions
      */
     public function runProcessWithArguments(): void
     {
         $result = $this->subject->runAsProcess('git', 'version');
 
         MatcherAssert::assertThat($result, Matchers::startsWith('git version'));
-        self::assertTrue(true);
     }
 
     /**
