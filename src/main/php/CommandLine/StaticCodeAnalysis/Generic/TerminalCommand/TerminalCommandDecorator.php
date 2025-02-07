@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand;
 
+use Override;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 abstract class TerminalCommandDecorator implements EventSubscriberInterface
@@ -21,6 +22,7 @@ abstract class TerminalCommandDecorator implements EventSubscriberInterface
      *
      * @return array<string,array<int,int|string>>
      */
+    #[Override]
     final public static function getSubscribedEvents(): array
     {
         return [self::EVENT_DECORATE_TERMINAL_COMMAND => ['decorate', 50]];

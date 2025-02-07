@@ -6,6 +6,7 @@ namespace Zooroyal\CodingStandard\Tests\Unit\CommandLine\StaticCodeAnalysis\Gene
 
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -32,6 +33,7 @@ class ExclusionDecoratorTest extends TestCase
     /** @var MockInterface|OutputInterface */
     private OutputInterface $mockedOutput;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->mockedEvent = Mockery::mock(DecorateEvent::class);
@@ -50,6 +52,7 @@ class ExclusionDecoratorTest extends TestCase
         $this->subjectParameters = $buildFragments['parameters'];
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         Mockery::close();

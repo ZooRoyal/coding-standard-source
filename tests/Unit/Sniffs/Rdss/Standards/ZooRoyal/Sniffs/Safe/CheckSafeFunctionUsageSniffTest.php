@@ -6,6 +6,7 @@ namespace Zooroyal\CodingStandard\Tests\Unit\Sniffs\Rdss\Standards\ZooRoyal\Snif
 
 use DI\Container;
 use Mockery;
+use Override;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use PHPUnit\Framework\TestCase;
@@ -16,6 +17,7 @@ use Zooroyal\CodingStandard\Sniffs\Rdss\Standards\ZooRoyal\Sniffs\Safe\CheckSafe
 
 class CheckSafeFunctionUsageSniffTest extends TestCase
 {
+    #[Override]
     protected function tearDown(): void
     {
         Mockery::close();
@@ -37,7 +39,7 @@ class CheckSafeFunctionUsageSniffTest extends TestCase
      * @runInSeparateProcess
      * @preserveGlobalState  disabled
      */
-    public function notFoundSafeLibrarySkippsProcess(): void
+    public function notFoundSafeLibrarySkipsProcess(): void
     {
         $mockedContainerFactory = Mockery::mock('overload:' . ContainerFactory::class);
         $mockedContainer = Mockery::mock(Container::class);

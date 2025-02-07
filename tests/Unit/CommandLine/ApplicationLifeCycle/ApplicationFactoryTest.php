@@ -8,6 +8,7 @@ use DI\Container;
 use Hamcrest\Matchers;
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
@@ -67,6 +68,7 @@ class ApplicationFactoryTest extends TestCase
         self::assertSame($result->mockery_getName(), $mockedApplication->mockery_getName());
     }
 
+    #[Override]
     public function setUp(): void
     {
         $subjectFactory = new SubjectFactory();
@@ -77,6 +79,7 @@ class ApplicationFactoryTest extends TestCase
         $this->subjectParameters = $buildFragments['parameters'];
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         Mockery::close();

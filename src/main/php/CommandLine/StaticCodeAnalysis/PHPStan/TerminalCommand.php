@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPStan;
 
+use Override;
 use Symfony\Component\Console\Output\OutputInterface;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
@@ -24,7 +25,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
     use VerboseTrait;
     use VersionDependentTrait;
 
-    private const TEMPLATE = 'php %1$s analyse %4$s--no-progress --error-format=github -c %2$s %3$s';
+    private const string TEMPLATE = 'php %1$s analyse %4$s--no-progress --error-format=github -c %2$s %3$s';
 
     public function __construct(
         private readonly Environment $environment,
@@ -34,6 +35,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
     /**
      * {@inheritDoc}
      */
+    #[Override]
     protected function compile(): void
     {
         $this->validateTargets();

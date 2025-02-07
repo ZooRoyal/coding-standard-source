@@ -7,6 +7,7 @@ namespace Zooroyal\CodingStandard\Tests\Unit\CommandLine\StaticCodeAnalysis\PHPC
 use DI\Container;
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPCopyPasteDetector\PHPCopyPasteDetectorCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPCopyPasteDetector\TerminalCommand;
 use Zooroyal\CodingStandard\Tests\Unit\CommandLine\StaticCodeAnalysis\Generic\AbstractToolCommandTest;
@@ -16,6 +17,7 @@ class PHPCopyPasteDetectorCommandTest extends AbstractToolCommandTest
     /** @var Container|MockInterface */
     private Container $mockedContainer;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->terminalCommandName = 'PHP Copy Paste Detector';

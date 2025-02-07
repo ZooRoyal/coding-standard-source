@@ -6,6 +6,7 @@ namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPParallelLint
 
 use DI\Attribute\Inject;
 use DI\Container;
+use Override;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TargetableToolsCommand;
 
 class PHPParallelLintCommand extends TargetableToolsCommand
@@ -18,6 +19,7 @@ class PHPParallelLintCommand extends TargetableToolsCommand
     /**
      * {@inheritDoc}
      */
+    #[Override]
     protected function configure(): void
     {
         parent::configure();

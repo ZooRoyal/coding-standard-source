@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic;
 
+use Override;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Event\ConsoleEvent;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,16 +27,19 @@ class CodingStandardCommandEvent extends ConsoleEvent implements DecorateEvent
     }
 
     /** @return array<string> */
+    #[Override]
     public function getAllowedFileEndings(): array
     {
         return $this->allowedFileEndings;
     }
 
+    #[Override]
     public function getExclusionListToken(): string
     {
         return $this->exclusionListToken;
     }
 
+    #[Override]
     public function getTerminalCommand(): TerminalCommand
     {
         return $this->terminalCommand;

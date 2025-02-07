@@ -7,6 +7,7 @@ namespace Zooroyal\CodingStandard\Tests\Unit\CommandLine\StaticCodeAnalysis\PHPM
 use DI\Container;
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPMessDetector\PHPMessDetectorCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPMessDetector\TerminalCommand;
 use Zooroyal\CodingStandard\Tests\Unit\CommandLine\StaticCodeAnalysis\Generic\TargetableToolsCommandTest;
@@ -16,6 +17,7 @@ class PHPMessDetectorCommandTest extends TargetableToolsCommandTest
     /** @var Container|MockInterface */
     private Container $mockedContainer;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->terminalCommandName = 'PHP Mess Detector';

@@ -30,9 +30,7 @@ return [
     FileSearchInterface::class => get(FastCachedFileSearch::class),
     InputInterface::class => get(ArgvInput::class),
     OutputInterface::class => get(ConsoleOutput::class),
-    Parser::class => factory(static function (ContainerInterface $container) {
-        return $container->get(ParserFactory::class)->create(ParserFactory::PREFER_PHP7);
-    }),
+    Parser::class => factory(static fn(ContainerInterface $container) => $container->get(ParserFactory::class)->create(ParserFactory::PREFER_PHP7)),
 
     'excluders' => factory(
         static function (Container $container) {

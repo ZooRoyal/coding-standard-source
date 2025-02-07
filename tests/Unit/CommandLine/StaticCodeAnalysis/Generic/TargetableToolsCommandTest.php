@@ -6,6 +6,7 @@ namespace Zooroyal\CodingStandard\Tests\Unit\CommandLine\StaticCodeAnalysis\Gene
 
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
@@ -24,6 +25,7 @@ abstract class TargetableToolsCommandTest extends AbstractToolCommandTest
     /** @var array<MockInterface|InputOption> */
     protected array $mockedTargetingOptions;
 
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();

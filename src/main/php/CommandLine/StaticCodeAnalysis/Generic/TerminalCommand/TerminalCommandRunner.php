@@ -21,10 +21,10 @@ class TerminalCommandRunner
             static function () use ($process, $output): void {
                 $errorIncrement = $process->getIncrementalErrorOutput();
                 $outputIncrement = $process->getIncrementalOutput();
-                if (!empty($errorIncrement)) {
+                if ($errorIncrement !== '' && $errorIncrement !== '0') {
                     $output->write($errorIncrement, false, OutputInterface::OUTPUT_RAW);
                 }
-                if (!empty($outputIncrement)) {
+                if ($outputIncrement !== '' && $outputIncrement !== '0') {
                     $output->write($outputIncrement, false, OutputInterface::OUTPUT_RAW);
                 }
             },

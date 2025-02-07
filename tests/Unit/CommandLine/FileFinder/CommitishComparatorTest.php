@@ -6,6 +6,7 @@ namespace Zooroyal\CodingStandard\Tests\Unit\CommandLine\FileFinder;
 
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Zooroyal\CodingStandard\CommandLine\FileFinder\CommitishComparator;
 use Zooroyal\CodingStandard\CommandLine\FileFinder\GitInputValidator;
@@ -18,6 +19,7 @@ class CommitishComparatorTest extends TestCase
     /** @var array<MockInterface>|array<mixed> */
     private array $subjectParameters;
 
+    #[Override]
     protected function setUp(): void
     {
         $subjectFactory = new SubjectFactory();
@@ -28,6 +30,7 @@ class CommitishComparatorTest extends TestCase
         $this->subjectParameters = $buildFragments['parameters'];
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         Mockery::close();

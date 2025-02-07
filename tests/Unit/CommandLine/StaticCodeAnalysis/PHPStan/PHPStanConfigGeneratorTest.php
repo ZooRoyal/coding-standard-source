@@ -9,6 +9,7 @@ use Hamcrest\MatcherAssert;
 use Hamcrest\Matchers as H;
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -33,6 +34,7 @@ class PHPStanConfigGeneratorTest extends TestCase
     /** @var array<string|string> */
     private array $forgedExcludedFilePaths = ['a', 'b'];
 
+    #[Override]
     protected function setUp(): void
     {
         $this->mockedFilesystem = Mockery::mock(Filesystem::class);
@@ -62,6 +64,7 @@ class PHPStanConfigGeneratorTest extends TestCase
         );
     }
 
+    #[Override]
     protected function assertPostConditions(): void
     {
         Mockery::close();

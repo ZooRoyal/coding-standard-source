@@ -6,6 +6,7 @@ namespace Zooroyal\CodingStandard\Tests\Unit\CommandLine\ExclusionList;
 
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\ExclusionList\Excluders\ExcluderInterface;
@@ -21,6 +22,7 @@ class ExclusionListFactoryTest extends TestCase
     private array $mockedExcluders;
     private MockInterface|ExclusionListSanitizer $mockedExclusionListSanitizer;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->mockedExcluder1 = Mockery::mock(ExcluderInterface::class);
@@ -32,6 +34,7 @@ class ExclusionListFactoryTest extends TestCase
         $this->subject = new ExclusionListFactory($this->mockedExcluders, $this->mockedExclusionListSanitizer);
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         Mockery::close();

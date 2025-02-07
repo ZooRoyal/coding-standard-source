@@ -7,6 +7,7 @@ namespace Zooroyal\CodingStandard\Tests\Unit\CommandLine\ApplicationLifeCycle;
 use DI\Container;
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Zooroyal\CodingStandard\CommandLine\ApplicationLifeCycle\EventDispatcherFactory;
@@ -65,6 +66,7 @@ class EventDispatcherFactoryTest extends TestCase
         self::assertSame($result->mockery_getName(), $mockedEventDispatcher->mockery_getName());
     }
 
+    #[Override]
     public function setUp(): void
     {
         $subjectFactory = new SubjectFactory();
@@ -73,6 +75,7 @@ class EventDispatcherFactoryTest extends TestCase
         $this->subjectParameters = $buildFragments['parameters'];
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         Mockery::close();

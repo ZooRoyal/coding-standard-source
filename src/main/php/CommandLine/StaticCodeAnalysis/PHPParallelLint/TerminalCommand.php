@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPParallelLint;
 
+use Override;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\AbstractTerminalCommand;
@@ -27,7 +28,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
     use FileExtensionTrait;
     use MultiprocessTrait;
 
-    private const TEMPLATE = 'php %1$s -j %5$d%2$s%3$s%4$s';
+    private const string TEMPLATE = 'php %1$s -j %5$d%2$s%3$s%4$s';
 
     public function __construct(private readonly Environment $environment)
     {
@@ -36,6 +37,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
     /**
      * {@inheritDoc}
      */
+    #[Override]
     protected function compile(): void
     {
         $this->validateTargets();

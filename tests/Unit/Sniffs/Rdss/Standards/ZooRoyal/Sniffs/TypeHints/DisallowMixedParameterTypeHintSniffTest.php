@@ -7,6 +7,7 @@ namespace Zooroyal\CodingStandard\Tests\Unit\Sniffs\Rdss\Standards\ZooRoyal\Snif
 use Hamcrest\Matchers as H;
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use PHP_CodeSniffer\Files\File;
 use PHPUnit\Framework\TestCase;
 use SlevomatCodingStandard\Helpers\DocCommentHelper;
@@ -23,11 +24,13 @@ class DisallowMixedParameterTypeHintSniffTest extends TestCase
     private DisallowMixedParameterTypeHintSniff $subject;
     private string $subjectName = 'Zooroyal.TypeHints.DisallowMixedParameterTypeHint';
 
+    #[Override]
     protected function setUp(): void
     {
         $this->subject = new DisallowMixedParameterTypeHintSniff();
     }
 
+    #[Override]
     protected function assertPostConditions(): void
     {
         Mockery::close();

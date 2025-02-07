@@ -6,6 +6,7 @@ namespace Zooroyal\CodingStandard\Tests\System\Complete;
 
 use Hamcrest\MatcherAssert;
 use Hamcrest\Matchers as H;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
@@ -15,6 +16,7 @@ class GlobalSystemTest extends TestCase
 {
     private Filesystem $filesystem;
 
+    #[Override]
     public static function setUpBeforeClass(): void
     {
         $dockerCheckProcess = new Process(['docker', 'info']);
@@ -24,12 +26,14 @@ class GlobalSystemTest extends TestCase
         }
     }
 
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();
         $this->filesystem = new Filesystem();
     }
 
+    #[Override]
     public static function tearDownAfterClass(): void
     {
         TestEnvironmentInstallation::getInstance()->removeInstallation();

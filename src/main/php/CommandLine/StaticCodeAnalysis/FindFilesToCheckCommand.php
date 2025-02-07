@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis;
 
+use Override;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -27,6 +28,7 @@ class FindFilesToCheckCommand extends Command
     /**
      * {@inheritdoc}
      */
+    #[Override]
     public function configure(): void
     {
         $this->setName('find-files');
@@ -94,6 +96,7 @@ class FindFilesToCheckCommand extends Command
     /**
      * {@inheritdoc}
      */
+    #[Override]
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $exclusionListInput = $input->getOption('exclusionList');

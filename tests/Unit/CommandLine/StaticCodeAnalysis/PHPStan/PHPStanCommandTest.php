@@ -7,6 +7,7 @@ namespace Zooroyal\CodingStandard\Tests\Unit\CommandLine\StaticCodeAnalysis\PHPS
 use DI\Container;
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPStan\PHPStanCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPStan\TerminalCommand;
 use Zooroyal\CodingStandard\Tests\Unit\CommandLine\StaticCodeAnalysis\Generic\TargetableToolsCommandTest;
@@ -16,6 +17,7 @@ class PHPStanCommandTest extends TargetableToolsCommandTest
     /** @var Container|MockInterface */
     private Container $mockedContainer;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->terminalCommandName = 'PHPStan';

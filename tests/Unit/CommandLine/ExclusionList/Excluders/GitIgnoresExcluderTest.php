@@ -6,6 +6,7 @@ namespace Zooroyal\CodingStandard\Tests\Unit\CommandLine\ExclusionList\Excluders
 
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfoFactory;
@@ -20,6 +21,7 @@ class GitIgnoresExcluderTest extends TestCase
     /** @var array<MockInterface> */
     private array $subjectParameters;
 
+    #[Override]
     protected function setUp(): void
     {
         $subjectFactory = new SubjectFactory();
@@ -29,6 +31,7 @@ class GitIgnoresExcluderTest extends TestCase
         $this->subjectParameters = $buildFragments['parameters'];
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         Mockery::close();

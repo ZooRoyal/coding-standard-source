@@ -6,6 +6,7 @@ namespace Zooroyal\CodingStandard\Tests\Unit\CommandLine\ExclusionList\Excluders
 
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfoFactory;
@@ -22,6 +23,7 @@ class TokenExcluderTest extends TestCase
     /** @var array<MockInterface> */
     private array $subjectParameters;
 
+    #[Override]
     protected function setUp(): void
     {
         $subjectFactory = new SubjectFactory();
@@ -35,6 +37,7 @@ class TokenExcluderTest extends TestCase
             ->withNoArgs()->andReturn($this->forgedRootDirectory);
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         Mockery::close();

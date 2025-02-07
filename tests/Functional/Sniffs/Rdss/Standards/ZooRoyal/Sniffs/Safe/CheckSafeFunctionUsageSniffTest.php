@@ -5,19 +5,21 @@ declare(strict_types=1);
 namespace Zooroyal\CodingStandard\Tests\Functional\Sniffs\Rdss\Standards\ZooRoyal\Sniffs\Safe;
 
 use Composer\Autoload\ClassLoader;
+use Override;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use Symfony\Component\Process\Process;
 
 class CheckSafeFunctionUsageSniffTest extends TestCase
 {
-    private const SNIFF_NAME = 'ZooRoyal.Safe.CheckSafeFunctionUsage';
-    private const FIXTURE_DIRECTORY = 'tests/Functional/Sniffs/Rdss/Standards/ZooRoyal/Sniffs/Safe/fixtures/';
+    private const string SNIFF_NAME = 'ZooRoyal.Safe.CheckSafeFunctionUsage';
+    private const string FIXTURE_DIRECTORY = 'tests/Functional/Sniffs/Rdss/Standards/ZooRoyal/Sniffs/Safe/fixtures/';
 
     private static string $vendorDir;
     /** @var array<string> */
     private array $commandPrefix = [];
 
+    #[Override]
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
@@ -27,6 +29,7 @@ class CheckSafeFunctionUsageSniffTest extends TestCase
         require_once self::$vendorDir . '/squizlabs/php_codesniffer/autoload.php';
     }
 
+    #[Override]
     protected function setUp(): void
     {
         $this->commandPrefix = [

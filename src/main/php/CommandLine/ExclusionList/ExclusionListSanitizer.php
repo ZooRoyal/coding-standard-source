@@ -37,7 +37,7 @@ class ExclusionListSanitizer
                     if ($key === $i) {
                         return true;
                     }
-                    return !($value->isSubdirectoryOf($item) || $value->getPathname() === $item->getPathname());
+                    return !$value->isSubdirectoryOf($item) && $value->getPathname() !== $item->getPathname();
                 },
                 ARRAY_FILTER_USE_BOTH,
             );

@@ -8,6 +8,7 @@ use Composer\Autoload\ClassLoader;
 use Hamcrest\MatcherAssert;
 use Hamcrest\Matchers as H;
 use InvalidArgumentException;
+use Override;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use SebastianKnott\HamcrestObjectAccessor\HasProperty;
@@ -25,6 +26,7 @@ class EnhancedFileInfoFactoryTest extends TestCase
     private string $relativeFilePath2;
     private string $rootDirectory;
 
+    #[Override]
     public function setUp(): void
     {
         $container = ContainerFactory::getContainerInstance();

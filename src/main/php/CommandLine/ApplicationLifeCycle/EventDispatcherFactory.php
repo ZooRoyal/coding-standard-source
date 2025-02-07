@@ -23,7 +23,7 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalComma
 class EventDispatcherFactory
 {
     /** @var array<string> */
-    private const SUBSCRIBERS
+    private const array SUBSCRIBERS
         = [
             GitCommandPreconditionChecker::class,
             TerminalCommandPreconditionChecker::class,

@@ -8,6 +8,7 @@ use Hamcrest\MatcherAssert;
 use Hamcrest\Matchers as H;
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -38,6 +39,7 @@ class FindFilesToCheckCommandTest extends TestCase
     private string $expectedResult1 = 'phpunit.xml.dist';
     private string $expectedResult2 = 'composer.json';
 
+    #[Override]
     protected function setUp(): void
     {
         $subjectFactory = new SubjectFactory();
@@ -55,6 +57,7 @@ class FindFilesToCheckCommandTest extends TestCase
             ->withNoArgs()->andReturn($this->expectedResult2);
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         Mockery::close();

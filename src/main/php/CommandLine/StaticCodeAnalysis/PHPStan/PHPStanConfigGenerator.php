@@ -14,14 +14,14 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalComma
 
 class PHPStanConfigGenerator
 {
-    private const TOOL_FUNCTIONS_FILE_MAPPING
+    private const array TOOL_FUNCTIONS_FILE_MAPPING
         = [
             'deployer/deployer' => ['/src/functions.php'],
             'hamcrest/hamcrest-php' => ['/hamcrest/Hamcrest.php'],
             'mockery/mockery' => ['/library/helpers.php'],
             'sebastianknott/hamcrest-object-accessor' => ['/src/functions.php'],
         ];
-    private const STATIC_DIRECTORIES_TO_SCAN
+    private const array STATIC_DIRECTORIES_TO_SCAN
         = [
             '/Plugins',
             '/custom/plugins',
@@ -29,8 +29,8 @@ class PHPStanConfigGenerator
             '/vendor',
             '/vendor-bin',
         ];
-    private const MAX_TMP_RANDOM = 1000000;
-    private const MIN_TMP_RANDOM = 0;
+    private const int MAX_TMP_RANDOM = 1000000;
+    private const int MIN_TMP_RANDOM = 0;
 
     public function __construct(
         private readonly Filesystem $filesystem,

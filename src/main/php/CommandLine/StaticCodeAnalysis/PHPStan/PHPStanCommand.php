@@ -6,6 +6,7 @@ namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPStan;
 
 use DI\Attribute\Inject;
 use DI\Container;
+use Override;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TargetableToolsCommand;
 
 class PHPStanCommand extends TargetableToolsCommand
@@ -20,6 +21,7 @@ class PHPStanCommand extends TargetableToolsCommand
     /**
      * {@inheritDoc}
      */
+    #[Override]
     protected function configure(): void
     {
         parent::configure();

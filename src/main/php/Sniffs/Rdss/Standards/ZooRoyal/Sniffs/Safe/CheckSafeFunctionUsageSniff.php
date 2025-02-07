@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\Sniffs\Rdss\Standards\ZooRoyal\Sniffs\Safe;
 
+use Override;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use PhpParser\Node;
@@ -22,7 +23,7 @@ use function Safe\scandir;
 class CheckSafeFunctionUsageSniff implements Sniff
 {
     /** @var array<string> */
-    private array $functionNames;
+    private readonly array $functionNames;
 
     public function __construct()
     {
@@ -33,6 +34,7 @@ class CheckSafeFunctionUsageSniff implements Sniff
             // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
             $filesUnfiltered = @scandir($path);
         } catch (DirException) {
+            $this->functionNames = [];
             return;
         }
 
@@ -63,6 +65,7 @@ class CheckSafeFunctionUsageSniff implements Sniff
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification We must
      *                stay compatible with the interface even if we don't like it.
      */
+    #[Override]
     public function register(): array
     {
         return [
@@ -80,9 +83,10 @@ class CheckSafeFunctionUsageSniff implements Sniff
      *
      * @throws AssertionException
      */
+    #[Override]
     public function process(File $phpcsFile, $stackPtr): void
     {
-        if (!isset($this->functionNames)) {
+        if ($this->functionNames === []) {
             throw new AssertionException(
                 'No function names found! Did you forget to install thecodingmachine/Safe?',
                 1684240278,

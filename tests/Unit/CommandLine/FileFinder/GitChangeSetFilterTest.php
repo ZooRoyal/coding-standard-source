@@ -8,6 +8,7 @@ use Hamcrest\MatcherAssert;
 use Hamcrest\Matchers;
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Exception\LogicException;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
@@ -25,6 +26,7 @@ class GitChangeSetFilterTest extends TestCase
     private string $exclusionlistedDirectory = 'blub';
     private string $mockedRootDirectory = '/my/root/directory';
 
+    #[Override]
     protected function setUp(): void
     {
         $subjectFactory = new SubjectFactory();
@@ -34,6 +36,7 @@ class GitChangeSetFilterTest extends TestCase
         $this->subject = $buildFragments['subject'];
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         Mockery::close();

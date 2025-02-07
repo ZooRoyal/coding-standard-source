@@ -48,7 +48,7 @@ class ExclusionListFactory
             $excludedPaths = [...$excludedPaths, ...$newlyFoundExclusionPaths];
         }
 
-        $filteredArray = $deDuped === true
+        $filteredArray = $deDuped
             ? $this->exclusionListSanitizer->sanitizeExclusionList($excludedPaths)
             : $excludedPaths;
 

@@ -6,6 +6,7 @@ namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPMessDetector
 
 use DI\Attribute\Inject;
 use DI\Container;
+use Override;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TargetableToolsCommand;
 
 class PHPMessDetectorCommand extends TargetableToolsCommand
@@ -19,6 +20,7 @@ class PHPMessDetectorCommand extends TargetableToolsCommand
     /**
      * {@inheritDoc}
      */
+    #[Override]
     protected function configure(): void
     {
         parent::configure();

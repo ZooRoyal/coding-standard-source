@@ -7,6 +7,7 @@ namespace Zooroyal\CodingStandard\Tests\Functional\CommandLine\FileSearch;
 use Hamcrest\MatcherAssert;
 use Hamcrest\Matchers;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use SebastianBergmann\Timer\Timer;
 use SebastianKnott\HamcrestObjectAccessor\HasProperty;
@@ -21,6 +22,7 @@ class FastCachedFileSearchTest extends TestCase
     private EnhancedFileInfoFactory $enhancedFileInfoFactory;
     private EnhancedFileInfo $forgedPath;
 
+    #[Override]
     public function setUp(): void
     {
         $container = ContainerFactory::getUnboundContainerInstance();

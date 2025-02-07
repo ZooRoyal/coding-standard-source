@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\JSESLint;
 
+use Override;
 use Symfony\Component\Console\Output\OutputInterface;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
@@ -32,7 +33,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
     use FileExtensionTrait;
     use VerboseTrait;
 
-    private const TEMPLATE
+    private const string TEMPLATE
         = 'npx %8$s--no-install eslint %6$s%7$s--no-error-on-unmatched-pattern --no-eslintrc --config %1$s %3$s'
         . '--ignore-path %2$s %4$s%5$s';
 
@@ -43,6 +44,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
     /**
      * {@inheritDoc}
      */
+    #[Override]
     protected function compile(): void
     {
         $this->validateTargets();
@@ -133,7 +135,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
     private function buildFixingString(): string
     {
         $fixingString = '';
-        if ($this->fixingMode === true) {
+        if ($this->fixingMode) {
             $fixingString = '--fix ';
         }
         return $fixingString;

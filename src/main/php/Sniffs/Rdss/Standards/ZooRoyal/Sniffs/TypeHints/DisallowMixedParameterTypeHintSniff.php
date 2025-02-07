@@ -15,10 +15,10 @@ use const T_FUNCTION;
 
 class DisallowMixedParameterTypeHintSniff
 {
-    private const NAME = 'Zooroyal.TypeHints.DisallowMixedParameterTypeHint';
-    private const ERROR_CODE = 'MixedParameterTypeHintUsed';
-    private const INVALID_TYPE_HINT = 'mixed';
-    private const ERROR_MESSAGE_FUNCTION
+    private const string NAME = 'Zooroyal.TypeHints.DisallowMixedParameterTypeHint';
+    private const string ERROR_CODE = 'MixedParameterTypeHintUsed';
+    private const string INVALID_TYPE_HINT = 'mixed';
+    private const string ERROR_MESSAGE_FUNCTION
         = 'uses "' . self::INVALID_TYPE_HINT . '" type hint for parameter %s, which is disallowed';
 
     public function process(File $phpcsFile, int $functionPointer): void
@@ -30,7 +30,7 @@ class DisallowMixedParameterTypeHintSniff
             return;
         }
         $parametersTypeHints = FunctionHelper::getParametersTypeHints($phpcsFile, $functionPointer);
-        if (empty($parametersTypeHints)) {
+        if ($parametersTypeHints === []) {
             return;
         }
         /** @var array<string|int> $token */

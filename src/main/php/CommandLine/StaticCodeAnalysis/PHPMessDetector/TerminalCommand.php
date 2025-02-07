@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPMessDetector;
 
+use Override;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\AbstractTerminalCommand;
@@ -23,7 +24,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
     use ExclusionTrait;
     use FileExtensionTrait;
 
-    private const TEMPLATE = 'php %1$s %2$s text %3$s%5$s%4$s';
+    private const string TEMPLATE = 'php %1$s %2$s text %3$s%5$s%4$s';
 
     public function __construct(private readonly Environment $environment)
     {
@@ -32,6 +33,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
     /**
      * {@inheritDoc}
      */
+    #[Override]
     protected function compile(): void
     {
         $this->validateTargets();

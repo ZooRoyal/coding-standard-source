@@ -12,8 +12,8 @@ use function Safe\file_get_contents;
 
 class ComposerInterpreter
 {
-    private const SEARCH_DEPTH_MIN = 1;
-    private const SEARCH_DEPTH_MAX = 4;
+    private const int SEARCH_DEPTH_MIN = 1;
+    private const int SEARCH_DEPTH_MAX = 4;
 
     private ?string $cachedMinimalViablePhpVersion = null;
     private string $cachedMinimalRootPackagePhpVersion;

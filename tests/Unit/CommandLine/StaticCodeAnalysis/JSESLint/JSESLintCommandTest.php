@@ -7,6 +7,7 @@ namespace Zooroyal\CodingStandard\Tests\Unit\CommandLine\StaticCodeAnalysis\JSES
 use DI\Container;
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\NpmAppFinder\NpmCommandFinder;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\NpmAppFinder\NpmCommandNotFoundException;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\JSESLint\JSESLintCommand;
@@ -18,6 +19,7 @@ class JSESLintCommandTest extends FixingToolCommandTest
     private Container|MockInterface $mockedContainer;
     private NpmCommandFinder|MockInterface $mockedTerminalCommandFinder;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->terminalCommandName = 'EsLint';
@@ -59,6 +61,7 @@ class JSESLintCommandTest extends FixingToolCommandTest
     /**
      * @test
      */
+    #[Override]
     public function executeRunsTerminalCommand(): void
     {
         $this->mockedTerminalCommandFinder->shouldReceive('findTerminalCommand')->once()
@@ -85,6 +88,7 @@ class JSESLintCommandTest extends FixingToolCommandTest
     /**
      * @test
      */
+    #[Override]
     public function executeWrappsException(): void
     {
         $this->mockedTerminalCommandFinder->shouldReceive('findTerminalCommand')->once()
@@ -95,6 +99,7 @@ class JSESLintCommandTest extends FixingToolCommandTest
     /**
      * @test
      */
+    #[Override]
     public function executeWarnsAboutNoUsefulFilesToSniff(): void
     {
         $this->mockedTerminalCommandFinder->shouldReceive('findTerminalCommand')->once()

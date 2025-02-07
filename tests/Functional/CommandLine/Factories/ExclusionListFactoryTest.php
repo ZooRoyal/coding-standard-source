@@ -6,6 +6,7 @@ namespace Zooroyal\CodingStandard\Tests\Functional\CommandLine\Factories;
 
 use Hamcrest\MatcherAssert;
 use Hamcrest\Matchers as H;
+use Override;
 use PHPUnit\Framework\TestCase;
 use SebastianKnott\HamcrestObjectAccessor\HasProperty;
 use Zooroyal\CodingStandard\CommandLine\ApplicationLifeCycle\ContainerFactory;
@@ -18,6 +19,7 @@ class ExclusionListFactoryTest extends TestCase
 {
     private ExclusionListFactory $subject;
 
+    #[Override]
     protected function setUp(): void
     {
         $forgedGitPath = __DIR__ . '/Fixtures/gitExclude/.git';
@@ -29,6 +31,7 @@ class ExclusionListFactoryTest extends TestCase
         $this->subject = $container->get(ExclusionListFactory::class);
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         rmdir(__DIR__ . '/Fixtures/gitExclude/.git');

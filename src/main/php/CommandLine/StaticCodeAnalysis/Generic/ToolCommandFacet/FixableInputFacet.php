@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\ToolCommandFacet;
 
+use Override;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -14,6 +15,7 @@ class FixableInputFacet implements ToolCommandInputFacet
     /**
      * This method returns the input definition needed to know if the user wants something to be fixed.
      */
+    #[Override]
     public function getInputDefinition(): InputDefinition
     {
         return new InputDefinition(

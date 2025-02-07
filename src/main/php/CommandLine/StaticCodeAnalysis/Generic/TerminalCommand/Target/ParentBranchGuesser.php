@@ -9,7 +9,7 @@ use Zooroyal\CodingStandard\CommandLine\Process\ProcessRunner;
 class ParentBranchGuesser
 {
     /** @var string */
-    private const GIT = 'git';
+    private const string GIT = 'git';
 
     public function __construct(
         private readonly ProcessRunner $processRunner,

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic;
 
+use Override;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\ToolCommandFacet\TargetableInputFacet;
 
 abstract class TargetableToolsCommand extends AbstractToolCommand
@@ -13,6 +14,7 @@ abstract class TargetableToolsCommand extends AbstractToolCommand
         parent::__construct($name);
     }
 
+    #[Override]
     protected function configure(): void
     {
         $this->setDefinition($this->targetableFacet->getInputDefinition());

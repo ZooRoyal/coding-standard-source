@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Multiprocess;
 
+use Override;
 use Symfony\Component\Console\Output\OutputInterface;
 use Zooroyal\CodingStandard\CommandLine\Process\ProcessRunner;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\DecorateEvent;
@@ -17,6 +18,7 @@ class MultiprocessDecorator extends TerminalCommandDecorator
     {
     }
 
+    #[Override]
     public function decorate(DecorateEvent $event): void
     {
         $terminalCommand = $event->getTerminalCommand();

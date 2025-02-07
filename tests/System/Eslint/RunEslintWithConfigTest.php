@@ -9,6 +9,7 @@ use Amp\Process\Process;
 use Amp\Promise;
 use Hamcrest\MatcherAssert;
 use Hamcrest\Matchers as H;
+use Override;
 use Symfony\Component\Filesystem\Filesystem;
 use Zooroyal\CodingStandard\Tests\Tools\TestEnvironmentInstallation;
 
@@ -16,19 +17,21 @@ use function Amp\ByteStream\buffer;
 
 class RunEslintWithConfigTest extends AsyncTestCase
 {
-    private const EXPECTED_TS_PROBLEMS = '183 problems';
-    private const EXPECTED_JS_PROBLEMS = '183 problems';
-    private const ESLINT_COMMAND = 'npx --no-install eslint --config ';
-    private const ESLINT_CONFIG_FILE = 'vendor/zooroyal/coding-standard-source/config/eslint/eslint.config.js ';
+    private const string EXPECTED_TS_PROBLEMS = '183 problems';
+    private const string EXPECTED_JS_PROBLEMS = '183 problems';
+    private const string ESLINT_COMMAND = 'npx --no-install eslint --config ';
+    private const string ESLINT_CONFIG_FILE = 'vendor/zooroyal/coding-standard-source/config/eslint/eslint.config.js ';
 
     private Filesystem $filesystem;
 
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();
         $this->filesystem = new Filesystem();
     }
 
+    #[Override]
     public static function tearDownAfterClass(): void
     {
         TestEnvironmentInstallation::getInstance()->removeInstallation();
@@ -47,7 +50,6 @@ class RunEslintWithConfigTest extends AsyncTestCase
 
         $command = $this->getEslintCommand(
             'vendor/zooroyal/coding-standard-source/tests/System/fixtures/eslint/BadCode.js',
-            $testInstancePath,
         );
         $commandArray = explode(' ', $command);
         $process = new Process($commandArray, $testInstancePath);
@@ -76,7 +78,6 @@ class RunEslintWithConfigTest extends AsyncTestCase
 
         $command = $this->getEslintCommand(
             'vendor/zooroyal/coding-standard-source/tests/System/fixtures/eslint/BadCode.ts',
-            $testInstancePath,
         );
         $commandArray = explode(' ', $command);
         $process = new Process($commandArray, $testInstancePath);
@@ -134,7 +135,7 @@ class RunEslintWithConfigTest extends AsyncTestCase
         return $envInstallationPath;
     }
 
-    private function getEslintCommand(string $fileToCheck, string $testInstancePath): string
+    private function getEslintCommand(string $fileToCheck): string
     {
         return self::ESLINT_COMMAND
             . self::ESLINT_CONFIG_FILE

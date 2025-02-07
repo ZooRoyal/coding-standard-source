@@ -26,7 +26,7 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPStan\PHPStanComman
 class ApplicationFactory
 {
     /** @var array<string> */
-    private const COMMANDS
+    private const array COMMANDS
         = [
             AllToolsCommand::class,
             FindFilesToCheckCommand::class,

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPCodeSniffer;
 
+use Override;
 use Symfony\Component\Console\Output\OutputInterface;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
@@ -42,7 +43,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
     use MultiprocessTrait;
     use MinimalVersionDependentTrait;
 
-    private const TEMPLATE = 'php %1$s %5$s%6$s--parallel=%7$d -p --standard=%2$s%3$s%8$s%4$s';
+    private const string TEMPLATE = 'php %1$s %5$s%6$s--parallel=%7$d -p --standard=%2$s%3$s%8$s%4$s';
 
     public function __construct(
         private readonly Environment $environment,
@@ -53,6 +54,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
     /**
      * {@inheritDoc}
      */
+    #[Override]
     protected function compile(): void
     {
         $this->validateTargets();

@@ -12,7 +12,7 @@ use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
  */
 class TerminalCommandTestData
 {
-    private string $expectedCommand;
+    private readonly string $expectedCommand;
     /** @var array<EnhancedFileInfo>|null  */
     private ?array $targets = null;
     private bool $fixingMode = false;

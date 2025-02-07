@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\ToolCommandFacet;
 
+use Override;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -18,6 +19,7 @@ class TargetableInputFacet implements ToolCommandInputFacet
      * This method returns the input definition needed to know if the user wants the command to be focused on changed
      * files.
      */
+    #[Override]
     public function getInputDefinition(): InputDefinition
     {
         return new InputDefinition(

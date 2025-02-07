@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic;
 
+use Override;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\ToolCommandFacet\FixableInputFacet;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\ToolCommandFacet\TargetableInputFacet;
 
@@ -17,6 +18,7 @@ abstract class FixingToolCommand extends TargetableToolsCommand
         parent::__construct($targetableFacet, $name);
     }
 
+    #[Override]
     protected function configure(): void
     {
         parent::configure();

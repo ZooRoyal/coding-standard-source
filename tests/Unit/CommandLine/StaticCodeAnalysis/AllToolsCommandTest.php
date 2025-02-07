@@ -9,6 +9,7 @@ use Hamcrest\Matchers as H;
 use Mockery;
 use Mockery\Matcher\Closure;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
@@ -43,6 +44,7 @@ class AllToolsCommandTest extends TestCase
     private Application $mockedApplication;
     private MockInterface|Command $mockedCommand;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->mockedInput = Mockery::mock(InputInterface::class);
@@ -64,6 +66,7 @@ class AllToolsCommandTest extends TestCase
         $this->subject->setApplication($this->mockedApplication);
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         Mockery::close();
@@ -107,9 +110,7 @@ class AllToolsCommandTest extends TestCase
             ->andReturn($optionsAndValues);
         $this->mockedInput->shouldReceive('getOption')
             ->andReturnUsing(
-                static function ($parameter) use ($optionsAndValues) {
-                    return $optionsAndValues[$parameter];
-                },
+                static fn($parameter) => $optionsAndValues[$parameter],
             );
 
         $this->mockedOutput->shouldReceive('writeln')->once()

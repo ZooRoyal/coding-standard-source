@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis;
 
+use Override;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,7 +16,7 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\ToolCommandFa
 class AllToolsCommand extends Command
 {
     /** @var array<InputOption> */
-    private array $injectedOptions;
+    private readonly array $injectedOptions;
 
     public function __construct(
         FixableInputFacet $fixableFacet,
@@ -29,6 +30,7 @@ class AllToolsCommand extends Command
         parent::__construct($name);
     }
 
+    #[Override]
     protected function configure(): void
     {
         $this->setName('sca:all');
@@ -43,6 +45,7 @@ class AllToolsCommand extends Command
     /**
      * {@inheritdoc}
      */
+    #[Override]
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('<comment>All SCA-Commands will be executed.</comment>', OutputInterface::OUTPUT_NORMAL);

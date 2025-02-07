@@ -8,6 +8,7 @@ use DI\Container;
 use Hamcrest\MatcherAssert;
 use Hamcrest\Matchers as H;
 use Mockery;
+use Override;
 use PHPUnit\Framework\TestCase;
 use SebastianKnott\HamcrestObjectAccessor\HasProperty;
 use Zooroyal\CodingStandard\CommandLine\ApplicationLifeCycle\ContainerFactory;
@@ -21,6 +22,7 @@ class DiffCheckableFileFinderTest extends TestCase
     private array $forgedFileSet;
     private string $forgedRawDiffUnfilteredString;
 
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();
@@ -38,6 +40,7 @@ class DiffCheckableFileFinderTest extends TestCase
             . 'topFolder/folder/.dontChangeFiles';
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         Mockery::close();

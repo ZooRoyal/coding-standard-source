@@ -6,6 +6,7 @@ namespace Zooroyal\CodingStandard\Tests\Unit\CommandLine\StaticCodeAnalysis\Gene
 
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\Process;
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
@@ -20,6 +21,7 @@ class NpmCommandFinderTest extends TestCase
     /** @var array<MockInterface> */
     private array $subjectParameters;
 
+    #[Override]
     protected function setUp(): void
     {
         $subjectFactory = new SubjectFactory();
@@ -30,6 +32,7 @@ class NpmCommandFinderTest extends TestCase
         $this->subjectParameters = $buildFragments['parameters'];
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         Mockery::close();

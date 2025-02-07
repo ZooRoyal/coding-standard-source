@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\ExclusionList\Excluders;
 
+use Override;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfoFactory;
 
 class StaticExcluder implements ExcluderInterface
 {
     /** @var array<string> */
-    private const PATHS_TO_EXCLUDE
+    private const array PATHS_TO_EXCLUDE
         = [
             '.git',
             '.idea',
@@ -41,9 +42,10 @@ class StaticExcluder implements ExcluderInterface
      *
      * @return array<EnhancedFileInfo>
      */
+    #[Override]
     public function getPathsToExclude(array $alreadyExcludedPaths, array $config = []): array
     {
-        if (!empty($this->cache)) {
+        if ($this->cache !== []) {
             return $this->cache;
         }
 
