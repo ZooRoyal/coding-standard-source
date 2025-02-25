@@ -14,8 +14,8 @@ class DisallowMixedParameterTypeHintSniffTest extends TestCase
 {
     private const string SNIFF_NAME = 'Zooroyal.TypeHints.DisallowMixedParameterTypeHint';
 
-    private const string FIXTURE_DIRECTORY =
-        'tests/Functional/Sniffs/Rdss/Standards/ZooRoyal/Sniffs/TypeHints/Fixtures/Parameter/';
+    private const string FIXTURE_DIRECTORY
+        = 'tests/Functional/Sniffs/Rdss/Standards/ZooRoyal/Sniffs/TypeHints/Fixtures/Parameter/';
 
     private static string $vendorDir;
     /** @var array<string> */
