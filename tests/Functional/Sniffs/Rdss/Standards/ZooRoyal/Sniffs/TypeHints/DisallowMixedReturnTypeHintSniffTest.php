@@ -14,7 +14,8 @@ class DisallowMixedReturnTypeHintSniffTest extends TestCase
 {
     private const string SNIFF_NAME = 'Zooroyal.TypeHints.DisallowMixedReturnTypeHint';
 
-    private const string FIXTURE_DIRECTORY = 'tests/Functional/Sniffs/Rdss/Standards/ZooRoyal/Sniffs/TypeHints/Fixtures/ReturnType/';
+    private const string FIXTURE_DIRECTORY =
+        'tests/Functional/Sniffs/Rdss/Standards/ZooRoyal/Sniffs/TypeHints/Fixtures/ReturnType/';
 
     private static string $vendorDir;
     /** @var array<string> */

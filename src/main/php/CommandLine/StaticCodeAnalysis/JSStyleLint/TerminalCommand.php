@@ -33,7 +33,8 @@ class TerminalCommand extends AbstractTerminalCommand implements
     use FileExtensionTrait;
     use VerboseTrait;
 
-    private const string TEMPLATE = 'npx %6$s--no-install stylelint %3$s %4$s%5$s--allow-empty-input --config-basedir --config=%1$s%2$s';
+    private const string TEMPLATE =
+        'npx %6$s--no-install stylelint %3$s %4$s%5$s--allow-empty-input --config-basedir --config=%1$s%2$s';
 
     /**
      * TerminalCommand constructor.
