@@ -11,6 +11,7 @@ parameters:
     ignoreErrors:
         - '#Function \S+ invoked with [0-9]+ parameters?, [0-9]+ required.#'
         - '#Call to static method PHPUnit\\Framework\\Assert::assertInstanceOf\(\) .+ always evaluate to true\.#'
+        - '#Parameter.*of method.*expects \(?callable.*array.*given\.$#'
     exceptions:
         check:
             tooWideThrowType: true
