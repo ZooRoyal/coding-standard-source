@@ -12,6 +12,7 @@ parameters:
         - '#Function \S+ invoked with [0-9]+ parameters?, [0-9]+ required.#'
         - '#Call to static method PHPUnit\\Framework\\Assert::assertInstanceOf\(\) .+ always evaluate to true\.#'
         - '#Parameter.*of method.*expects \(?callable.*array.*given\.$#'
+        - '#Call to an undefined method Mockery\\ExpectationInterface\|Mockery\\ExpectsHigherOrderMessage#'
     exceptions:
         check:
             tooWideThrowType: true

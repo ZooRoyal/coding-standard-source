@@ -39,9 +39,8 @@ class FindFilesToCheckCommand extends Command
 
     /**
      * Builds InputDefinition for Command
-     *
-     * @SuppressWarnings("PHPMD.ExcessiveMethodLength")
      */
+    // phpcs:ignore SlevomatCodingStandard.Functions.FunctionLength
     private function buildInputDefinition(): InputDefinition
     {
         return new InputDefinition(

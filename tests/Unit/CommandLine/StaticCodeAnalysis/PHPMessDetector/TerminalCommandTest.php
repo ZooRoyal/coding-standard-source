@@ -85,10 +85,9 @@ class TerminalCommandTest extends TestCase
     /**
      * This data provider needs to be long because it contains all testing data.
      *
-     * @SuppressWarnings("PHPMD.ExcessiveMethodLength")
-     *
      * @return array<string,array<int,TerminalCommandTestData>>
      */
+    // phpcs:ignore SlevomatCodingStandard.Functions.FunctionLength
     public function terminalCommandCompilationDataProvider(): array
     {
         $mockedEnhancedFileInfoExcluded1 = Mockery::mock(EnhancedFileInfo::class);
