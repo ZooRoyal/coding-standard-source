@@ -5,6 +5,7 @@ declare(strict_types=1);
 use DI\Container;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
+use PhpParser\PhpVersion;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -20,6 +21,7 @@ use Zooroyal\CodingStandard\CommandLine\ExclusionList\Excluders\StaticExcluder;
 use Zooroyal\CodingStandard\CommandLine\ExclusionList\Excluders\TokenExcluder;
 use Zooroyal\CodingStandard\CommandLine\FileSearch\FastCachedFileSearch;
 use Zooroyal\CodingStandard\CommandLine\FileSearch\FileSearchInterface;
+use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\ComposerInterpreter;
 
 use function DI\factory;
 use function DI\get;
@@ -31,7 +33,10 @@ return [
     InputInterface::class => get(ArgvInput::class),
     OutputInterface::class => get(ConsoleOutput::class),
     Parser::class => factory(
-        static fn(ContainerInterface $container) => $container->get(ParserFactory::class)->create(ParserFactory::PREFER_PHP7)
+        static function (ContainerInterface $container, ComposerInterpreter $composerInterpreter) {
+            $phpversion = PhpVersion::fromString($composerInterpreter->getMinimalViablePhpVersion());
+            return $container->get(ParserFactory::class)->createForVersion($phpversion);
+        }
     ),
 
     'excluders' => factory(

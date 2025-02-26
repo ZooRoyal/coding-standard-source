@@ -13,6 +13,7 @@ use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use Zooroyal\CodingStandard\CommandLine\ApplicationLifeCycle\ContainerFactory;
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
+use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\ComposerInterpreter;
 use Zooroyal\CodingStandard\Sniffs\Rdss\Standards\ZooRoyal\Sniffs\Safe\CheckSafeFunctionUsageSniff;
 
 class CheckSafeFunctionUsageSniffTest extends TestCase
@@ -45,10 +46,13 @@ class CheckSafeFunctionUsageSniffTest extends TestCase
         $mockedContainer = Mockery::mock(Container::class);
         $mockedEnvironment = Mockery::mock(Environment::class);
         $mockedFile = Mockery::mock(File::class);
+        $mockedComposerInterpreter = Mockery::mock(ComposerInterpreter::class);
 
         $mockedContainerFactory->expects()->getContainerInstance()->andReturn($mockedContainer);
         $mockedContainer->expects()->get(Environment::class)->andReturn($mockedEnvironment);
+        $mockedContainer->expects()->get(ComposerInterpreter::class)->andReturn($mockedComposerInterpreter);
         $mockedEnvironment->shouldReceive('getRootDirectory->getRealPath')->andReturn('/foo/bar');
+        $mockedComposerInterpreter->expects()->getMinimalViablePhpVersion()->andReturn('8.4.3');
 
         $this->expectExceptionObject(
             new RuntimeException(

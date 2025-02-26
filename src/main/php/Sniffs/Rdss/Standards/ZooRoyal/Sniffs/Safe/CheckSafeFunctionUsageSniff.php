@@ -17,7 +17,7 @@ use SlevomatCodingStandard\Helpers\UseStatementHelper;
 use Zooroyal\CodingStandard\CommandLine\ApplicationLifeCycle\ContainerFactory;
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\ComposerInterpreter;
-use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\PhpVersionConverter;
+
 use function Safe\file_get_contents;
 use function Safe\scandir;
 
@@ -36,7 +36,8 @@ class CheckSafeFunctionUsageSniff implements Sniff
         list($major, $minor) = explode('.', $phpversion);
 
         $environment = $container->get(Environment::class);
-        $path = $environment->getRootDirectory()->getRealPath() . '/vendor/thecodingmachine/safe/generated/' . $major . '.' . $minor . '/';
+        $path = $environment->getRootDirectory()->getRealPath() . '/vendor/thecodingmachine/safe/generated/'
+            . $major . '.' . $minor . '/';
         try {
             // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
             $filesUnfiltered = @scandir($path);
@@ -56,7 +57,7 @@ class CheckSafeFunctionUsageSniff implements Sniff
             $nodeFinder = $container->get(NodeFinder::class);
 
             $functions = $nodeFinder->find($ast, static fn(Node $node) => $node instanceof Node\Stmt\Function_);
-            $functionNamesLocal = array_map(static fn(Node\Stmt\Function_ $node) => (string)$node->name, $functions);
+            $functionNamesLocal = array_map(static fn(Node\Stmt\Function_ $node) => (string) $node->name, $functions);
 
             $functionNames = [...$functionNames, ...$functionNamesLocal];
         }

@@ -225,9 +225,17 @@
     <rule ref="SlevomatCodingStandard.TypeHints.PropertyTypeHint"/>
     <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint"/>
     <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing"/>
-    <rule ref="SlevomatCodingStandard.TypeHints.UnionTypeHintFormat">
+<!--    <rule ref="SlevomatCodingStandard.TypeHints.UnionTypeHintFormat">-->
+<!--        <properties>-->
+<!--            <property name="withSpaces" type="bool" value="false"/>-->
+<!--            <property name="shortNullable" type="bool" value="true"/>-->
+<!--            <property name="nullPosition" type="bool" value="last"/>-->
+<!--        </properties>-->
+<!--    </rule>-->
+    <rule ref="SlevomatCodingStandard.TypeHints.DNFTypeHintFormat">
         <properties>
-            <property name="withSpaces" type="bool" value="false"/>
+            <property name="withSpacesAroundOperators" type="bool" value="false"/>
+            <property name="withSpacesInsideParentheses" type="bool" value="false"/>
             <property name="shortNullable" type="bool" value="true"/>
             <property name="nullPosition" type="bool" value="last"/>
         </properties>
