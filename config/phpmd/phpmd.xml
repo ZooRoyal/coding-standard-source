@@ -9,12 +9,6 @@
     <rule ref="rulesets/codesize.xml/NPathComplexity"/>
     <rule ref="rulesets/codesize.xml/ExcessiveParameterList"/>
 
-    <rule ref="rulesets/codesize.xml/TooManyFields">
-        <properties>
-            <property name="maxfields" value="25"/>
-        </properties>
-    </rule>
-    <rule ref="rulesets/codesize.xml/TooManyMethods"/>
     <rule ref="rulesets/design.xml/ExitExpression"/>
     <rule ref="rulesets/design.xml/EvalExpression"/>
     <rule ref="rulesets/design.xml/GotoStatement"/>

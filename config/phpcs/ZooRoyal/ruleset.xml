@@ -13,6 +13,7 @@
     </rule>
 
     <!-- Custom Rule-->
+    <rule ref="../../../src/main/php/Sniffs/ObjectCalisthenics/Standards/ZooRoyal"/>
     <rule ref="../../../src/main/php/Sniffs/PHPCodeSniffer/Standards/ZooRoyal"/>
     <rule ref="../../../src/main/php/Sniffs/Rdss/Standards/ZooRoyal"/>
 

@@ -32,6 +32,7 @@
     "composer/semver": "^3.4",
     "dealerdirect/phpcodesniffer-composer-installer": "^1.0.0",
     "nette/neon": "^3.3",
+    "nette/utils": "^4.0",
     "nikic/php-parser": "^5.4.0",
     "php-di/php-di": "^7.0.1",
     "slevomat/coding-standard": "^8.10.0",
