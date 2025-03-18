@@ -10,9 +10,7 @@ use Zooroyal\CodingStandard\Sniffs\ObjectCalisthenics\Standards\ZooRoyal\Excepti
 
 final class ClassAnalyzer
 {
-    /**
-     * @var array<mixed>
-     */
+    /** @var array<mixed> */
     private static array $propertyList = [];
 
     public static function getClassMethodCount(File $file, int $position): int

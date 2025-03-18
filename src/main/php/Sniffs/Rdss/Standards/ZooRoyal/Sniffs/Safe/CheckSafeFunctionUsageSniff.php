@@ -68,7 +68,7 @@ class CheckSafeFunctionUsageSniff implements Sniff
     /**
      * Description is in the inherited doc.
      *
-     * @{inheritDoc}
+     * {@inheritDoc}
      *
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ReturnTypeHint.MissingTraversableTypeHintSpecification We must
      *                stay compatible with the interface even if we don't like it.
@@ -84,7 +84,7 @@ class CheckSafeFunctionUsageSniff implements Sniff
     /**
      * Description is in the inherited doc.
      *
-     * @{inheritDoc}
+     * {@inheritDoc}
      *
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingAnyTypeHint We must
      *                stay compatible with the interface even if we don't like it.

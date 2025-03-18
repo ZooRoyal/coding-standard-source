@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Zooroyal\CodingStandard\Tests\Functional\Sniffs\ObjectsCallisthenics\Standards\ZooRoyal\Sniffs\Metrics\PropertyPerClassLimit;
 
 use Composer\Autoload\ClassLoader;
@@ -7,11 +9,9 @@ use Override;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use Symfony\Component\Process\Process;
-use Zooroyal\CodingStandard\Sniffs\ObjectCalisthenics\Standards\ZooRoyal\Sniffs\Metrics\MethodPerClassLimitSniff;
 
 class PropertyPerClassLimitSniffTest extends TestCase
 {
-
     private const string SNIFF_NAME = 'ZooRoyal.Metrics.PropertyPerClassLimit';
 
     private const string FIXTURE_DIRECTORY_WRONG

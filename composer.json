@@ -50,7 +50,7 @@
     "amphp/process": "^v1.1.4",
     "brianium/paratest": "^v6.11.1",
     "infection/infection": ">=0.29.12",
-    "mockery/mockery": "^1.6.12",
+    "mockery/mockery": "1.6.11",
     "phpunit/phpunit": "^9.6.16",
     "roave/security-advisories": "dev-latest",
     "sebastianknott/hamcrest-object-accessor": "^3.0.0"

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Zooroyal\CodingStandard\Tests\Functional\Sniffs\ObjectsCallisthenics\Standards\ZooRoyal\Sniffs\Metrics\MethodPerClassLimit;
 
 use Composer\Autoload\ClassLoader;
@@ -10,7 +12,6 @@ use Symfony\Component\Process\Process;
 
 class MethodPerClassLimitSniffTest extends TestCase
 {
-
     private const string SNIFF_NAME = 'ZooRoyal.Metrics.MethodPerClassLimit';
 
     private const string FIXTURE_DIRECTORY
