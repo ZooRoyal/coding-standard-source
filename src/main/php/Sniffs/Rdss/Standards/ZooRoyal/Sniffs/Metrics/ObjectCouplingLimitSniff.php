@@ -38,7 +38,12 @@ final class ObjectCouplingLimitSniff implements Sniff
     public function process(File $file, $position): void
     {
         $usesCount = 0;
+        $tokens = $file->getTokens();
         $pointer = 0;
+        while (($next = $file->findNext(T_COMMENT, $pointer + 1)) !== false) {
+            var_dump($tokens[$next]);
+            $pointer = $next;
+        }
         while (($next = $file->findNext(T_USE, $pointer + 1)) !== false) {
             $usesCount++;
             $pointer = $next;

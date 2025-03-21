@@ -1,9 +1,11 @@
 <?php
 
 declare(strict_types=1);
+
 // phpcs:disable
 namespace Zooroyal\CodingStandard\Tests\Functional\Sniffs\ObjectsCallisthenics\Standards\ZooRoyal\Sniffs\Metrics\PropertyPerClassLimit;
 // phpcs:enable
+
 use Composer\Autoload\ClassLoader;
 use Override;
 use PHPUnit\Framework\TestCase;

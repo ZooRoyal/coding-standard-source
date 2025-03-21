@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\Tests\Unit\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Target;
-// phpcs:disable
+
 use Mockery;
 use Mockery\MockInterface;
 use Override;
@@ -21,11 +21,11 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalComma
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\TerminalCommandDecorator;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\ToolCommandFacet\TargetableInputFacet;
 use Zooroyal\CodingStandard\Tests\Tools\SubjectFactory;
-// phpcs:enable
+
 /**
  * This is a very busy test and needs all the objects ;/
  *
- * @SuppressWarnings("PHPMD.CouplingBetweenObjects")
+ * @phpcsSuppress ZooRoyal.Metrics.ObjectCouplingLimit.ObjectCouplingLimit
  */
 class TargetDecoratorTest extends TestCase
 {
