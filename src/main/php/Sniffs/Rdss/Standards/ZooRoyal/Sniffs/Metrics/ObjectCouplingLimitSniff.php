@@ -28,12 +28,12 @@ final class ObjectCouplingLimitSniff implements Sniff
     {
         $usesCount = 0;
         $pointer = 0;
-        $className = $file->getTokens()[$file->findNext(T_STRING, $position)]['content'];
         while (($next = $file->findNext(T_USE, $pointer + 1)) !== false) {
             $usesCount++;
             $pointer = $next;
         }
         if ($usesCount > $this->maxCount) {
+            $className = $file->getTokens()[$file->findNext(T_STRING, $position)]['content'];
             $message = sprintf(self::ERROR_MESSAGE, $className, $usesCount, $this->maxCount + 1);
             $file->addError($message, $position, 'ParameterPerMethodLimit');
         }

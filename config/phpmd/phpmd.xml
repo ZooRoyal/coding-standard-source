@@ -7,8 +7,6 @@
     <description>ZooRoyal Ruleset for PHP MessDetector
     </description>
     <rule ref="rulesets/codesize.xml/NPathComplexity"/>
-
-
     <rule ref="rulesets/design.xml/DepthOfInheritance"/>
 
 
