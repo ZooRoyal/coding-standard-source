@@ -23,6 +23,11 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalComma
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Verbose\VerboseDecorator;
 use Zooroyal\CodingStandard\Tests\Tools\SubjectFactory;
 
+/**
+ * Class EventDispatcherFactoryTest
+ *
+ * @phpcsSuppress ZooRoyal.Metrics.ObjectCouplingLimit
+ */
 class EventDispatcherFactoryTest extends TestCase
 {
     private EventDispatcherFactory $subject;

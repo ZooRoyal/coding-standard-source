@@ -25,7 +25,7 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\ToolCommandFa
 /**
  * Class AllToolsCommandTest
  *
- * @phpcsSuppress ZooRoyal.Metrics.ObjectCouplingLimit.ObjectCouplingLimit
+ * @phpcsSuppress ZooRoyal.Metrics.ObjectCouplingLimit
  */
 class AllToolsCommandTest extends TestCase
 {

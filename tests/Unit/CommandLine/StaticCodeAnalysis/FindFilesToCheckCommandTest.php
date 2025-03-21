@@ -25,7 +25,7 @@ use Zooroyal\CodingStandard\Tests\Tools\SubjectFactory;
 /**
  * Class FindFilesToCheckCommandTest
  *
- * @phpcsSuppress ZooRoyal.Metrics.ObjectCouplingLimit.ObjectCouplingLimit
+ * @phpcsSuppress ZooRoyal.Metrics.ObjectCouplingLimit
  */
 class FindFilesToCheckCommandTest extends TestCase
 {

@@ -25,7 +25,7 @@ use Zooroyal\CodingStandard\Tests\Tools\SubjectFactory;
 /**
  * This is a very busy test and needs all the objects ;/
  *
- * @phpcsSuppress ZooRoyal.Metrics.ObjectCouplingLimit.ObjectCouplingLimit
+ * @phpcsSuppress ZooRoyal.Metrics.ObjectCouplingLimit
  */
 class TargetDecoratorTest extends TestCase
 {

@@ -6,11 +6,13 @@ namespace Zooroyal\CodingStandard\Sniffs\Rdss\Standards\ZooRoyal\Sniffs\Metrics;
 
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
+use SlevomatCodingStandard\Helpers\SuppressHelper;
 
 final class ObjectCouplingLimitSniff implements Sniff
 {
     private const string ERROR_MESSAGE
         = 'The class %s has a coupling between objects value of %s. Consider to reduce the number of dependencies under %s.';
+    private const string NAME = 'ZooRoyal.Metrics.ObjectCouplingLimit';
 
     public int $maxCount = 15;
 
@@ -37,6 +39,10 @@ final class ObjectCouplingLimitSniff implements Sniff
      */
     public function process(File $file, $position): void
     {
+        if (SuppressHelper::isSniffSuppressed($file, $position, self::NAME)) {
+            return;
+        }
+
         $usesCount = 0;
         $tokens = $file->getTokens();
         $pointer = 0;

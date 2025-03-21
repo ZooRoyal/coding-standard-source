@@ -25,6 +25,11 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPParallelLint\PHPPa
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPStan\PHPStanCommand;
 use Zooroyal\CodingStandard\Tests\Tools\SubjectFactory;
 
+/**
+ * Class ApplicationFactoryTest
+ *
+ * @phpcsSuppress ZooRoyal.Metrics.ObjectCouplingLimit
+ */
 class ApplicationFactoryTest extends TestCase
 {
     private ApplicationFactory $subject;

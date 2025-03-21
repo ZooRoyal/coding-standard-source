@@ -11,10 +11,7 @@ use Zooroyal\CodingStandard\Tests\Unit\Sniffs\ObjectsCallisthenics\FileFactory;
 
 final class ClassAnalyzerTest extends TestCase
 {
-    /**
-     * @var int
-     */
-    private const CLASS_POSITION = 3;
+    private const int CLASS_POSITION = 3;
 
     private File $file;
 

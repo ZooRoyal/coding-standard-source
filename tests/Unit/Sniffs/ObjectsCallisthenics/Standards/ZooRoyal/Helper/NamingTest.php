@@ -10,20 +10,11 @@ use Zooroyal\CodingStandard\Tests\Unit\Sniffs\ObjectsCallisthenics\FileFactory;
 
 final class NamingTest extends TestCase
 {
-    /**
-     * @var int
-     */
-    private const CLASS_POSITION = 4;
+    private const int CLASS_POSITION = 4;
 
-    /**
-     * @var int
-     */
-    private const CONSTANT_POSITION = 12;
+    private const int CONSTANT_POSITION = 12;
 
-    /**
-     * @var int
-     */
-    private const PROPERTY_POSITION = 25;
+    private const int PROPERTY_POSITION = 25;
 
     private FileFactory $fileFactory;
 

@@ -10,7 +10,7 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Ruleset;
 use PHP_CodeSniffer\Util\Tokens;
 
-use function \Safe\define;
+use function Safe\define;
 
 final class FileFactory
 {

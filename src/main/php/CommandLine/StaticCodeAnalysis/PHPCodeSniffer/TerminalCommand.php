@@ -26,6 +26,7 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalComma
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Verbose\VerboseTerminalCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Verbose\VerboseTrait;
 
+/** @phpcsSuppress ZooRoyal.Metrics.ObjectCouplingLimit */
 class TerminalCommand extends AbstractTerminalCommand implements
     FixTerminalCommand,
     TargetTerminalCommand,
