@@ -13,13 +13,27 @@ final class ParameterPerMethodLimitSniff implements Sniff
 
     public int $maxCount = 10;
 
-    /** @return array<int> */
+    /**
+     * Description is in the inherited doc.
+     *
+     * {@inheritDoc}
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingAnyTypeHint We must
+     *                stay compatible with the interface even if we don't like it.
+     */
     public function register(): array
     {
         return [T_FUNCTION];
     }
 
-    /** @param int $position */
+    /**
+     * Description is in the inherited doc.
+     *
+     * {@inheritDoc}
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingAnyTypeHint We must
+     *                stay compatible with the interface even if we don't like it.
+     */
     public function process(File $file, $position): void
     {
         $parameterCount = $this->getParameterCount($file, $position);

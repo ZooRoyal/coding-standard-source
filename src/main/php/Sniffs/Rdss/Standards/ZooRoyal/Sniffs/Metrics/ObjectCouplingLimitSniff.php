@@ -9,21 +9,32 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 
 final class ObjectCouplingLimitSniff implements Sniff
 {
-    /**
-     * @var string
-     */
-    private const string ERROR_MESSAGE = 'The class %s has a coupling between objects value of %s. Consider to reduce the number of dependencies under %s.';
+    private const string ERROR_MESSAGE =
+        'The class %s has a coupling between objects value of %s. Consider to reduce the number of dependencies under %s.';
 
     public int $maxCount = 15;
 
     /**
-     * @return array<int>
+     * Description is in the inherited doc.
+     *
+     * {@inheritDoc}
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingAnyTypeHint We must
+     *                stay compatible with the interface even if we don't like it.
      */
     public function register(): array
     {
         return [T_CLASS, T_INTERFACE, T_TRAIT];
     }
 
+    /**
+     * Description is in the inherited doc.
+     *
+     * {@inheritDoc}
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingAnyTypeHint We must
+     *                stay compatible with the interface even if we don't like it.
+     */
     public function process(File $file, $position): void
     {
         $usesCount = 0;
