@@ -9,8 +9,8 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 
 final class ObjectCouplingLimitSniff implements Sniff
 {
-    private const string ERROR_MESSAGE =
-        'The class %s has a coupling between objects value of %s. Consider to reduce the number of dependencies under %s.';
+    private const string ERROR_MESSAGE
+        = 'The class %s has a coupling between objects value of %s. Consider to reduce the number of dependencies under %s.';
 
     public int $maxCount = 15;
 
@@ -46,7 +46,7 @@ final class ObjectCouplingLimitSniff implements Sniff
         if ($usesCount > $this->maxCount) {
             $className = $file->getTokens()[$file->findNext(T_STRING, $position)]['content'];
             $message = sprintf(self::ERROR_MESSAGE, $className, $usesCount, $this->maxCount + 1);
-            $file->addError($message, $position, 'ParameterPerMethodLimit');
+            $file->addError($message, $position, 'ObjectCouplingLimit');
         }
     }
 }
