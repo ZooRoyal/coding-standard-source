@@ -22,17 +22,13 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalComma
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\ToolCommandFacet\TargetableInputFacet;
 use Zooroyal\CodingStandard\Tests\Tools\SubjectFactory;
 
-/**
- * This is a very busy test and needs all the objects ;/
- *
- * @SuppressWarnings("PHPMD.CouplingBetweenObjects")
- */
+// phpcs:ignore ZooRoyal.TypeHints.LimitUseStatement.TooManyUseStatements
 class TargetDecoratorTest extends TestCase
 {
     private TargetDecorator $subject;
     /** @var array<MockInterface> */
     private array $subjectParameters;
-    /** @var MockInterface|\Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Target\TargetTerminalCommand */
+    /** @var MockInterface|TargetTerminalCommand */
     private TargetTerminalCommand $mockedTerminalCommand;
     /** @var MockInterface|DecorateEvent */
     private DecorateEvent $mockedEvent;

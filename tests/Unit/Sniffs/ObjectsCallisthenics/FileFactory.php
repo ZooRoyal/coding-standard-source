@@ -10,6 +10,8 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Ruleset;
 use PHP_CodeSniffer\Util\Tokens;
 
+use function Safe\define;
+
 final class FileFactory
 {
     public function __construct()
@@ -23,6 +25,7 @@ final class FileFactory
 
         // initialize Token constants
         if (! defined('T_NONE')) {
+            // @phpstan-ignore-next-line
             new Tokens();
         }
     }

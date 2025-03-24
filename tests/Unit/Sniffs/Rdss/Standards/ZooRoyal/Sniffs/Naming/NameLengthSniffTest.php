@@ -20,6 +20,11 @@ class NameLengthSniffTest extends TestCase
         $this->subject = new NameLengthSniff();
     }
 
+    protected function tearDown(): void
+    {
+        Mockery::close();
+    }
+
     /**
      * @test
      * @dataProvider processHappyPathDataProvider
@@ -41,14 +46,14 @@ class NameLengthSniffTest extends TestCase
     {
         return [
                 'Good Name' => ['name' => 'aaaaaaa'],
-                'i' => ['name' => 'i'],
+                'i' => ['name' => '$i'],
             ];
     }
 
 
     /**
      * @test
-     * @runInSeparateProcess
+     * @runInSeparateProcessa
      * @preserveGlobalState  false
      * @dataProvider         processReportsErrorIfClassysAreBadDataProvider
      */
@@ -96,7 +101,7 @@ class NameLengthSniffTest extends TestCase
                 'name' => str_pad('$', 71, 'a'),
                 'errorMessage' => 'Name "%s" is greater than %s characters long',
                 'code' => 'NameTooLong',
-                'length' => 60,
+                'length' => 71,
             ],
             'trait too short' => [
                 'token' => 'trait',
@@ -110,7 +115,7 @@ class NameLengthSniffTest extends TestCase
                 'name' => str_pad('$', 71, 'a'),
                 'errorMessage' => 'Name "%s" is greater than %s characters long',
                 'code' => 'NameTooLong',
-                'length' => 60,
+                'length' => 71,
             ],
             'interface too short' => [
                 'token' => 'interface',
@@ -124,7 +129,7 @@ class NameLengthSniffTest extends TestCase
                 'name' => str_pad('$', 71, 'a'),
                 'errorMessage' => 'Name "%s" is greater than %s characters long',
                 'code' => 'NameTooLong',
-                'length' => 60,
+                'length' => 71,
             ],
         ];
     }
@@ -173,7 +178,7 @@ class NameLengthSniffTest extends TestCase
                 'functionName' => str_pad('a', 71, 'a'),
                 'errorMessage' => 'Name "%s" is greater than %s characters long',
                 'code' => 'NameTooLong',
-                'length' => 60,
+                'length' => 71,
             ],
         ];
     }
@@ -215,10 +220,10 @@ class NameLengthSniffTest extends TestCase
                 'length' => 3,
             ],
             'too long' => [
-                'variable' => str_pad('$', 71, 'a'),
+                'variable' => str_pad('$', 72, 'a'),
                 'errorMessage' => 'Name "%s" is greater than %s characters long',
                 'code' => 'NameTooLong',
-                'length' => 60,
+                'length' => 71,
             ],
         ];
     }

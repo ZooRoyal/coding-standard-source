@@ -8,21 +8,15 @@ use PHPUnit\Framework\TestCase;
 use Zooroyal\CodingStandard\Sniffs\ObjectCalisthenics\Standards\ZooRoyal\Helper\NamingHelper;
 use Zooroyal\CodingStandard\Tests\Unit\Sniffs\ObjectsCallisthenics\FileFactory;
 
-final class NamingTest extends TestCase
+final class NamingHelperTest extends TestCase
 {
-    /**
-     * @var int
-     */
+    /** @var int */
     private const CLASS_POSITION = 4;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     private const CONSTANT_POSITION = 12;
 
-    /**
-     * @var int
-     */
+    /** @var int */
     private const PROPERTY_POSITION = 25;
 
     private FileFactory $fileFactory;

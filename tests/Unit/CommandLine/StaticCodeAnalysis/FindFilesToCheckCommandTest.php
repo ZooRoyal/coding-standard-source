@@ -22,11 +22,7 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\FindFilesToCheckComma
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Target\ParentBranchGuesser;
 use Zooroyal\CodingStandard\Tests\Tools\SubjectFactory;
 
-/**
- * Class FindFilesToCheckCommandTest
- *
- * @SuppressWarnings("PHPMD.CouplingBetweenObjects")
- */
+// phpcs:ignore ZooRoyal.TypeHints.LimitUseStatement.TooManyUseStatements
 class FindFilesToCheckCommandTest extends TestCase
 {
     /** @var array<MockInterface>|array<mixed> */

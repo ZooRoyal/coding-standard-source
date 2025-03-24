@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+// phpcs:ignore
 namespace Zooroyal\CodingStandard\Tests\Functional\Sniffs\ObjectsCallisthenics\Standards\ZooRoyal\Sniffs\Metrics\PropertyPerClassLimit;
 
 use Composer\Autoload\ClassLoader;

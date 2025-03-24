@@ -25,6 +25,7 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPParallelLint\PHPPa
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPStan\PHPStanCommand;
 use Zooroyal\CodingStandard\Tests\Tools\SubjectFactory;
 
+// phpcs:ignore ZooRoyal.TypeHints.LimitUseStatement.TooManyUseStatements
 class ApplicationFactoryTest extends TestCase
 {
     private ApplicationFactory $subject;

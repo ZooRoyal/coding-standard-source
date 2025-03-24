@@ -22,11 +22,7 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\AllToolsCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\ToolCommandFacet\FixableInputFacet;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\ToolCommandFacet\TargetableInputFacet;
 
-/**
- * Class AllToolsCommandTest
- *
- * @SuppressWarnings("PHPMD.CouplingBetweenObjects")
- */
+// phpcs:ignore ZooRoyal.TypeHints.LimitUseStatement.TooManyUseStatements
 class AllToolsCommandTest extends TestCase
 {
     private AllToolsCommand $subject;

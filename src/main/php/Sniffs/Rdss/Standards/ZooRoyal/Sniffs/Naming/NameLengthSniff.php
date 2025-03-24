@@ -18,9 +18,6 @@ class NameLengthSniff implements Sniff
      * Description is in the inherited doc.
      *
      * {@inheritDoc}
-     *
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingAnyTypeHint We must
-     *                stay compatible with the interface even if we don't like it.
      */
     public function register()
     {
@@ -31,9 +28,6 @@ class NameLengthSniff implements Sniff
      * Description is in the inherited doc.
      *
      * {@inheritDoc}
-     *
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingAnyTypeHint We must
-     *                stay compatible with the interface even if we don't like it.
      */
     public function process(File $phpcsFile, $stackPtr)
     {

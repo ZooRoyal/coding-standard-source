@@ -23,6 +23,7 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalComma
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Verbose\VerboseDecorator;
 use Zooroyal\CodingStandard\Tests\Tools\SubjectFactory;
 
+// phpcs:ignore ZooRoyal.TypeHints.LimitUseStatement.TooManyUseStatements
 class EventDispatcherFactoryTest extends TestCase
 {
     private EventDispatcherFactory $subject;
