@@ -25,7 +25,8 @@ final class FileFactory
 
         // initialize Token constants
         if (! defined('T_NONE')) {
-            define('_TOKENS_LOADED_FROM_CLASS', Tokens::class); //trigger autoload of Tokens class
+            //trigger autoload of Tokens class
+            define('_TOKENS_LOADED_FROM_CLASS', Tokens::class);
         }
     }
 
