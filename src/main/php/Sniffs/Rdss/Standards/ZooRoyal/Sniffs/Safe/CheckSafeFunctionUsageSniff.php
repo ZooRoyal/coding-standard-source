@@ -41,7 +41,10 @@ class CheckSafeFunctionUsageSniff implements Sniff
         $path = $environment->getRootDirectory()->getRealPath() . '/vendor/thecodingmachine/safe/generated/'
             . $major . '.' . $minor . '/';
         if (!$fileSystem->exists($path)) {
-            throw new DirException(sprintf('Path "%s" does not exist!', $path), 1742901391);
+            throw new DirException(
+                sprintf('Path "%s" does not exist! Did you install thecodingmachine/safe >= 3', $path),
+                1742901391
+            );
         }
         try {
             // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged

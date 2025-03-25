@@ -20,6 +20,13 @@ use Zooroyal\CodingStandard\Sniffs\Rdss\Standards\ZooRoyal\Sniffs\Safe\CheckSafe
 
 class CheckSafeFunctionUsageSniffTest extends TestCase
 {
+    #[Override]
+    protected function tearDown(): void
+    {
+        Mockery::close();
+        parent::tearDown();
+    }
+
     /**
      * @test
      */
@@ -90,10 +97,11 @@ class CheckSafeFunctionUsageSniffTest extends TestCase
             $subject = new CheckSafeFunctionUsageSniff();
         } catch (DirException $exception) {
             self::assertSame(
-                'Path "/foo/bar/vendor/thecodingmachine/safe/generated/8.4/" does not exist!',
+                'Path "/foo/bar/vendor/thecodingmachine/safe/generated/8.4/" does not exist! '
+                . 'Did you install thecodingmachine/safe >= 3',
                 $exception->getMessage()
             );
-            self::assertSame(1742901391 , $exception->getCode());
+            self::assertSame(1742901391, $exception->getCode());
         }
     }
 
@@ -106,12 +114,5 @@ class CheckSafeFunctionUsageSniffTest extends TestCase
         $result = $subject->register();
 
         self::assertSame([T_STRING], $result);
-    }
-
-    #[Override]
-    protected function tearDown(): void
-    {
-        Mockery::close();
-        parent::tearDown();
     }
 }
