@@ -47,6 +47,7 @@ class FastCachedFileSearchTest extends TestCase
             Matchers::allOf(
                 Matchers::containsInAnyOrder([
                     'src/main/php/Sniffs/PHPCodeSniffer/.dontSniffPHP',
+                    'src/main/php/Sniffs/ObjectCalisthenics/.dontSniffPHP',
                     'tests/Functional/Sniffs/PHPCodesniffer/Standards/ZooRoyal/Sniffs/Commenting/Fixtures/.dontSniffPHP',
                     'tests/Functional/Sniffs/Rdss/Standards/ZooRoyal/Sniffs/TypeHints/Fixtures/Parameter/.dontSniffPHP',
                     'tests/Functional/Sniffs/Rdss/Standards/ZooRoyal/Sniffs/TypeHints/Fixtures/ReturnType/.dontSniffPHP',
@@ -73,6 +74,7 @@ class FastCachedFileSearchTest extends TestCase
             Matchers::allOf(
                 Matchers::containsInAnyOrder([
                     'src/main/php/Sniffs/PHPCodeSniffer/.dontSniffPHP',
+                    'src/main/php/Sniffs/ObjectCalisthenics/.dontSniffPHP',
                 ]),
                 Matchers::not(
                     Matchers::containsInAnyOrder([
@@ -108,6 +110,7 @@ class FastCachedFileSearchTest extends TestCase
         MatcherAssert::assertThat(
             $resultPaths,
             Matchers::containsInAnyOrder(
+                'src/main/php/Sniffs/ObjectCalisthenics/.dontSniffPHP',
                 'tests/Functional/Sniffs/PHPCodesniffer/Standards/ZooRoyal/Sniffs/Commenting/Fixtures/.dontSniffPHP',
                 'tests/Functional/Sniffs/Rdss/Standards/ZooRoyal/Sniffs/TypeHints/Fixtures/Parameter/.dontSniffPHP',
                 'tests/Functional/Sniffs/Rdss/Standards/ZooRoyal/Sniffs/TypeHints/Fixtures/ReturnType/.dontSniffPHP',

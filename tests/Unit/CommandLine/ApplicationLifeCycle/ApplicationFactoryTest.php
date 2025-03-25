@@ -27,9 +27,8 @@ use Zooroyal\CodingStandard\Tests\Tools\SubjectFactory;
 
 /**
  * Class ApplicationFactoryTest
- *
- * @phpcsSuppress ZooRoyal.Metrics.ObjectCouplingLimit
  */
+// phpcs:ignore ZooRoyal.TypeHints.LimitUseStatement.TooManyUseStatements
 class ApplicationFactoryTest extends TestCase
 {
     private ApplicationFactory $subject;

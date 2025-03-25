@@ -25,9 +25,8 @@ use Zooroyal\CodingStandard\Tests\Tools\SubjectFactory;
 
 /**
  * Class EventDispatcherFactoryTest
- *
- * @phpcsSuppress ZooRoyal.Metrics.ObjectCouplingLimit
  */
+// phpcs:ignore ZooRoyal.TypeHints.LimitUseStatement.TooManyUseStatements
 class EventDispatcherFactoryTest extends TestCase
 {
     private EventDispatcherFactory $subject;

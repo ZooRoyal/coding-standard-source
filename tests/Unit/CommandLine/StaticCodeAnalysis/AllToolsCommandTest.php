@@ -24,9 +24,8 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\ToolCommandFa
 
 /**
  * Class AllToolsCommandTest
- *
- * @phpcsSuppress ZooRoyal.Metrics.ObjectCouplingLimit
  */
+// phpcs:ignore ZooRoyal.TypeHints.LimitUseStatement.TooManyUseStatements
 class AllToolsCommandTest extends TestCase
 {
     private AllToolsCommand $subject;

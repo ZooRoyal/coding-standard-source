@@ -24,9 +24,8 @@ use Zooroyal\CodingStandard\Tests\Tools\SubjectFactory;
 
 /**
  * Class FindFilesToCheckCommandTest
- *
- * @phpcsSuppress ZooRoyal.Metrics.ObjectCouplingLimit
  */
+// phpcs:ignore ZooRoyal.TypeHints.LimitUseStatement.TooManyUseStatements
 class FindFilesToCheckCommandTest extends TestCase
 {
     /** @var array<MockInterface>|array<mixed> */

@@ -16,7 +16,7 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalComma
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Target\TargetTerminalCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Target\TargetTrait;
 
-/** @phpcsSuppress ZooRoyal.Metrics.ObjectCouplingLimit */
+// phpcs:ignore ZooRoyal.TypeHints.LimitUseStatement.TooManyUseStatements
 class TerminalCommand extends AbstractTerminalCommand implements
     ExclusionTerminalCommand,
     FileExtensionTerminalCommand,
