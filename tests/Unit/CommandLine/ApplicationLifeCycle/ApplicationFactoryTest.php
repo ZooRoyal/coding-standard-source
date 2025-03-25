@@ -41,7 +41,6 @@ class ApplicationFactoryTest extends TestCase
             PHPCodeSnifferCommand::class,
             PHPStanCommand::class,
             FindFilesToCheckCommand::class,
-            PHPMessDetectorCommand::class,
             PHPCopyPasteDetectorCommand::class,
             JSESLintCommand::class,
             JSStyleLintCommand::class,

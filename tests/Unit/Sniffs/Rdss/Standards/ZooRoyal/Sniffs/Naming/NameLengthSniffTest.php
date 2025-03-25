@@ -20,6 +20,11 @@ class NameLengthSniffTest extends TestCase
         $this->subject = new NameLengthSniff();
     }
 
+    protected function tearDown(): void
+    {
+        Mockery::close();
+    }
+
     /**
      * @test
      * @dataProvider processHappyPathDataProvider
@@ -41,10 +46,11 @@ class NameLengthSniffTest extends TestCase
     {
         return [
                 'Good Name' => ['name' => 'aaaaaaa'],
-                'i' => ['name' => 'i'],
+                'Almost too short name' => ['name' => 'aaa'],
+                'Almost too long name' => ['name' => str_pad('a', 70, 'a')],
+                'i' => ['name' => '$i'],
             ];
     }
-
 
     /**
      * @test
@@ -86,21 +92,21 @@ class NameLengthSniffTest extends TestCase
         return [
             'class too short' => [
                 'token' => 'class',
-                'name' => '$a',
+                'name' => 'aa',
                 'errorMessage' => 'Name "%s" is less than %s characters long',
                 'code' => 'NameTooShort',
                 'length' => 3,
             ],
             'class too long' => [
                 'token' => 'class',
-                'name' => str_pad('$', 71, 'a'),
+                'name' => str_pad('', 71, 'a'),
                 'errorMessage' => 'Name "%s" is greater than %s characters long',
                 'code' => 'NameTooLong',
-                'length' => 60,
+                'length' => 70,
             ],
             'trait too short' => [
                 'token' => 'trait',
-                'name' => '$a',
+                'name' => 'aa',
                 'errorMessage' => 'Name "%s" is less than %s characters long',
                 'code' => 'NameTooShort',
                 'length' => 3,
@@ -110,11 +116,11 @@ class NameLengthSniffTest extends TestCase
                 'name' => str_pad('$', 71, 'a'),
                 'errorMessage' => 'Name "%s" is greater than %s characters long',
                 'code' => 'NameTooLong',
-                'length' => 60,
+                'length' => 70,
             ],
             'interface too short' => [
                 'token' => 'interface',
-                'name' => '$a',
+                'name' => 'aa',
                 'errorMessage' => 'Name "%s" is less than %s characters long',
                 'code' => 'NameTooShort',
                 'length' => 3,
@@ -124,7 +130,7 @@ class NameLengthSniffTest extends TestCase
                 'name' => str_pad('$', 71, 'a'),
                 'errorMessage' => 'Name "%s" is greater than %s characters long',
                 'code' => 'NameTooLong',
-                'length' => 60,
+                'length' => 70,
             ],
         ];
     }
@@ -173,7 +179,7 @@ class NameLengthSniffTest extends TestCase
                 'functionName' => str_pad('a', 71, 'a'),
                 'errorMessage' => 'Name "%s" is greater than %s characters long',
                 'code' => 'NameTooLong',
-                'length' => 60,
+                'length' => 70,
             ],
         ];
     }
@@ -215,10 +221,10 @@ class NameLengthSniffTest extends TestCase
                 'length' => 3,
             ],
             'too long' => [
-                'variable' => str_pad('$', 71, 'a'),
+                'variable' => str_pad('$', 72, 'a'),
                 'errorMessage' => 'Name "%s" is greater than %s characters long',
                 'code' => 'NameTooLong',
-                'length' => 60,
+                'length' => 70,
             ],
         ];
     }
@@ -230,5 +236,48 @@ class NameLengthSniffTest extends TestCase
     {
         $expected = [T_VARIABLE, T_FUNCTION, T_CLASS, T_INTERFACE, T_TRAIT, T_PROPERTY];
         $this->assertEquals($expected, $this->subject->register());
+    }
+
+    /**
+     * @test
+     */
+    public function processWithConfiguredMaximum()
+    {
+        $mockedFile = mock(File::class);
+        $forgedStackPointer = 0;
+        $variable = str_pad('$', 40, 'a');
+        $forgedTokens = [ $forgedStackPointer => ['content' => $variable]];
+
+        $mockedFile->expects()->getTokens()->andReturn($forgedTokens);
+        $mockedFile->expects()->addError(
+            'Name "%s" is greater than %s characters long',
+            $forgedStackPointer,
+            'NameTooLong',
+            [ltrim($variable, '$'), 30]
+        );
+
+        $this->subject->maximumLength = 30;
+        $this->subject->process($mockedFile, $forgedStackPointer);
+    }
+    /**
+     * @test
+     */
+    public function processWithConfiguredMinimum()
+    {
+        $mockedFile = mock(File::class);
+        $forgedStackPointer = 0;
+        $variable = str_pad('$', 29, 'a');
+        $forgedTokens = [ $forgedStackPointer => ['content' => $variable]];
+
+        $mockedFile->expects()->getTokens()->andReturn($forgedTokens);
+        $mockedFile->expects()->addError(
+            'Name "%s" is less than %s characters long',
+            $forgedStackPointer,
+            'NameTooShort',
+            [ltrim($variable, '$'), 30]
+        );
+
+        $this->subject->minimumLength = 30;
+        $this->subject->process($mockedFile, $forgedStackPointer);
     }
 }

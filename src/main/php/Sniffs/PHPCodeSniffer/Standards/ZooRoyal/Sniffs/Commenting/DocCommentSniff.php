@@ -69,7 +69,6 @@ class DocCommentSniff
      * @param int                         $stackPtr  The position of the current token
      *                                               in the stack passed in $tokens.
      *
-     * @SuppressWarnings(PHPMD)
      *
      * @return void
      */

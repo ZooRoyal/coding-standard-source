@@ -33,7 +33,6 @@ class ApplicationFactory
             PHPCodeSnifferCommand::class,
             PHPCopyPasteDetectorCommand::class,
             PHPParallelLintCommand::class,
-            PHPMessDetectorCommand::class,
             PHPStanCommand::class,
             JSESLintCommand::class,
             JSStyleLintCommand::class,

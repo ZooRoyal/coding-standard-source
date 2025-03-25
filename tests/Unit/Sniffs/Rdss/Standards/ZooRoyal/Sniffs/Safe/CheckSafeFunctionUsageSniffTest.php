@@ -11,6 +11,8 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
+use Safe\Exceptions\DirException;
+use Symfony\Component\Filesystem\Filesystem;
 use Zooroyal\CodingStandard\CommandLine\ApplicationLifeCycle\ContainerFactory;
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\ComposerInterpreter;
@@ -18,13 +20,6 @@ use Zooroyal\CodingStandard\Sniffs\Rdss\Standards\ZooRoyal\Sniffs\Safe\CheckSafe
 
 class CheckSafeFunctionUsageSniffTest extends TestCase
 {
-    #[Override]
-    protected function tearDown(): void
-    {
-        Mockery::close();
-        parent::tearDown();
-    }
-
     /**
      * @test
      */
@@ -47,11 +42,15 @@ class CheckSafeFunctionUsageSniffTest extends TestCase
         $mockedEnvironment = Mockery::mock(Environment::class);
         $mockedFile = Mockery::mock(File::class);
         $mockedComposerInterpreter = Mockery::mock(ComposerInterpreter::class);
+        $mockedFilesystem = mock(Filesystem::class);
 
         $mockedContainerFactory->expects()->getContainerInstance()->andReturn($mockedContainer);
         $mockedContainer->expects()->get(Environment::class)->andReturn($mockedEnvironment);
         $mockedContainer->expects()->get(ComposerInterpreter::class)->andReturn($mockedComposerInterpreter);
+        $mockedContainer->expects()->get(Filesystem::class)->andReturn($mockedFilesystem);
         $mockedEnvironment->shouldReceive('getRootDirectory->getRealPath')->andReturn('/foo/bar');
+        $mockedFilesystem->expects()->exists('/foo/bar/vendor/thecodingmachine/safe/generated/8.4/')->andReturn(true);
+
         $mockedComposerInterpreter->expects()->getMinimalViablePhpVersion()->andReturn('8.4.3');
 
         $this->expectExceptionObject(
@@ -67,6 +66,39 @@ class CheckSafeFunctionUsageSniffTest extends TestCase
 
     /**
      * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState  disabled
+     */
+    public function notFoundSafeVersionLibraryThrowsError(): void
+    {
+        $mockedContainerFactory = Mockery::mock('overload:' . ContainerFactory::class);
+        $mockedContainer = Mockery::mock(Container::class);
+        $mockedEnvironment = Mockery::mock(Environment::class);
+        $mockedComposerInterpreter = Mockery::mock(ComposerInterpreter::class);
+        $mockedFilesystem = mock(Filesystem::class);
+
+        $mockedContainerFactory->expects()->getContainerInstance()->andReturn($mockedContainer);
+        $mockedContainer->expects()->get(Environment::class)->andReturn($mockedEnvironment);
+        $mockedContainer->expects()->get(ComposerInterpreter::class)->andReturn($mockedComposerInterpreter);
+        $mockedComposerInterpreter->expects()->getMinimalViablePhpVersion()->andReturn('8.4.3');
+        $mockedContainer->expects()->get(Filesystem::class)->andReturn($mockedFilesystem);
+        $mockedEnvironment->shouldReceive('getRootDirectory->getRealPath')->andReturn('/foo/bar');
+        $mockedFilesystem->expects()->exists('/foo/bar/vendor/thecodingmachine/safe/generated/8.4/')->andReturn(false);
+
+        try {
+            $subject = new CheckSafeFunctionUsageSniff();
+        } catch (DirException $exception) {
+            self::assertSame(
+                'Path "/foo/bar/vendor/thecodingmachine/safe/generated/8.4/" does not exist!',
+                $exception->getMessage()
+            );
+            self::assertSame(1742901391 , $exception->getCode());
+        }
+    }
+
+    /**
+     * @test
      */
     public function registerReturnsCorrectTokenArray(): void
     {
@@ -74,5 +106,12 @@ class CheckSafeFunctionUsageSniffTest extends TestCase
         $result = $subject->register();
 
         self::assertSame([T_STRING], $result);
+    }
+
+    #[Override]
+    protected function tearDown(): void
+    {
+        Mockery::close();
+        parent::tearDown();
     }
 }

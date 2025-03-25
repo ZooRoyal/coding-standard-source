@@ -54,7 +54,6 @@ class GlobalSystemTest extends TestCase
 
         $dotFiles = [
             '.dontSniffPHP',
-            '.dontMessDetectPHP',
             '.dontCopyPasteDetectPHP',
             '.dontLintPHP',
             '.dontSniffLESS',

@@ -14,6 +14,7 @@ use Safe\Exceptions\DirException;
 use SlevomatCodingStandard\Helpers\TokenHelper;
 use SlevomatCodingStandard\Helpers\UseStatement;
 use SlevomatCodingStandard\Helpers\UseStatementHelper;
+use Symfony\Component\Filesystem\Filesystem;
 use Zooroyal\CodingStandard\CommandLine\ApplicationLifeCycle\ContainerFactory;
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\ComposerInterpreter;
@@ -36,8 +37,12 @@ class CheckSafeFunctionUsageSniff implements Sniff
         list($major, $minor) = explode('.', $phpversion);
 
         $environment = $container->get(Environment::class);
+        $fileSystem = $container->get(Filesystem::class);
         $path = $environment->getRootDirectory()->getRealPath() . '/vendor/thecodingmachine/safe/generated/'
             . $major . '.' . $minor . '/';
+        if (!$fileSystem->exists($path)) {
+            throw new DirException(sprintf('Path "%s" does not exist!', $path), 1742901391);
+        }
         try {
             // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
             $filesUnfiltered = @scandir($path);

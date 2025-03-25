@@ -1,118 +1,117 @@
 {
-  "name": "zooroyal/coding-standard-source",
-  "description": "This is the ZooRoyal coding standard source package.",
-  "type": "phpcodesniffer-standard",
-  "keywords": [
-    "ZooRoyal",
-    "phpcs",
-    "standards",
-    "phpmd",
-    "phpcpd",
-    "lint"
-  ],
-  "homepage": "https://github.com/ZooRoyal/coding-standard-source",
-  "license": "BSD-3-Clause",
-  "authors": [
-    {
-      "name": "Sebastian Knott",
-      "email": "sebastian.knott@rewe-digital.com"
-    }
-  ],
-  "support": {
-    "issues": "https://github.com/ZooRoyal/coding-standard-source/issues",
-    "wiki": "https://github.com/ZooRoyal/coding-standard-source/wiki",
-    "source": "https://github.com/ZooRoyal/coding-standard-source"
-  },
-  "require": {
-    "php": "^8.4.0",
-    "ext-json": "*",
-    "ext-xml": "*",
-    "composer-runtime-api": "^2.0",
-    "bamarni/composer-bin-plugin": "^1.8",
-    "composer/semver": "^3.4",
-    "dealerdirect/phpcodesniffer-composer-installer": "^1.0.0",
-    "nette/neon": "^3.3",
-    "nette/utils": "^4.0",
-    "nikic/php-parser": "^5.4.0",
-    "php-di/php-di": "^7.0.1",
-    "slevomat/coding-standard": "^8.10.0",
-    "squizlabs/php_codesniffer": "^3.9.0",
-    "symfony/console": " ^7.2.1",
-    "symfony/event-dispatcher": "^7.2.0",
-    "symfony/filesystem": " ^7.2.0",
-    "symfony/process": " ^7.2.0",
-    "thecodingmachine/safe": "^3.0.1",
-    "webmozart/path-util": "^2.3"
-  },
-  "require-dev": {
-    "amphp/amp": "^v2.6.2",
-    "amphp/phpunit-util": "^2.0.0",
-    "amphp/process": "^v1.1.4",
-    "brianium/paratest": "^v6.11.1",
-    "infection/infection": ">=0.29.12",
-    "mockery/mockery": "1.6.11",
-    "phpunit/phpunit": "^9.6.16",
-    "roave/security-advisories": "dev-latest",
-    "sebastianknott/hamcrest-object-accessor": "^3.0.0"
-  },
-  "replace": {
-    "zooroyal/coding-standard": "self.version"
-  },
-  "autoload": {
-    "psr-4": {
-      "Zooroyal\\CodingStandard\\": "src/main/php/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Zooroyal\\CodingStandard\\Tests\\": "tests/"
+    "name": "zooroyal/coding-standard-source",
+    "description": "This is the ZooRoyal coding standard source package.",
+    "type": "phpcodesniffer-standard",
+    "keywords": [
+        "ZooRoyal",
+        "phpcs",
+        "standards",
+        "phpcpd",
+        "lint"
+    ],
+    "homepage": "https://github.com/ZooRoyal/coding-standard-source",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Sebastian Knott",
+            "email": "sebastian.knott@rewe-digital.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/ZooRoyal/coding-standard-source/issues",
+        "wiki": "https://github.com/ZooRoyal/coding-standard-source/wiki",
+        "source": "https://github.com/ZooRoyal/coding-standard-source"
     },
-    "files": [
-      "vendor/squizlabs/php_codesniffer/autoload.php",
-      "vendor/squizlabs/php_codesniffer/src/Util/Tokens.php",
-      "vendor/squizlabs/php_codesniffer/src/Sniffs/Sniff.php",
-      "vendor/slevomat/coding-standard/autoload-bootstrap.php"
-    ]
-  },
-  "bin": [
-    "src/bin/coding-standard"
-  ],
-  "scripts": {
-    "post-update-cmd": "npm update",
-    "post-install-cmd": "npm install",
-    "ci": [
-        "@test-prepare",
-        "@test",
-        "@infection-command"
+    "require": {
+        "php": "^8.4.0",
+        "ext-json": "*",
+        "ext-xml": "*",
+        "composer-runtime-api": "^2.0",
+        "bamarni/composer-bin-plugin": "^1.8",
+        "composer/semver": "^3.4",
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.0.0",
+        "nette/neon": "^3.3",
+        "nette/utils": "^4.0",
+        "nikic/php-parser": "^5.4.0",
+        "php-di/php-di": "^7.0.1",
+        "slevomat/coding-standard": "^8.10.0",
+        "squizlabs/php_codesniffer": "^3.9.0",
+        "symfony/console": " ^7.2.1",
+        "symfony/event-dispatcher": "^7.2.0",
+        "symfony/filesystem": " ^7.2.0",
+        "symfony/process": " ^7.2.0",
+        "thecodingmachine/safe": "^3.0.1",
+        "webmozart/path-util": "^2.3"
+    },
+    "require-dev": {
+        "amphp/amp": "^v2.6.2",
+        "amphp/phpunit-util": "^2.0.0",
+        "amphp/process": "^v1.1.4",
+        "brianium/paratest": "^v6.11.1",
+        "infection/infection": ">=0.29.12",
+        "mockery/mockery": "1.6.11",
+        "phpunit/phpunit": "^9.6.16",
+        "roave/security-advisories": "dev-latest",
+        "sebastianknott/hamcrest-object-accessor": "^3.0.0"
+    },
+    "replace": {
+        "zooroyal/coding-standard": "self.version"
+    },
+    "autoload": {
+        "psr-4": {
+            "Zooroyal\\CodingStandard\\": "src/main/php/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Zooroyal\\CodingStandard\\Tests\\": "tests/"
+        },
+        "files": [
+            "vendor/squizlabs/php_codesniffer/autoload.php",
+            "vendor/squizlabs/php_codesniffer/src/Util/Tokens.php",
+            "vendor/squizlabs/php_codesniffer/src/Sniffs/Sniff.php",
+            "vendor/slevomat/coding-standard/autoload-bootstrap.php"
+        ]
+    },
+    "bin": [
+        "src/bin/coding-standard"
     ],
-    "test-mkdirs": "mkdir -p tmp/phpunit",
-    "test-paratest-command": "paratest -p$(getconf _NPROCESSORS_ONLN)",
-    "test-prepare": "mkdir -p tmp/phpunit",
-    "test": [
-        "@test-prepare",
-        "@test-paratest-command"
-    ],
-    "infection-command": "infection -n --threads=$(getconf _NPROCESSORS_ONLN) --skip-initial-tests --coverage=tmp/phpunit --no-progress",
-    "infection": [
-      "@test-prepare",
-      "@test --testsuite=InfectionRelevant",
-      "@infection-command"
-    ]
-  },
-  "config": {
-    "optimize-autoloader": true,
-    "sort-packages": true,
-    "process-timeout": 600,
-    "allow-plugins": {
-      "dealerdirect/phpcodesniffer-composer-installer": true,
-      "infection/extension-installer": true,
-      "bamarni/composer-bin-plugin": true
+    "scripts": {
+        "post-update-cmd": "npm update",
+        "post-install-cmd": "npm install",
+        "ci": [
+            "@test-prepare",
+            "@test",
+            "@infection-command"
+        ],
+        "test-mkdirs": "mkdir -p tmp/phpunit",
+        "test-paratest-command": "paratest -p$(getconf _NPROCESSORS_ONLN)",
+        "test-prepare": "mkdir -p tmp/phpunit",
+        "test": [
+            "@test-prepare",
+            "@test-paratest-command"
+        ],
+        "infection-command": "infection -n --threads=$(getconf _NPROCESSORS_ONLN) --skip-initial-tests --coverage=tmp/phpunit --no-progress",
+        "infection": [
+            "@test-prepare",
+            "@test-paratest-command --testsuite=InfectionRelevant",
+            "@infection-command"
+        ]
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true,
+        "process-timeout": 600,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "infection/extension-installer": true,
+            "bamarni/composer-bin-plugin": true
+        }
+    },
+    "extra": {
+        "bamarni-bin": {
+            "bin-links": true,
+            "forward-command": true
+        }
     }
-  },
-  "extra": {
-    "bamarni-bin": {
-      "bin-links": true,
-      "forward-command": true
-    }
-  }
 }

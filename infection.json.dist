@@ -1,7 +1,7 @@
 {
     "timeout": 20,
     "minMsi": 87,
-    "minCoveredMsi": 94,
+    "minCoveredMsi": 95,
     "source": {
         "directories": [
             "src\/main\/php"
