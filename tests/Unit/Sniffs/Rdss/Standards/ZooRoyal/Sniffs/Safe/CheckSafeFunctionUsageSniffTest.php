@@ -63,7 +63,7 @@ class CheckSafeFunctionUsageSniffTest extends TestCase
 
         $this->expectExceptionObject(
             new RuntimeException(
-                'No function names found! Did you forget to install thecodingmachine/Safe?',
+                'No function names found! Did you forget to install thecodingmachine/Safe ^v3?',
                 1684240278,
             ),
         );

@@ -105,7 +105,7 @@ class CheckSafeFunctionUsageSniff implements Sniff
     {
         if ($this->functionNames === []) {
             throw new AssertionException(
-                'No function names found! Did you forget to install thecodingmachine/Safe?',
+                'No function names found! Did you forget to install thecodingmachine/Safe ^v3?',
                 1684240278,
             );
         }

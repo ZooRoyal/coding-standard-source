@@ -61,7 +61,10 @@ class CheckSafeFunctionUsageSniffTest extends TestCase
         $output = $processCodingStandard->getOutput();
 
         self::assertMatchesRegularExpression('/No.*function.*names.*found!/ms', $output);
-        self::assertMatchesRegularExpression('/Did.*you.*forget.*to.*install.*thecodingmachine\/Safe\?/ms', $output);
+        self::assertMatchesRegularExpression(
+            '/Did.*you.*forget.*to.*install.*thecodingmachine\/Safe \^v3\?/ms',
+            $output
+        );
     }
 
     private function prepareInstallationDirectory(): string
