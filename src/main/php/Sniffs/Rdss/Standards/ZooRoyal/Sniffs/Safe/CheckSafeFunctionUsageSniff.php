@@ -41,12 +41,12 @@ class CheckSafeFunctionUsageSniff implements Sniff
         $fileSystem = $container->get(Filesystem::class);
         $path = $environment->getRootDirectory()->getRealPath() . '/vendor/thecodingmachine/safe/generated/'
             . $major . '.' . $minor . '/';
+
         if (!$fileSystem->exists($path)) {
-            throw new DirException(
-                sprintf('Path "%s" does not exist! Did you install thecodingmachine/safe >= 3', $path),
-                1742901391
-            );
+            $this->functionNames = [];
+            return;
         }
+
         try {
             // phpcs:ignore Generic.PHP.NoSilencedErrors.Discouraged
             $filesUnfiltered = @scandir($path);

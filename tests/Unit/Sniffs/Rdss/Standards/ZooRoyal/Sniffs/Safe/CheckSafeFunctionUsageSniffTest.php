@@ -11,7 +11,6 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
-use Safe\Exceptions\DirException;
 use Symfony\Component\Filesystem\Filesystem;
 use Zooroyal\CodingStandard\CommandLine\ApplicationLifeCycle\ContainerFactory;
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
@@ -41,8 +40,9 @@ class CheckSafeFunctionUsageSniffTest extends TestCase
      *
      * @runInSeparateProcess
      * @preserveGlobalState  disabled
+     * @dataProvider         notFoundSafeLibrarySkipsProcessDataProvider
      */
-    public function notFoundSafeLibrarySkipsProcess(): void
+    public function notFoundSafeLibrarySkipsProcess(string $environmentPath, bool $dirExists): void
     {
         $mockedContainerFactory = Mockery::mock('overload:' . ContainerFactory::class);
         $mockedContainer = Mockery::mock(Container::class);
@@ -55,8 +55,9 @@ class CheckSafeFunctionUsageSniffTest extends TestCase
         $mockedContainer->expects()->get(Environment::class)->andReturn($mockedEnvironment);
         $mockedContainer->expects()->get(ComposerInterpreter::class)->andReturn($mockedComposerInterpreter);
         $mockedContainer->expects()->get(Filesystem::class)->andReturn($mockedFilesystem);
-        $mockedEnvironment->shouldReceive('getRootDirectory->getRealPath')->andReturn('/foo/bar');
-        $mockedFilesystem->expects()->exists('/foo/bar/vendor/thecodingmachine/safe/generated/8.4/')->andReturn(true);
+        $mockedEnvironment->shouldReceive('getRootDirectory->getRealPath')->andReturn($environmentPath);
+        $mockedFilesystem->expects()->exists($environmentPath . '/vendor/thecodingmachine/safe/generated/8.4/')
+            ->andReturn($dirExists);
 
         $mockedComposerInterpreter->expects()->getMinimalViablePhpVersion()->andReturn('8.4.3');
 
@@ -71,38 +72,13 @@ class CheckSafeFunctionUsageSniffTest extends TestCase
         $subject->process($mockedFile, 0);
     }
 
-    /**
-     * @test
-     *
-     * @runInSeparateProcess
-     * @preserveGlobalState  disabled
-     */
-    public function notFoundSafeVersionLibraryThrowsError(): void
+    /** @return array<string,array<string,bool|string>> */
+    public function notFoundSafeLibrarySkipsProcessDataProvider(): array
     {
-        $mockedContainerFactory = Mockery::mock('overload:' . ContainerFactory::class);
-        $mockedContainer = Mockery::mock(Container::class);
-        $mockedEnvironment = Mockery::mock(Environment::class);
-        $mockedComposerInterpreter = Mockery::mock(ComposerInterpreter::class);
-        $mockedFilesystem = mock(Filesystem::class);
-
-        $mockedContainerFactory->expects()->getContainerInstance()->andReturn($mockedContainer);
-        $mockedContainer->expects()->get(Environment::class)->andReturn($mockedEnvironment);
-        $mockedContainer->expects()->get(ComposerInterpreter::class)->andReturn($mockedComposerInterpreter);
-        $mockedComposerInterpreter->expects()->getMinimalViablePhpVersion()->andReturn('8.4.3');
-        $mockedContainer->expects()->get(Filesystem::class)->andReturn($mockedFilesystem);
-        $mockedEnvironment->shouldReceive('getRootDirectory->getRealPath')->andReturn('/foo/bar');
-        $mockedFilesystem->expects()->exists('/foo/bar/vendor/thecodingmachine/safe/generated/8.4/')->andReturn(false);
-
-        try {
-            new CheckSafeFunctionUsageSniff();
-        } catch (DirException $exception) {
-            self::assertSame(
-                'Path "/foo/bar/vendor/thecodingmachine/safe/generated/8.4/" does not exist! '
-                . 'Did you install thecodingmachine/safe >= 3',
-                $exception->getMessage()
-            );
-            self::assertSame(1742901391, $exception->getCode());
-        }
+        return [
+            'no Path' => ['environmentPath' => '/foo/bar', 'dirExists' => true],
+            'scandir empty' => ['environmentPath' => __DIR__, 'dirExists' => false],
+        ];
     }
 
     /**

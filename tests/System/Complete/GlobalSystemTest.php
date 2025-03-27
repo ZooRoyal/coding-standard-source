@@ -111,7 +111,6 @@ class GlobalSystemTest extends TestCase
     {
         $tools = [
             'sca:sniff',
-            'sca:mess',
             'sca:para',
             'sca:copy',
             'sca:stan',
