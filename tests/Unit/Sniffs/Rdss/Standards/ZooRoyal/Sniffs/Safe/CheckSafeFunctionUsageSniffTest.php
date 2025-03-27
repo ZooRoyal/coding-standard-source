@@ -94,7 +94,7 @@ class CheckSafeFunctionUsageSniffTest extends TestCase
         $mockedFilesystem->expects()->exists('/foo/bar/vendor/thecodingmachine/safe/generated/8.4/')->andReturn(false);
 
         try {
-            $subject = new CheckSafeFunctionUsageSniff();
+            new CheckSafeFunctionUsageSniff();
         } catch (DirException $exception) {
             self::assertSame(
                 'Path "/foo/bar/vendor/thecodingmachine/safe/generated/8.4/" does not exist! '

@@ -22,6 +22,7 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalComma
 use function Safe\file_get_contents;
 use function Safe\scandir;
 
+// phpcs:ignore ZooRoyal.TypeHints.LimitUseStatement.TooManyUseStatements
 class CheckSafeFunctionUsageSniff implements Sniff
 {
     /** @var array<string> */

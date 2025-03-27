@@ -241,7 +241,7 @@ class NameLengthSniffTest extends TestCase
     /**
      * @test
      */
-    public function processWithConfiguredMaximum()
+    public function processWithConfiguredMaximum(): void
     {
         $mockedFile = mock(File::class);
         $forgedStackPointer = 0;
@@ -262,7 +262,7 @@ class NameLengthSniffTest extends TestCase
     /**
      * @test
      */
-    public function processWithConfiguredMinimum()
+    public function processWithConfiguredMinimum(): void
     {
         $mockedFile = mock(File::class);
         $forgedStackPointer = 0;
