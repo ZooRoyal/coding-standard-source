@@ -49,6 +49,7 @@
         "amphp/process": "^v1.1.9",
         "brianium/paratest": "^v6.11.1",
         "infection/infection": ">=0.29.14",
+        "mikey179/vfsstream": "^1.6",
         "mockery/mockery": "1.6.11",
         "phpunit/phpunit": "^9.6.22",
         "roave/security-advisories": "dev-latest",

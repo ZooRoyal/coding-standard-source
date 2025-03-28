@@ -13,7 +13,6 @@ Coding Standard.
 It incorporates
 * [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer)
   and its configuration
-* [PHP Mess Detector](https://github.com/phpmd/phpmd) and its configuration
 * [PHP Copy Paste Detector](https://github.com/sebastianbergmann/phpcpd)
 * [PHP-Parallel-Lint](https://github.com/JakubOnderka/PHP-Parallel-Lint)
 * [PHPStan - PHP Static Analysis Tool](https://github.com/phpstan/phpstan)

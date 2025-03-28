@@ -111,12 +111,12 @@ class CheckSafeFunctionUsageSniff implements Sniff
         }
 
         $tokens = $phpcsFile->getTokens();
-        $functionName = strtolower(ltrim($tokens[$stackPtr]['content'], '\\'));
+        $functionName = strtolower($tokens[$stackPtr]['content']);
 
         try {
             $this->assertNextTokenParenthesisOpener($phpcsFile, $stackPtr);
             $this->assertGlobalFunctionCall($phpcsFile, $stackPtr);
-            $this->assertFunctionProvidedBySafe($tokens[$stackPtr]['content']);
+            $this->assertFunctionProvidedBySafe($functionName);
             $this->assertFunctionUnused($phpcsFile, $functionName);
         } catch (AssertionException) {
             // If this is the case we found no Safe function. Continue...
@@ -140,7 +140,7 @@ class CheckSafeFunctionUsageSniff implements Sniff
         if (
             in_array(
                 $phpcsFile->getTokens()[$previousPointer]['code'],
-                [T_OBJECT_OPERATOR, T_DOUBLE_COLON, T_FUNCTION],
+                [T_OBJECT_OPERATOR, T_DOUBLE_COLON, T_FUNCTION, T_NEW],
                 true,
             )
         ) {
