@@ -38,6 +38,37 @@ class FindFilesToCheckCommandTest extends TestCase
     private string $expectedResult1 = 'phpunit.xml.dist';
     private string $expectedResult2 = 'composer.json';
 
+    private static function assertSetDefinitionParams(InputDefinition $value): bool
+    {
+        MatcherAssert::assertThat($value, H::anInstanceOf(InputDefinition::class));
+        $options = $value->getOptions();
+        MatcherAssert::assertThat(
+            $options,
+            H::allOf(
+                H::arrayWithSize(6),
+                H::everyItem(
+                    H::anInstanceOf(InputOption::class),
+                ),
+            ),
+        );
+        MatcherAssert::assertThat(
+            $value->getOption('target')->getDescription(),
+            H::equalTo('Finds files which have changed since the current branch parted from the target branch '
+                . 'only. The Value has to be a commit-ish.')
+        );
+        MatcherAssert::assertThat(
+            $value->getOption('auto-target')->getDescription(),
+            H::equalTo('Finds Files which have changed since the current branch parted from the parent branch '
+                . 'only. It tries to find the parent branch by automagic.')
+        );
+        MatcherAssert::assertThat(
+            $value->getOption('allowed-file-endings')->getDescription(),
+            H::equalTo('Only list files with appropriate file endings. For example .php for PHP-Files. '
+                . 'You may give multiple')
+        );
+        return true;
+    }
+
     #[Override]
     protected function setUp(): void
     {
@@ -89,19 +120,7 @@ class FindFilesToCheckCommandTest extends TestCase
             ->with(
                 Mockery::on(
                     static function ($value): bool {
-                        MatcherAssert::assertThat($value, H::anInstanceOf(InputDefinition::class));
-                        /** @var InputDefinition $value */
-                        $options = $value->getOptions();
-                        MatcherAssert::assertThat(
-                            $options,
-                            H::allOf(
-                                H::arrayWithSize(6),
-                                H::everyItem(
-                                    H::anInstanceOf(InputOption::class),
-                                ),
-                            ),
-                        );
-                        return true;
+                        return self::assertSetDefinitionParams($value);
                     },
                 ),
             )->andReturnSelf();
