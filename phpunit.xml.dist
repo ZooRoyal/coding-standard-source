@@ -3,7 +3,7 @@
         beStrictAboutTestsThatDoNotTestAnything="false"
         colors="true" bootstrap="vendor/autoload.php"
         enforceTimeLimit="true"
-        executionOrder="random"
+        executionOrder="depends"
         resolveDependencies="true"
         stopOnRisky="true"
         timeoutForSmallTests="2"

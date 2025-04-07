@@ -6,6 +6,7 @@ namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPCodeSniffer;
 
 use DI\Attribute\Inject;
 use DI\Container;
+use Override;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\FixingToolCommand;
 
 class PHPCodeSnifferCommand extends FixingToolCommand
@@ -15,6 +16,7 @@ class PHPCodeSnifferCommand extends FixingToolCommand
     /** @var array<string> */
     protected array $allowedFileEndings = ['php'];
 
+    #[Override]
     protected function configure(): void
     {
         parent::configure();

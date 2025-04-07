@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\ApplicationLifeCycle;
 
+use Override;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -18,7 +19,7 @@ use Zooroyal\CodingStandard\CommandLine\Process\ProcessRunner;
  */
 class GitCommandPreconditionChecker implements EventSubscriberInterface
 {
-    private const COMMAND = 'git rev-parse --git-dir';
+    private const string COMMAND = 'git rev-parse --git-dir';
 
     private ?int $exitCode = null;
 
@@ -34,6 +35,7 @@ class GitCommandPreconditionChecker implements EventSubscriberInterface
      *
      * @return array<string, array<int, int|string>>
      */
+    #[Override]
     public static function getSubscribedEvents(): array
     {
         return [ConsoleEvents::COMMAND => ['checkForGit', 50]];

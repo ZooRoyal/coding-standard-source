@@ -20,6 +20,8 @@ class ConstraintToVersionConverter
             '8.0.' => '30',
             '8.1.' => '28',
             '8.2.' => '19',
+            '8.3.' => '16',
+            '8.4.' => '3',
         ];
 
         foreach ($phpVersionRanges as $phpVersionString => $phpMaxPatchVersion) {
@@ -36,7 +38,7 @@ class ConstraintToVersionConverter
      */
     public function extractActualPhpVersion(string $phpVersionConstraint): string
     {
-        if (preg_match('/^(\d+)(\.\d+)?(\.\d+)?$/', $phpVersionConstraint, $matches)) {
+        if (preg_match('/^(\d+)(\.\d+)?(\.\d+)?$/', $phpVersionConstraint, $matches) !== 0) {
             return $matches[1] . ($matches[2] ?? '.0') . ($matches[3] ?? '.0');
         }
 

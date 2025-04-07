@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\ExclusionList\Excluders;
 
+use Override;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfoFactory;
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
@@ -34,6 +35,7 @@ class TokenExcluder implements ExcluderInterface
      *
      * @return array<EnhancedFileInfo>
      */
+    #[Override]
     public function getPathsToExclude(array $alreadyExcludedPaths, array $config = []): array
     {
         if (!isset($config['token'])) {

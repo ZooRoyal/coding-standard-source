@@ -7,6 +7,7 @@ namespace Zooroyal\CodingStandard\Tests\Unit\CommandLine\StaticCodeAnalysis\PHPC
 use DI\Container;
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPCodeSniffer\PHPCodeSnifferCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPCodeSniffer\TerminalCommand;
 use Zooroyal\CodingStandard\Tests\Unit\CommandLine\StaticCodeAnalysis\Generic\FixingToolCommandTest;
@@ -16,6 +17,7 @@ class PHPCodeSnifferCommandTest extends FixingToolCommandTest
     /** @var Container|MockInterface */
     private Container $mockedContainer;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->terminalCommandName = 'PHP Code Sniffer';

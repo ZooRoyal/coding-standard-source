@@ -12,13 +12,8 @@
         <exclude name="PSR1.Files.SideEffects.FoundWithSymbols" />
     </rule>
 
-    <rule ref="PHPCompatibility">
-        <!-- Sniff generates false positives if classname is used in another namespace -->
-        <exclude name="PHPCompatibility.Classes.NewClasses.attributeFound"/>
-        <exclude name="PHPCompatibility.Attributes.NewAttributes.Found"/>
-    </rule>
-
     <!-- Custom Rule-->
+    <rule ref="../../../src/main/php/Sniffs/ObjectCalisthenics/Standards/ZooRoyal"/>
     <rule ref="../../../src/main/php/Sniffs/PHPCodeSniffer/Standards/ZooRoyal"/>
     <rule ref="../../../src/main/php/Sniffs/Rdss/Standards/ZooRoyal"/>
 
@@ -78,15 +73,17 @@
     <rule ref="Generic.Functions.CallTimePassByReference"/>
     <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
     <rule ref="Generic.Metrics.NestingLevel"/>
+    <rule ref="Generic.Metrics.CyclomaticComplexity"/>
     <rule ref="Generic.NamingConventions.ConstructorName"/>
     <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
     <rule ref="Generic.PHP.CharacterBeforePHPOpeningTag"/>
     <rule ref="Generic.PHP.DeprecatedFunctions"/>
+    <rule ref="Generic.PHP.DiscourageGoto"/>
     <rule ref="Generic.PHP.ForbiddenFunctions">
         <properties>
             <property name="forbiddenFunctions"
                       type="array"
-                      value="sizeof=>count,delete=>unset,print=>echo,is_null=>null,create_function=>null,ob_end_flush=>null,chop=>rtrim,close=>closedir,die=>exit,diskfreespace=>disk_free_space,doubleval=>floatval,fputs=>fwrite,gzputs=>gzwrite,i18n_convert=>mb_convert_encoding,i18n_discover_encoding=>mb_detect_encoding,i18n_http_input=>mb_http_input,i18n_http_output=>mb_http_output,i18n_internal_encoding=>mb_internal_encoding,i18n_ja_jp_hantozen=>mb_convert_kana,i18n_mime_header_decode=>mb_decode_mimeheader,i18n_mime_header_encode=>mb_encode_mimeheader,imap_create=>imap_createmailbox,imap_fetchtext=>imap_body,imap_getmailboxes=>imap_list_full,imap_getsubscribed=>imap_lsub_full,imap_header=>imap_headerinfo,imap_listmailbox=>imap_list,imap_listsubscribed=>imap_lsub,imap_rename=>imap_renamemailbox,imap_scan=>imap_listscan,imap_scanmailbox=>imap_listscan,ini_alter=>ini_set,is_double=>is_float,is_integer=>is_int,is_long=>is_int,is_real=>is_float,is_writeable=>is_writable,join=>implode,key_exists=>array_key_exists,ldap_close=>ldap_unbind,magic_quotes_runtime=>set_magic_quotes_runtime,mbstrcut=>mb_strcut,mbstrlen=>mb_strlen,mbstrpos=>mb_strpos,mbstrrpos=>mb_strrpos,mbsubstr=>mb_substr,mysql=>mysql_db_query,mysql_createdb=>mysql_create_db,mysql_db_name=>mysql_result,mysql_dbname=>mysql_result,mysql_dropdb=>mysql_drop_db,mysql_fieldflags=>mysql_field_flags,mysql_fieldlen=>mysql_field_len,mysql_fieldname=>mysql_field_name,mysql_fieldtable=>mysql_field_table,mysql_fieldtype=>mysql_field_type,mysql_freeresult=>mysql_free_result,mysql_listdbs=>mysql_list_dbs,mysql_listfields=>mysql_list_fields,mysql_listtables=>mysql_list_tables,mysql_numfields=>mysql_num_fields,mysql_numrows=>mysql_num_rows,mysql_selectdb=>mysql_select_db,mysql_tablename=>mysql_result,odbc_do=>odbc_exec,odbc_field_precision=>odbc_field_len,pdf_add_outline=>pdf_add_bookmark,pg_clientencoding=>pg_client_encoding,pg_setclientencoding=>pg_set_client_encoding,pos=>current,recode=>recode_string,show_source=>highlight_file,sizeof=>count,snmpwalkoid=>snmprealwalk,strchr=>strstr,xptr_new_context=>xpath_new_context"
+                      value="sizeof=>count,delete=>unset,print=>echo,is_null=>null,create_function=>null,ob_end_flush=>null,chop=>rtrim,close=>closedir,die=>exit,diskfreespace=>disk_free_space,doubleval=>floatval,fputs=>fwrite,gzputs=>gzwrite,i18n_convert=>mb_convert_encoding,i18n_discover_encoding=>mb_detect_encoding,i18n_http_input=>mb_http_input,i18n_http_output=>mb_http_output,i18n_internal_encoding=>mb_internal_encoding,i18n_ja_jp_hantozen=>mb_convert_kana,i18n_mime_header_decode=>mb_decode_mimeheader,i18n_mime_header_encode=>mb_encode_mimeheader,imap_create=>imap_createmailbox,imap_fetchtext=>imap_body,imap_getmailboxes=>imap_list_full,imap_getsubscribed=>imap_lsub_full,imap_header=>imap_headerinfo,imap_listmailbox=>imap_list,imap_listsubscribed=>imap_lsub,imap_rename=>imap_renamemailbox,imap_scan=>imap_listscan,imap_scanmailbox=>imap_listscan,ini_alter=>ini_set,is_double=>is_float,is_integer=>is_int,is_long=>is_int,is_real=>is_float,is_writeable=>is_writable,join=>implode,key_exists=>array_key_exists,ldap_close=>ldap_unbind,magic_quotes_runtime=>set_magic_quotes_runtime,mbstrcut=>mb_strcut,mbstrlen=>mb_strlen,mbstrpos=>mb_strpos,mbstrrpos=>mb_strrpos,mbsubstr=>mb_substr,mysql=>mysql_db_query,mysql_createdb=>mysql_create_db,mysql_db_name=>mysql_result,mysql_dbname=>mysql_result,mysql_dropdb=>mysql_drop_db,mysql_fieldflags=>mysql_field_flags,mysql_fieldlen=>mysql_field_len,mysql_fieldname=>mysql_field_name,mysql_fieldtable=>mysql_field_table,mysql_fieldtype=>mysql_field_type,mysql_freeresult=>mysql_free_result,mysql_listdbs=>mysql_list_dbs,mysql_listfields=>mysql_list_fields,mysql_listtables=>mysql_list_tables,mysql_numfields=>mysql_num_fields,mysql_numrows=>mysql_num_rows,mysql_selectdb=>mysql_select_db,mysql_tablename=>mysql_result,odbc_do=>odbc_exec,odbc_field_precision=>odbc_field_len,pdf_add_outline=>pdf_add_bookmark,pg_clientencoding=>pg_client_encoding,pg_setclientencoding=>pg_set_client_encoding,pos=>current,recode=>recode_string,show_source=>highlight_file,sizeof=>count,snmpwalkoid=>snmprealwalk,strchr=>strstr,xptr_new_context=>xpath_new_context,exit=>null"
             />
         </properties>
     </rule>
@@ -121,6 +118,11 @@
     <rule ref="SlevomatCodingStandard.Attributes.RequireAttributeAfterDocComment"/>
     <rule ref="SlevomatCodingStandard.Classes.BackedEnumTypeSpacing"/>
     <rule ref="SlevomatCodingStandard.Classes.ClassConstantVisibility"/>
+    <rule ref="SlevomatCodingStandard.Classes.ClassLength">
+        <properties>
+            <property name="maxLinesLength" value="1000" />
+        </properties>
+    </rule>
     <rule ref="SlevomatCodingStandard.Classes.ClassMemberSpacing"/>
     <rule ref="SlevomatCodingStandard.Classes.ClassStructure">
         <properties>
@@ -147,6 +149,11 @@
     <rule ref="SlevomatCodingStandard.Classes.ModernClassNameReference"/>
     <rule ref="SlevomatCodingStandard.Classes.PropertyDeclaration"/>
     <rule ref="SlevomatCodingStandard.Classes.RequireConstructorPropertyPromotion"/>
+    <rule ref="SlevomatCodingStandard.Classes.RequireMultiLineMethodSignature">
+        <properties>
+            <property name="minLineLength" value="130"/>
+        </properties>
+    </rule>
     <rule ref="SlevomatCodingStandard.Commenting.DeprecatedAnnotationDeclaration"/>
     <rule ref="SlevomatCodingStandard.Commenting.DisallowCommentAfterCode"/>
     <rule ref="SlevomatCodingStandard.Commenting.EmptyComment"/>
@@ -192,7 +199,12 @@
         </properties>
     </rule>
     <rule ref="SlevomatCodingStandard.Functions.DisallowEmptyFunction"/>
-    <!--<rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInCall"/>-->
+    <rule ref="SlevomatCodingStandard.Functions.FunctionLength">
+        <properties>
+            <property name="maxLinesLength" value="39"/>
+        </properties>
+    </rule>
+    <rule ref="SlevomatCodingStandard.Functions.NamedArgumentSpacing"/>
     <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInClosureUse"/>
     <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInDeclaration"/>
     <rule ref="SlevomatCodingStandard.Functions.StaticClosure"/>
@@ -231,13 +243,15 @@
     <rule ref="SlevomatCodingStandard.TypeHints.PropertyTypeHint"/>
     <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint"/>
     <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing"/>
-    <rule ref="SlevomatCodingStandard.TypeHints.UnionTypeHintFormat">
+    <rule ref="SlevomatCodingStandard.TypeHints.DNFTypeHintFormat">
         <properties>
-            <property name="withSpaces" type="bool" value="false"/>
+            <property name="withSpacesAroundOperators" type="bool" value="false"/>
+            <property name="withSpacesInsideParentheses" type="bool" value="false"/>
             <property name="shortNullable" type="bool" value="true"/>
             <property name="nullPosition" type="bool" value="last"/>
         </properties>
     </rule>
+    <rule ref="SlevomatCodingStandard.Variables.UnusedVariable"/>
     <!--
         https://packagist.org/packages/bmitch/codor are planed for PHP > 7.0
 

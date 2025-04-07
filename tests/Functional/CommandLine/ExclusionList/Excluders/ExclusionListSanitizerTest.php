@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\Tests\Functional\CommandLine\ExclusionList\Excluders;
 
+use Override;
 use PHPUnit\Framework\TestCase;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\ExclusionList\ExclusionListSanitizer;
@@ -12,6 +13,7 @@ class ExclusionListSanitizerTest extends TestCase
 {
     private ExclusionListSanitizer $subject;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->subject = new ExclusionListSanitizer();

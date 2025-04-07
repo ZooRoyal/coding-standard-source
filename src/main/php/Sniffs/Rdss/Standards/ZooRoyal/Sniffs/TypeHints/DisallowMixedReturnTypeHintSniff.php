@@ -14,11 +14,11 @@ use const T_FUNCTION;
 
 class DisallowMixedReturnTypeHintSniff
 {
-    private const NAME = 'Zooroyal.TypeHints.DisallowMixedReturnTypeHint';
+    private const string NAME = 'Zooroyal.TypeHints.DisallowMixedReturnTypeHint';
 
-    private const ERROR_CODE = 'MixedParameterTypeHintUsed';
+    private const string ERROR_CODE = 'MixedParameterTypeHintUsed';
 
-    private const INVALID_TYPE_HINT = 'mixed';
+    private const string INVALID_TYPE_HINT = 'mixed';
 
     /** @return array<int|string> */
     public function register(): array
@@ -38,7 +38,7 @@ class DisallowMixedReturnTypeHintSniff
         /** @var int|string $tokenCode */
         $tokenCode = $token['code'];
         $returnTypeHint = $this->getReturnTypeHintByTokenCode($phpcsFile, $pointer, $tokenCode);
-        if ($returnTypeHint === null) {
+        if (!$returnTypeHint instanceof TypeHint) {
             return;
         }
         if ($tokenCode === T_FUNCTION) {

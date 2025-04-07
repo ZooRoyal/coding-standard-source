@@ -8,6 +8,7 @@ use Hamcrest\Matchers;
 use InvalidArgumentException;
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Output\OutputInterface;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
@@ -18,11 +19,11 @@ use Zooroyal\CodingStandard\Tests\Tools\TerminalCommandTestData;
 
 class TerminalCommandTest extends TestCase
 {
-    private const PACKAGE_DIRECTORY = '/packageDirectory';
-    private const RELATIVE_ROOT = '.';
-    private const ABSOLUTE_ROOT = '/RootDirectory';
-    private const ABSOLUTE_VENDOR = '/vendor';
-    private const ABSOLUTE_CONFIG = '/packageDirectory/config/phpstan/phpstan.neon';
+    private const string PACKAGE_DIRECTORY = '/packageDirectory';
+    private const string RELATIVE_ROOT = '.';
+    private const string ABSOLUTE_ROOT = '/RootDirectory';
+    private const string ABSOLUTE_VENDOR = '/vendor';
+    private const string ABSOLUTE_CONFIG = '/packageDirectory/config/phpstan/phpstan.neon';
 
     private TerminalCommand $subject;
     /** @var MockInterface|Environment */
@@ -30,6 +31,7 @@ class TerminalCommandTest extends TestCase
     /** @var MockInterface|OutputInterface */
     private OutputInterface $mockedOutput;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->mockedEnvironment = Mockery::mock(Environment::class);
@@ -48,6 +50,7 @@ class TerminalCommandTest extends TestCase
         $this->subject->injectDependenciesAbstractTerminalCommand($this->mockedOutput);
     }
 
+    #[Override]
     public function tearDown(): void
     {
         Mockery::close();
@@ -96,10 +99,9 @@ class TerminalCommandTest extends TestCase
     /**
      * This data provider needs to be long because it contains all testing data.
      *
-     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
-     *
      * @return array<string,array<int,TerminalCommandTestData>>
      */
+    // phpcs:ignore SlevomatCodingStandard.Functions.FunctionLength
     public function terminalCommandCompilationDataProvider(): array
     {
         $mockedEnhancedFileInfoExcluded1 = Mockery::mock(EnhancedFileInfo::class);

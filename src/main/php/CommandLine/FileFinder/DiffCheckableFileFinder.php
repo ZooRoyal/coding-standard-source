@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\FileFinder;
 
+use Override;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Zooroyal\CodingStandard\CommandLine\Process\ProcessRunner;
 
@@ -26,6 +27,7 @@ class DiffCheckableFileFinder implements FileFinderInterface
      *
      * @throws InvalidArgumentException
      */
+    #[Override]
     public function findFiles(
         array $allowedFileEndings = [],
         string $exclusionListToken = '',

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Zooroyal\CodingStandard\Tests\Unit\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion;
 
 use Mockery;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion\ConstraintToVersionConverter;
 
@@ -12,11 +13,13 @@ class ConstraintToVersionConverterTest extends TestCase
 {
     private ConstraintToVersionConverter $subject;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->subject = new ConstraintToVersionConverter();
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         Mockery::close();

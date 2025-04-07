@@ -6,6 +6,7 @@ namespace Zooroyal\CodingStandard\Tests\Unit\CommandLine\Environment;
 
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfoFactory;
@@ -22,6 +23,7 @@ class EnvironmentTest extends TestCase
     private array $subjectParameters;
     private MockInterface|EnhancedFileInfo $mockedEnhancedFileInfo;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->mockedEnhancedFileInfo = Mockery::mock(EnhancedFileInfo::class);
@@ -32,6 +34,7 @@ class EnvironmentTest extends TestCase
         $this->subjectParameters = $buildFragments['parameters'];
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         Mockery::close();

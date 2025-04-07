@@ -6,6 +6,7 @@ namespace Zooroyal\CodingStandard\Tests\Unit\CommandLine\StaticCodeAnalysis\Gene
 
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -23,9 +24,8 @@ use Zooroyal\CodingStandard\Tests\Tools\SubjectFactory;
 
 /**
  * This is a very busy test and needs all the objects ;/
- *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
+// phpcs:ignore ZooRoyal.TypeHints.LimitUseStatement.TooManyUseStatements
 class TargetDecoratorTest extends TestCase
 {
     private TargetDecorator $subject;
@@ -43,6 +43,7 @@ class TargetDecoratorTest extends TestCase
     private array $forgedAllowedFileEndings = ['asd', 'qwe'];
     private string $forgedExclusionListToken = 'uptiwubti';
 
+    #[Override]
     protected function setUp(): void
     {
         $this->mockedEvent = Mockery::mock(DecorateEvent::class);
@@ -63,6 +64,7 @@ class TargetDecoratorTest extends TestCase
         $this->subjectParameters = $buildFragments['parameters'];
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         Mockery::close();

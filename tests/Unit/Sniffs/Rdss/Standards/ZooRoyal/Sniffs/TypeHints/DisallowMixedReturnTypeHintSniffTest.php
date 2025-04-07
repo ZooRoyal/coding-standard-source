@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\Tests\Unit\Sniffs\Rdss\Standards\ZooRoyal\Sniffs\TypeHints;
 
+use Override;
 use PHPUnit\Framework\TestCase;
 use Zooroyal\CodingStandard\Sniffs\Rdss\Standards\ZooRoyal\Sniffs\TypeHints\DisallowMixedReturnTypeHintSniff;
 
@@ -11,6 +12,7 @@ class DisallowMixedReturnTypeHintSniffTest extends TestCase
 {
     private DisallowMixedReturnTypeHintSniff $subject;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->subject = new DisallowMixedReturnTypeHintSniff();

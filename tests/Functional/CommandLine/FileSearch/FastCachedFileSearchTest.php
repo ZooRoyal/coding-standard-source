@@ -7,6 +7,7 @@ namespace Zooroyal\CodingStandard\Tests\Functional\CommandLine\FileSearch;
 use Hamcrest\MatcherAssert;
 use Hamcrest\Matchers;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use SebastianBergmann\Timer\Timer;
 use SebastianKnott\HamcrestObjectAccessor\HasProperty;
@@ -21,6 +22,7 @@ class FastCachedFileSearchTest extends TestCase
     private EnhancedFileInfoFactory $enhancedFileInfoFactory;
     private EnhancedFileInfo $forgedPath;
 
+    #[Override]
     public function setUp(): void
     {
         $container = ContainerFactory::getUnboundContainerInstance();
@@ -45,6 +47,7 @@ class FastCachedFileSearchTest extends TestCase
             Matchers::allOf(
                 Matchers::containsInAnyOrder([
                     'src/main/php/Sniffs/PHPCodeSniffer/.dontSniffPHP',
+                    'src/main/php/Sniffs/ObjectCalisthenics/.dontSniffPHP',
                     'tests/Functional/Sniffs/PHPCodesniffer/Standards/ZooRoyal/Sniffs/Commenting/Fixtures/.dontSniffPHP',
                     'tests/Functional/Sniffs/Rdss/Standards/ZooRoyal/Sniffs/TypeHints/Fixtures/Parameter/.dontSniffPHP',
                     'tests/Functional/Sniffs/Rdss/Standards/ZooRoyal/Sniffs/TypeHints/Fixtures/ReturnType/.dontSniffPHP',
@@ -71,6 +74,7 @@ class FastCachedFileSearchTest extends TestCase
             Matchers::allOf(
                 Matchers::containsInAnyOrder([
                     'src/main/php/Sniffs/PHPCodeSniffer/.dontSniffPHP',
+                    'src/main/php/Sniffs/ObjectCalisthenics/.dontSniffPHP',
                 ]),
                 Matchers::not(
                     Matchers::containsInAnyOrder([
@@ -106,6 +110,7 @@ class FastCachedFileSearchTest extends TestCase
         MatcherAssert::assertThat(
             $resultPaths,
             Matchers::containsInAnyOrder(
+                'src/main/php/Sniffs/ObjectCalisthenics/.dontSniffPHP',
                 'tests/Functional/Sniffs/PHPCodesniffer/Standards/ZooRoyal/Sniffs/Commenting/Fixtures/.dontSniffPHP',
                 'tests/Functional/Sniffs/Rdss/Standards/ZooRoyal/Sniffs/TypeHints/Fixtures/Parameter/.dontSniffPHP',
                 'tests/Functional/Sniffs/Rdss/Standards/ZooRoyal/Sniffs/TypeHints/Fixtures/ReturnType/.dontSniffPHP',

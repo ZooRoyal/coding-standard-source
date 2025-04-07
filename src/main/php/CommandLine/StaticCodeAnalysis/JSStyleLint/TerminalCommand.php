@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\JSStyleLint;
 
+use Override;
 use Symfony\Component\Console\Output\OutputInterface;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
@@ -19,6 +20,7 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalComma
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Verbose\VerboseTerminalCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Verbose\VerboseTrait;
 
+// phpcs:ignore ZooRoyal.TypeHints.LimitUseStatement.TooManyUseStatements
 class TerminalCommand extends AbstractTerminalCommand implements
     TargetTerminalCommand,
     FixTerminalCommand,
@@ -32,7 +34,8 @@ class TerminalCommand extends AbstractTerminalCommand implements
     use FileExtensionTrait;
     use VerboseTrait;
 
-    private const TEMPLATE = 'npx %6$s--no-install stylelint %3$s %4$s%5$s--allow-empty-input --config-basedir --config=%1$s%2$s';
+    private const string TEMPLATE
+        = 'npx %6$s--no-install stylelint %3$s %4$s%5$s--allow-empty-input --config-basedir --config=%1$s%2$s';
 
     /**
      * TerminalCommand constructor.
@@ -44,6 +47,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
     /**
      * {@inheritDoc}
      */
+    #[Override]
     protected function compile(): void
     {
         $this->validateTargets();

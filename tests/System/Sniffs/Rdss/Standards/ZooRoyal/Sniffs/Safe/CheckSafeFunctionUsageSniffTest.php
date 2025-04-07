@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\Tests\System\Sniffs\Rdss\Standards\ZooRoyal\Sniffs\Safe;
 
+use Override;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
@@ -15,12 +16,14 @@ class CheckSafeFunctionUsageSniffTest extends TestCase
 {
     private Filesystem $filesystem;
 
+    #[Override]
     protected function setUp(): void
     {
         parent::setUp();
         $this->filesystem = new Filesystem();
     }
 
+    #[Override]
     public static function tearDownAfterClass(): void
     {
         TestEnvironmentInstallation::getInstance()->removeInstallation();
@@ -58,7 +61,10 @@ class CheckSafeFunctionUsageSniffTest extends TestCase
         $output = $processCodingStandard->getOutput();
 
         self::assertMatchesRegularExpression('/No.*function.*names.*found!/ms', $output);
-        self::assertMatchesRegularExpression('/Did.*you.*forget.*to.*install.*thecodingmachine\/Safe\?/ms', $output);
+        self::assertMatchesRegularExpression(
+            '/Did.*you.*forget.*to.*install.*thecodingmachine\/Safe \^v3\?/ms',
+            $output
+        );
     }
 
     private function prepareInstallationDirectory(): string

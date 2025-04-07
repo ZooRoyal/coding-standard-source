@@ -6,6 +6,7 @@ namespace Zooroyal\CodingStandard\Tests\Unit\CommandLine\FileFinder;
 
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Zooroyal\CodingStandard\CommandLine\FileFinder\DiffCheckableFileFinder;
@@ -21,6 +22,7 @@ class DiffCheckableFileFinderTest extends TestCase
     private array $subjectParameters;
     private DiffCheckableFileFinder $subject;
 
+    #[Override]
     protected function setUp(): void
     {
         $subjectFactory = new SubjectFactory();
@@ -29,6 +31,7 @@ class DiffCheckableFileFinderTest extends TestCase
         $this->subjectParameters = $buildFragments['parameters'];
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         Mockery::close();

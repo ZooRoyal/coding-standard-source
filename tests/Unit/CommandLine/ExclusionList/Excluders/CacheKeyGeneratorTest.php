@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Zooroyal\CodingStandard\Tests\Unit\CommandLine\ExclusionList\Excluders;
 
 use Mockery;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\ExclusionList\Excluders\CacheKeyGenerator;
@@ -13,6 +14,7 @@ class CacheKeyGeneratorTest extends TestCase
 {
     private CacheKeyGenerator $subject;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->subject = new CacheKeyGenerator();

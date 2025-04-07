@@ -6,6 +6,7 @@ namespace Zooroyal\CodingStandard\Tests\Unit\CommandLine\StaticCodeAnalysis\Gene
 
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Output\OutputInterface;
 use Zooroyal\CodingStandard\CommandLine\Process\ProcessRunner;
@@ -27,6 +28,7 @@ class MultiprocessDecoratorTest extends TestCase
     private ProcessRunner $mockedProcessRunner;
     private MultiprocessDecorator $subject;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->mockedEvent = Mockery::mock(DecorateEvent::class);
@@ -40,6 +42,7 @@ class MultiprocessDecoratorTest extends TestCase
         $this->subject = new MultiprocessDecorator($this->mockedProcessRunner);
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         Mockery::close();

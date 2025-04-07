@@ -7,6 +7,7 @@ namespace Zooroyal\CodingStandard\Tests\Unit\CommandLine\StaticCodeAnalysis\Gene
 use JsonException;
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Zooroyal\CodingStandard\CommandLine\ApplicationLifeCycle\ContainerFactory;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
@@ -25,6 +26,7 @@ class ComposerInterpreterTest extends TestCase
     private ComposerInterpreter $subject;
     private FileSearchInterface $mockedFileSearchInterface;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->mockedEnvironment = Mockery::mock(Environment::class);
@@ -39,6 +41,7 @@ class ComposerInterpreterTest extends TestCase
         );
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         Mockery::close();

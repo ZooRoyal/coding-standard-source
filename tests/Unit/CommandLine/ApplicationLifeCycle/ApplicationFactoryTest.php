@@ -8,6 +8,7 @@ use DI\Container;
 use Hamcrest\Matchers;
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
@@ -19,11 +20,14 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\JSESLint\JSESLintComm
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\JSStyleLint\JSStyleLintCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPCodeSniffer\PHPCodeSnifferCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPCopyPasteDetector\PHPCopyPasteDetectorCommand;
-use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPMessDetector\PHPMessDetectorCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPParallelLint\PHPParallelLintCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPStan\PHPStanCommand;
 use Zooroyal\CodingStandard\Tests\Tools\SubjectFactory;
 
+/**
+ * Class ApplicationFactoryTest
+ */
+// phpcs:ignore ZooRoyal.TypeHints.LimitUseStatement.TooManyUseStatements
 class ApplicationFactoryTest extends TestCase
 {
     private ApplicationFactory $subject;
@@ -36,7 +40,6 @@ class ApplicationFactoryTest extends TestCase
             PHPCodeSnifferCommand::class,
             PHPStanCommand::class,
             FindFilesToCheckCommand::class,
-            PHPMessDetectorCommand::class,
             PHPCopyPasteDetectorCommand::class,
             JSESLintCommand::class,
             JSStyleLintCommand::class,
@@ -67,6 +70,7 @@ class ApplicationFactoryTest extends TestCase
         self::assertSame($result->mockery_getName(), $mockedApplication->mockery_getName());
     }
 
+    #[Override]
     public function setUp(): void
     {
         $subjectFactory = new SubjectFactory();
@@ -77,6 +81,7 @@ class ApplicationFactoryTest extends TestCase
         $this->subjectParameters = $buildFragments['parameters'];
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         Mockery::close();

@@ -13,7 +13,6 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\JSESLint\JSESLintComm
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\JSStyleLint\JSStyleLintCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPCodeSniffer\PHPCodeSnifferCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPCopyPasteDetector\PHPCopyPasteDetectorCommand;
-use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPMessDetector\PHPMessDetectorCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPParallelLint\PHPParallelLintCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPStan\PHPStanCommand;
 
@@ -26,14 +25,13 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPStan\PHPStanComman
 class ApplicationFactory
 {
     /** @var array<string> */
-    private const COMMANDS
+    private const array COMMANDS
         = [
             AllToolsCommand::class,
             FindFilesToCheckCommand::class,
             PHPCodeSnifferCommand::class,
             PHPCopyPasteDetectorCommand::class,
             PHPParallelLintCommand::class,
-            PHPMessDetectorCommand::class,
             PHPStanCommand::class,
             JSESLintCommand::class,
             JSStyleLintCommand::class,

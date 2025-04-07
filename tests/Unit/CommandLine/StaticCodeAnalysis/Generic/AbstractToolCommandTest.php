@@ -8,6 +8,7 @@ use Exception;
 use Hamcrest\Matchers as H;
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use SebastianKnott\HamcrestObjectAccessor\HasProperty;
 use Symfony\Component\Console\Input\InputInterface;
@@ -37,6 +38,7 @@ abstract class AbstractToolCommandTest extends TestCase
     protected array $allowedFileEndings;
     protected TerminalCommand $mockedTerminalCommand;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->mockedInput = Mockery::mock(InputInterface::class);
@@ -46,6 +48,7 @@ abstract class AbstractToolCommandTest extends TestCase
         $this->mockedEventDispatcher = Mockery::mock(EventDispatcherInterface::class);
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         Mockery::close();

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\FileSearch;
 
+use Override;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfoFactory;
 
@@ -21,6 +22,7 @@ class FastCachedFileSearch implements FileSearchInterface
     /**
      * {@inheritDoc}
      */
+    #[Override]
     public function listFolderFiles(
         string $fileName,
         EnhancedFileInfo $path,

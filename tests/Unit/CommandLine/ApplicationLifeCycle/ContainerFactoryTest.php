@@ -8,6 +8,7 @@ use DI\Container;
 use DI\ContainerBuilder;
 use Hamcrest\Matchers;
 use Mockery;
+use Override;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,6 +16,7 @@ use Zooroyal\CodingStandard\CommandLine\ApplicationLifeCycle\ContainerFactory;
 
 class ContainerFactoryTest extends TestCase
 {
+    #[Override]
     protected function tearDown(): void
     {
         Mockery::close();

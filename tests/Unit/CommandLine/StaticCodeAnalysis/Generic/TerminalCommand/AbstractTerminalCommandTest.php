@@ -7,6 +7,7 @@ namespace Zooroyal\CodingStandard\Tests\Unit\CommandLine\StaticCodeAnalysis\Gene
 use Exception;
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -17,6 +18,7 @@ class AbstractTerminalCommandTest extends TestCase
     private MockInterface|AbstractTerminalCommand $subject;
     private MockInterface|OutputInterface $mockedOutput;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->mockedOutput = Mockery::mock(OutputInterface::class);
@@ -26,6 +28,7 @@ class AbstractTerminalCommandTest extends TestCase
         $this->subject->injectDependenciesAbstractTerminalCommand($this->mockedOutput);
     }
 
+    #[Override]
     public function tearDown(): void
     {
         Mockery::close();

@@ -8,6 +8,7 @@ use Hamcrest\Matchers;
 use InvalidArgumentException;
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Output\OutputInterface;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
@@ -19,15 +20,16 @@ use Zooroyal\CodingStandard\Tests\Tools\TerminalCommandTestData;
 
 class TerminalCommandTest extends TestCase
 {
-    private const FORGED_PACKAGE_DIRECTORY = '/packageDirectory';
-    private const FORGED_RELATIV_ROOT = '.';
-    private const FORGED_ABSOLUTE_VENDOR = '/vendor';
+    private const string FORGED_PACKAGE_DIRECTORY = '/packageDirectory';
+    private const string FORGED_RELATIV_ROOT = '.';
+    private const string FORGED_ABSOLUTE_VENDOR = '/vendor';
 
     private TerminalCommand $subject;
     private MockInterface|Environment $mockedEnvironment;
     private MockInterface|PhpVersionConverter $mockedPhpVersionConverter;
     private MockInterface|OutputInterface $mockedOutput;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->mockedEnvironment = Mockery::mock(Environment::class);
@@ -45,6 +47,7 @@ class TerminalCommandTest extends TestCase
         $this->subject->injectDependenciesAbstractTerminalCommand($this->mockedOutput);
     }
 
+    #[Override]
     public function tearDown(): void
     {
         Mockery::close();
@@ -100,10 +103,9 @@ class TerminalCommandTest extends TestCase
     /**
      * This data provider needs to be long because it contains all testing data.
      *
-     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
-     *
      * @return array<string,array<int,TerminalCommandTestData>>
      */
+    // phpcs:ignore SlevomatCodingStandard.Functions.FunctionLength
     public function terminalCommandCompilationDataProvider(): array
     {
         $mockedEnhancedFileInfo1 = Mockery::mock(EnhancedFileInfo::class);

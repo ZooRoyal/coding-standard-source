@@ -7,6 +7,7 @@ namespace Zooroyal\CodingStandard\Tests\Unit\CommandLine\StaticCodeAnalysis\PHPP
 use DI\Container;
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPParallelLint\PHPParallelLintCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPParallelLint\TerminalCommand;
 use Zooroyal\CodingStandard\Tests\Unit\CommandLine\StaticCodeAnalysis\Generic\TargetableToolsCommandTest;
@@ -16,6 +17,7 @@ class PHPParallelLintCommandTest extends TargetableToolsCommandTest
     /** @var Container|MockInterface */
     private Container $mockedContainer;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->terminalCommandName = 'PHP Parallel Lint';

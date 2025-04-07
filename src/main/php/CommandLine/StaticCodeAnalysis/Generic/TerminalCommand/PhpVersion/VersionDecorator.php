@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\PhpVersion;
 
+use Override;
 use Symfony\Component\Console\Output\OutputInterface;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\DecorateEvent;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\TerminalCommandDecorator;
@@ -15,6 +16,7 @@ class VersionDecorator extends TerminalCommandDecorator
     ) {
     }
 
+    #[Override]
     public function decorate(DecorateEvent $event): void
     {
         $terminalCommand = $event->getTerminalCommand();

@@ -4,7 +4,7 @@
 
 First of all you need to gather some information about your new tool.
 
-1. Is the tool able to only work on files you provide by a command-line 
+1. Is the tool able to only work on files you provide by a command-line
    parameter? \
    For example Parallel Lint is able to only work on certain files.
    ```bash
@@ -20,7 +20,7 @@ First of all you need to gather some information about your new tool.
 
 Let's say you want to add your new tool 'SuperCoolTool' to the coding-standard
 
-1. Create a new namespace 
+1. Create a new namespace
    `Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\SuperCoolTool`.
 2. Create two new Classes in your new namespace: `SuperCoolToolCommand` and `TerminalCommand`.
 3. Register your new command.
@@ -29,7 +29,7 @@ The next paragraphs will guid you through that process.
 
 ### Implement SuperCoolToolCommand
 
-This class stores some vital information about the SuperCoolTool. The 
+This class stores some vital information about the SuperCoolTool. The
 coding-standard will use this information to integrate your tool in its cli.
 
 For now it's best to just have a look at this example implementation.
@@ -44,10 +44,10 @@ your tool you want to expose to the user.
 We are going to assume a FixingToolCommand for our SuperCoolTool - its SuperCool after all!
 
 ```php
-class SuperCoolToolCommand extends FixingToolCommand 
+class SuperCoolToolCommand extends FixingToolCommand
 {
     // What file makes your tool ignore a directory
-    protected string $exclusionListToken = '.dontBeSuperCool'; 
+    protected string $exclusionListToken = '.dontBeSuperCool';
     // Do you only want to check for certain file Types? If not leave empty
     protected array $allowedFileEndings = ['sc'];
 
@@ -86,7 +86,7 @@ class SuperCoolToolCommand extends FixingToolCommand
      */
     public function injectDependenciesCommand(Container $container): void
     {
-        // Create an instance of your TerminalCommand and store it in this property. 
+        // Create an instance of your TerminalCommand and store it in this property.
         // You may use the container like so but it really doesn't matter as long as
         // an instance of your TerminalCommand will be stored in this property
         $this->terminalCommand = $container->make(TerminalCommand::class);
@@ -97,9 +97,9 @@ class SuperCoolToolCommand extends FixingToolCommand
 
 ### Implement your TerminalCommand
 
-The coding-standard will inject your TerminalCommand with important 
+The coding-standard will inject your TerminalCommand with important
 information about the user input and context of the system, but you have to tell it what information you would like to get. For this reason we are using interfaces. \
-In case of your SuperCoolTool we will get information about the files it 
+In case of your SuperCoolTool we will get information about the files it
 should be checking and the fixing mode.
 
 Let's see...
@@ -110,19 +110,19 @@ Let's see...
 // It is a FixingTerminalCommand and TargetableTerminalCommand
 class TerminalCommand extends AbstractTerminalCommand implements FixingTerminalCommand, TargetableTerminalCommand
 {
-    // So you don't need to hassle with setters and such, simply use the 
+    // So you don't need to hassle with setters and such, simply use the
     // provided traits. The coding-standard provides a trait for every
-    // TerminalCommand interface. 
+    // TerminalCommand interface.
     use TargetableTrait, FixingTrait;
 
-    // The TargetableTrait will create a field named $targetedFiles. The 
-    // FixingTrait will create a field named $fixingMode. They will be set 
+    // The TargetableTrait will create a field named $targetedFiles. The
+    // FixingTrait will create a field named $fixingMode. They will be set
     // by higher magic.
-    // For more information about available traits and interfaces you may 
+    // For more information about available traits and interfaces you may
     // need to read their respectivsource code
-    
+
     /**
-     * This method must implement the compilation of the command. Technically it has 
+     * This method must implement the compilation of the command. Technically it has
      * one shot in setting the protected fields $command and $commandParts.
      */
     protected function compile(): void
@@ -159,7 +159,6 @@ class ApplicationFactory
             PHPCodeSnifferCommand::class,
             PHPCopyPasteDetectorCommand::class,
             PHPParallelLintCommand::class,
-            PHPMessDetectorCommand::class,
             PHPStanCommand::class,
             JSESLintCommand::class,
             JSStyleLintCommand::class,
@@ -171,7 +170,7 @@ class ApplicationFactory
 ```
 
 BAM! It's done! Now you can call your tool from command-line
-```bash 
+```bash
 src/bin/coding-standard sca:supercool # from your dev environment
 vendor/bin/coding-standard sca:supercool # if installed as a library
 ```

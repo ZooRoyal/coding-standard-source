@@ -14,7 +14,7 @@ class EnhancedFileInfoFactory
 {
     /** @var array<int,EnhancedFileInfo> */
     private array $filePool = [];
-    private string $rootDirectory;
+    private readonly string $rootDirectory;
 
     public function __construct(ProcessRunner $processRunner)
     {

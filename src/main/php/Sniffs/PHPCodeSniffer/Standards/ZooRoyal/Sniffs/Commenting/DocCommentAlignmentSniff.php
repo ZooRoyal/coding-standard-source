@@ -30,7 +30,6 @@ use const T_PROTOTYPE;
  *
  * This version ignores OpenAPI (OA) comments that may be deeply nested.
  *
- * @SuppressWarnings(PHPMD)
  */
 class DocCommentAlignmentSniff implements Sniff
 {

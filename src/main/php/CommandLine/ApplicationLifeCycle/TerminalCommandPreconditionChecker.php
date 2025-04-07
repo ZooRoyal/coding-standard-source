@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\ApplicationLifeCycle;
 
+use Override;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -19,7 +20,7 @@ use Zooroyal\CodingStandard\CommandLine\Process\ProcessRunner;
 class TerminalCommandPreconditionChecker implements EventSubscriberInterface
 {
     /** @var array<string> */
-    private const COMMANDS = ['git', 'find'];
+    private const array COMMANDS = ['git', 'find'];
 
     /** @var array<string,int> */
     private array $results = [];
@@ -36,6 +37,7 @@ class TerminalCommandPreconditionChecker implements EventSubscriberInterface
      *
      * @return array<string, array<int, int|string>>
      */
+    #[Override]
     public static function getSubscribedEvents(): array
     {
         return [ConsoleEvents::COMMAND => ['checkForTerminalCommands', 100]];

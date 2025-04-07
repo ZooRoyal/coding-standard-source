@@ -6,6 +6,7 @@ namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPCopyPasteDet
 
 use DI\Attribute\Inject;
 use DI\Container;
+use Override;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\AbstractToolCommand;
 
 class PHPCopyPasteDetectorCommand extends AbstractToolCommand
@@ -19,6 +20,7 @@ class PHPCopyPasteDetectorCommand extends AbstractToolCommand
     /**
      * {@inheritDoc}
      */
+    #[Override]
     protected function configure(): void
     {
         $this->setName('sca:copy-paste-detect');

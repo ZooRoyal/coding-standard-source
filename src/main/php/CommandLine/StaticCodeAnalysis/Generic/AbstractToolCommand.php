@@ -6,6 +6,7 @@ namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic;
 
 use DI\Attribute\Inject;
 use Exception;
+use Override;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
@@ -31,7 +32,8 @@ abstract class AbstractToolCommand extends Command
      *
      * @throws RuntimeException
      */
-    public function execute(InputInterface $input, OutputInterface $output): ?int
+    #[Override]
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln(PHP_EOL . '<comment>Running ' . $this->terminalCommandName . '</comment>');
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPCopyPasteDetector;
 
+use Override;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\Environment\Environment;
 use Zooroyal\CodingStandard\CommandLine\Process\ProcessRunner;
@@ -15,6 +16,7 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalComma
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Target\TargetTerminalCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Target\TargetTrait;
 
+// phpcs:ignore ZooRoyal.TypeHints.LimitUseStatement.TooManyUseStatements
 class TerminalCommand extends AbstractTerminalCommand implements
     ExclusionTerminalCommand,
     FileExtensionTerminalCommand,
@@ -24,8 +26,8 @@ class TerminalCommand extends AbstractTerminalCommand implements
     use FileExtensionTrait;
     use TargetTrait;
 
-    private const TEMPLATE = 'php %1$s --fuzzy %3$s%2$s%4$s';
-    private const STATIC_EXCLUDES
+    private const string TEMPLATE = 'php %1$s --fuzzy %3$s%2$s%4$s';
+    private const array STATIC_EXCLUDES
         = [
             'custom/plugins/ZRBannerSlider/ZRBannerSlider.php',
             'custom/plugins/ZRPreventShipping/ZRPreventShipping.php',
@@ -38,6 +40,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
     /**
      * {@inheritDoc}
      */
+    #[Override]
     protected function compile(): void
     {
         $vendorPath = $this->environment->getVendorDirectory()->getRealPath();
@@ -80,7 +83,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
 
         $finderResult = $this->processRunner->runAsProcess(...$command);
 
-        if (!empty($finderResult)) {
+        if ($finderResult !== '' && $finderResult !== '0') {
             $finderResultLines = explode(PHP_EOL, trim($finderResult));
         }
 
@@ -140,7 +143,7 @@ class TerminalCommand extends AbstractTerminalCommand implements
 
     private function useExclusions(): bool
     {
-        return empty($this->targetedFiles);
+        return $this->targetedFiles === null || $this->targetedFiles === [];
     }
 
     /**

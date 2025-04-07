@@ -6,6 +6,7 @@ namespace Zooroyal\CodingStandard\Tests\Unit\CommandLine\FileFinder;
 
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Zooroyal\CodingStandard\CommandLine\FileFinder\AllCheckableFileFinder;
 use Zooroyal\CodingStandard\CommandLine\FileFinder\GitChangeSet;
@@ -20,6 +21,7 @@ class AllCheckableFileFinderTest extends TestCase
     private array $subjectParameters;
     private AllCheckableFileFinder $subject;
 
+    #[Override]
     protected function setUp(): void
     {
         $subjectFactory = new SubjectFactory();
@@ -28,6 +30,7 @@ class AllCheckableFileFinderTest extends TestCase
         $this->subjectParameters = $buildFragments['parameters'];
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         Mockery::close();

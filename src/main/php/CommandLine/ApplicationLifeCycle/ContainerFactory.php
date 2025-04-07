@@ -24,7 +24,7 @@ class ContainerFactory
      */
     public static function getContainerInstance(): Container
     {
-        if (self::$container === null) {
+        if (!self::$container instanceof Container) {
             self::$container = self::getUnboundContainerInstance();
         }
 

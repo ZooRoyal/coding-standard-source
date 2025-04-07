@@ -6,6 +6,7 @@ namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\Termina
 
 use DI\Attribute\Inject;
 use Exception;
+use Override;
 use Stringable;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -25,6 +26,7 @@ abstract class AbstractTerminalCommand implements TerminalCommand, Stringable
      *
      * @return array<string>
      */
+    #[Override]
     public function toArray(): array
     {
         if (!$this->compiled) {
@@ -85,6 +87,7 @@ abstract class AbstractTerminalCommand implements TerminalCommand, Stringable
      * Returns the command as sting. This string is supposed to work as input to a
      * *NIX terminal.
      */
+    #[Override]
     public function __toString(): string
     {
         if (!$this->compiled) {

@@ -6,6 +6,7 @@ namespace Zooroyal\CodingStandard\Tests\Unit\CommandLine\StaticCodeAnalysis\Gene
 
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Output\OutputInterface;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\DecorateEvent;
@@ -23,6 +24,7 @@ class VersionDecoratorTest extends TestCase
     private MockInterface&OutputInterface $mockedOutput;
     private VersionDecorator $subject;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->mockedEvent = Mockery::mock(DecorateEvent::class);
@@ -37,6 +39,7 @@ class VersionDecoratorTest extends TestCase
         );
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         Mockery::close();

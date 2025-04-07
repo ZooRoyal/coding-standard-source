@@ -6,6 +6,7 @@ namespace Zooroyal\CodingStandard\Tests\Unit\CommandLine\StaticCodeAnalysis\Gene
 
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Event\ConsoleEvent;
@@ -25,6 +26,7 @@ class CodingStandardCommandEventTest extends TestCase
     private array $forgedallowedFileEndings;
     private MockInterface|TerminalCommand $mockedterminalCommand;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->mockedCommand = Mockery::mock(Command::class);
@@ -43,6 +45,7 @@ class CodingStandardCommandEventTest extends TestCase
         );
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         Mockery::close();

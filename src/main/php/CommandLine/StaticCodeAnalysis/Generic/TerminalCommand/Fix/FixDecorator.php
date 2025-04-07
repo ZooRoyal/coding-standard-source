@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Fix;
 
+use Override;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\DecorateEvent;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\TerminalCommandDecorator;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\ToolCommandFacet\FixableInputFacet;
@@ -13,6 +14,7 @@ class FixDecorator extends TerminalCommandDecorator
     /**
      * {@inheritDoc}
      */
+    #[Override]
     public function decorate(DecorateEvent $event): void
     {
         $terminalCommand = $event->getTerminalCommand();

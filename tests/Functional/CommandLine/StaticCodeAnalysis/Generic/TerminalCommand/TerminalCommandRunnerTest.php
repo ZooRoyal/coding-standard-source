@@ -7,6 +7,7 @@ namespace Zooroyal\CodingStandard\Tests\Functional\CommandLine\StaticCodeAnalysi
 use Hamcrest\Matchers;
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Output\Output;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -23,6 +24,7 @@ class TerminalCommandRunnerTest extends TestCase
     private OutputInterface $mockedOutput;
     private ProcessRunner $processRunner;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->mockedOutput = Mockery::mock(OutputInterface::class);
@@ -31,6 +33,7 @@ class TerminalCommandRunnerTest extends TestCase
         $this->subject = new TerminalCommandRunner($this->processRunner, $this->mockedOutput);
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         Mockery::close();

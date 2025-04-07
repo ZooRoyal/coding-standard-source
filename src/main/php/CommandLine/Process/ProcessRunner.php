@@ -36,7 +36,7 @@ class ProcessRunner
         $output = $process->getOutput();
         $errorOutput = $process->getErrorOutput();
 
-        $result = empty($errorOutput)
+        $result = $errorOutput === '' || $errorOutput === '0'
             ? $output
             : $output . PHP_EOL . $errorOutput;
 

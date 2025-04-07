@@ -8,6 +8,7 @@ use Hamcrest\MatcherAssert;
 use Hamcrest\Matchers as H;
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\Console\Exception\RuntimeException;
@@ -22,6 +23,7 @@ class GitCommandPreconditionCheckerTest extends TestCase
     /** @var array<MockInterface> */
     private array $subjectParameters;
 
+    #[Override]
     public function setUp(): void
     {
         $subjectFactory = new SubjectFactory();
@@ -30,6 +32,7 @@ class GitCommandPreconditionCheckerTest extends TestCase
         $this->subjectParameters = $buildFragments['parameters'];
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         Mockery::close();

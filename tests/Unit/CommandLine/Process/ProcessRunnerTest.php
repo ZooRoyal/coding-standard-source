@@ -7,6 +7,7 @@ namespace Zooroyal\CodingStandard\Tests\Unit\CommandLine\Process;
 use Hamcrest\MatcherAssert;
 use Hamcrest\Matchers;
 use Mockery;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
@@ -18,11 +19,13 @@ class ProcessRunnerTest extends TestCase
 {
     private ProcessRunner $subject;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->subject = new ProcessRunner();
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         Mockery::close();
@@ -79,13 +82,13 @@ class ProcessRunnerTest extends TestCase
 
     /**
      * @test
+     * @doesNotPerformAssertions
      */
     public function runProcessWithArguments(): void
     {
         $result = $this->subject->runAsProcess('git', 'version');
 
         MatcherAssert::assertThat($result, Matchers::startsWith('git version'));
-        self::assertTrue(true);
     }
 
     /**

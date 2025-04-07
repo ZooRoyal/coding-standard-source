@@ -6,6 +6,7 @@ namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\JSStyleLint;
 
 use DI\Attribute\Inject;
 use DI\Container;
+use Override;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\FixingToolCommand;
@@ -23,6 +24,7 @@ class JSStyleLintCommand extends FixingToolCommand
     /**
      * {@inheritDoc}
      */
+    #[Override]
     protected function configure(): void
     {
         parent::configure();
@@ -38,7 +40,8 @@ class JSStyleLintCommand extends FixingToolCommand
     /**
      * {@inheritDoc}
      */
-    public function execute(InputInterface $input, OutputInterface $output): ?int
+    #[Override]
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         try {
             $this->terminalCommandFinder->findTerminalCommand('stylelint');

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Verbose;
 
+use Override;
 use Symfony\Component\Console\Output\OutputInterface;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\DecorateEvent;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\TerminalCommandDecorator;
@@ -13,6 +14,7 @@ class VerboseDecorator extends TerminalCommandDecorator
     /**
      * {@inheritDoc}
      */
+    #[Override]
     public function decorate(DecorateEvent $event): void
     {
         $terminalCommand = $event->getTerminalCommand();

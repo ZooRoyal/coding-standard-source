@@ -1,13 +1,14 @@
-FROM php:8.2-cli-alpine
+FROM php:8.4-cli-alpine
 
 RUN set -eux ; \
-  apk add --no-cache --virtual .composer-rundeps \
+  apk add --update --no-cache --virtual .composer-rundeps \
     bash \
     coreutils \
     git \
     nodejs \
     npm \
     openssh-client \
+    sqlite-dev \
     tini \
     unzip \
     zip \

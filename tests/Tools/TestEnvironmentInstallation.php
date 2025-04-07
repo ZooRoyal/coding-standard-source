@@ -17,10 +17,10 @@ use function Safe\json_encode;
 class TestEnvironmentInstallation
 {
     private static TestEnvironmentInstallation $instance;
-    private Filesystem $filesystem;
-    private string $installationPath;
+    private readonly Filesystem $filesystem;
+    private readonly string $installationPath;
     private string $composerJsonPath = '';
-    private string $composerPath;
+    private readonly string $composerPath;
     private bool $isInstalled = false;
 
     /**

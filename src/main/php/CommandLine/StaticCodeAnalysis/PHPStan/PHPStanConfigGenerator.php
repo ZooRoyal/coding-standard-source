@@ -14,14 +14,14 @@ use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalComma
 
 class PHPStanConfigGenerator
 {
-    private const TOOL_FUNCTIONS_FILE_MAPPING
+    private const array TOOL_FUNCTIONS_FILE_MAPPING
         = [
             'deployer/deployer' => ['/src/functions.php'],
             'hamcrest/hamcrest-php' => ['/hamcrest/Hamcrest.php'],
             'mockery/mockery' => ['/library/helpers.php'],
             'sebastianknott/hamcrest-object-accessor' => ['/src/functions.php'],
         ];
-    private const STATIC_DIRECTORIES_TO_SCAN
+    private const array STATIC_DIRECTORIES_TO_SCAN
         = [
             '/Plugins',
             '/custom/plugins',
@@ -29,8 +29,8 @@ class PHPStanConfigGenerator
             '/vendor',
             '/vendor-bin',
         ];
-    private const MAX_TMP_RANDOM = 1000000;
-    private const MIN_TMP_RANDOM = 0;
+    private const int MAX_TMP_RANDOM = 1000000;
+    private const int MIN_TMP_RANDOM = 0;
 
     public function __construct(
         private readonly Filesystem $filesystem,
@@ -45,9 +45,9 @@ class PHPStanConfigGenerator
     /**
      * This method adds dynamic config values to the given config array. This is needed for the PHPStan config drop-in.
      *
-     * @param array<string,array<int|string,array<int,string>|string>|string> $configValues
+     * @param array<string,array<int|string,array<string>|string>|string> $configValues
      *
-     * @return array<string,array<int|string,array<int,string>|string>|string>
+     * @return array<string,array<int|string,array<string>|string>|string>
      */
     public function addDynamicConfigValues(array $configValues): array
     {
@@ -88,9 +88,9 @@ class PHPStanConfigGenerator
     /**
      * Adds the list of files to be excluded to the config.
      *
-     * @param array<string,array<string|int,string|array<string>>> $configValues
+     * @param array<string,array<int|string,string|array<string>>> $configValues
      *
-     * @return array<string,array<array<string|int,string>>>
+     * @return array<string,array<int|string,array<array<string>|string>|string>>
      */
     private function addExcludedFiles(array $configValues): array
     {
@@ -129,7 +129,7 @@ class PHPStanConfigGenerator
      *
      * @param array<string,array<string|int,string|array<string>>> $configValues
      *
-     * @return array<string,array<string|int,string|array<string>>>
+     * @return array<string,array<int|string,array<string>|int|string>>
      */
     private function addPhpVersion(array $configValues): array
     {

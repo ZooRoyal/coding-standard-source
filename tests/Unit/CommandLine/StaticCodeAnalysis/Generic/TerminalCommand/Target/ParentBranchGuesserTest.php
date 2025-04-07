@@ -7,6 +7,7 @@ namespace Zooroyal\CodingStandard\Tests\Unit\CommandLine\StaticCodeAnalysis\Gene
 use Hamcrest\Matchers as H;
 use Mockery;
 use Mockery\MockInterface;
+use Override;
 use PHPUnit\Framework\TestCase;
 use Zooroyal\CodingStandard\CommandLine\Process\ProcessRunner;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\Generic\TerminalCommand\Target\ParentBranchGuesser;
@@ -18,6 +19,7 @@ class ParentBranchGuesserTest extends TestCase
     /** @var array<MockInterface>|null */
     private ?array $subjectParameters = null;
 
+    #[Override]
     protected function setUp(): void
     {
         $subjectFactory = new SubjectFactory();
@@ -28,6 +30,7 @@ class ParentBranchGuesserTest extends TestCase
         $this->subjectParameters = $buildFragments['parameters'];
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         Mockery::close();

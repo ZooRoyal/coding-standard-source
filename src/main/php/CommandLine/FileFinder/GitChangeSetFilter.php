@@ -61,7 +61,7 @@ class GitChangeSetFilter
         array $exclusionList,
         array $inclusionlist,
     ): SplObjectStorage {
-        if (count(array_intersect($exclusionList, $inclusionlist)) !== 0) {
+        if (array_intersect($exclusionList, $inclusionlist) !== []) {
             throw new LogicException('Directories can\'t be black- and inclusionlisted at the same time', 1553780055);
         }
         $result = new SplObjectStorage();
@@ -101,7 +101,7 @@ class GitChangeSetFilter
      */
     private function filterByAllowedFileEndings(array &$result, array $allowedFileEndings): void
     {
-        if (!empty($allowedFileEndings)) {
+        if ($allowedFileEndings !== []) {
             $result = array_filter(
                 $result,
                 static function ($file) use ($allowedFileEndings): bool {

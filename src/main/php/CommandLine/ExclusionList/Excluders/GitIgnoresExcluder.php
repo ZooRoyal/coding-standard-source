@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Zooroyal\CodingStandard\CommandLine\ExclusionList\Excluders;
 
+use Override;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfo;
 use Zooroyal\CodingStandard\CommandLine\EnhancedFileInfo\EnhancedFileInfoFactory;
 use Zooroyal\CodingStandard\CommandLine\Process\ProcessRunner;
 
 class GitIgnoresExcluder implements ExcluderInterface
 {
-    private const GIT_LS_FILES_COMMAND = 'git ls-files -io --exclude-standard --directory';
+    private const string GIT_LS_FILES_COMMAND = 'git ls-files -io --exclude-standard --directory';
 
     /** @var array<EnhancedFileInfo> */
     private array $cache = [];
@@ -32,15 +33,16 @@ class GitIgnoresExcluder implements ExcluderInterface
      *
      * @return array<EnhancedFileInfo>
      */
+    #[Override]
     public function getPathsToExclude(array $alreadyExcludedPaths, array $config = []): array
     {
-        if (!empty($this->cache)) {
+        if ($this->cache !== []) {
             return $this->cache;
         }
 
         $rawIgnoredFoldersAndFilesString = $this->processRunner->runAsProcess(self::GIT_LS_FILES_COMMAND);
 
-        if (empty($rawIgnoredFoldersAndFilesString)) {
+        if ($rawIgnoredFoldersAndFilesString === '' || $rawIgnoredFoldersAndFilesString === '0') {
             return [];
         }
         $rawIgnoredFoldersAndFiles = explode("\n", $rawIgnoredFoldersAndFilesString);
