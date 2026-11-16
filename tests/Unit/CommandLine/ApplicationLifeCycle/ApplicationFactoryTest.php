@@ -16,6 +16,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Zooroyal\CodingStandard\CommandLine\ApplicationLifeCycle\ApplicationFactory;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\AllToolsCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\FindFilesToCheckCommand;
+use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\ItvInfrastructure\ItvInfrastructureCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\JSESLint\JSESLintCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\JSStyleLint\JSStyleLintCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPCodeSniffer\PHPCodeSnifferCommand;
@@ -43,6 +44,7 @@ class ApplicationFactoryTest extends TestCase
             PHPCopyPasteDetectorCommand::class,
             JSESLintCommand::class,
             JSStyleLintCommand::class,
+            ItvInfrastructureCommand::class,
             AllToolsCommand::class,
         ];
 

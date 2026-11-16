@@ -124,6 +124,10 @@ This tools will be installed in `node_modules`:
   ([package.json](./package.json))
 * [StyleLint](https://stylelint.io/)
   ([package.json](./package.json))
+* [validate-microservice-json](https://github.com/ZooRoyal/itv-infrastructure)
+  ([package.json](./package.json)) — validates `infrastructure/microservice.json` of ITV
+  microservices. `sca:itv-infrastructure` skips with a hint if it is not installed, and skips
+  silently in every repository that has no `infrastructure/microservice.json`.
 
 The ZooRoyal Coding Standard application will be available under
 `vendor/bin/coding-standard`.
@@ -180,6 +184,7 @@ Available commands:
   sca:all                   Run all static code analysis tools.
   sca:copy-paste-detect     Run PHP-CPD on PHP files.
   sca:eslint                Run ESLint on JS files.
+  sca:itv-infrastructure    Validate ITV microservice.json infrastructure definitions.
   sca:mess-detect           Run PHP-MD on PHP files.
   sca:parallel-lint         Run Parallel-Lint on PHP files.
   sca:sniff                 Run PHP-CS on PHP files.

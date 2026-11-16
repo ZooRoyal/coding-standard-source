@@ -9,6 +9,7 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\AllToolsCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\FindFilesToCheckCommand;
+use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\ItvInfrastructure\ItvInfrastructureCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\JSESLint\JSESLintCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\JSStyleLint\JSStyleLintCommand;
 use Zooroyal\CodingStandard\CommandLine\StaticCodeAnalysis\PHPCodeSniffer\PHPCodeSnifferCommand;
@@ -35,6 +36,7 @@ class ApplicationFactory
             PHPStanCommand::class,
             JSESLintCommand::class,
             JSStyleLintCommand::class,
+            ItvInfrastructureCommand::class,
         ];
 
     /**
