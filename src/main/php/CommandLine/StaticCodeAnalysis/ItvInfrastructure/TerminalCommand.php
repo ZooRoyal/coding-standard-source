@@ -16,10 +16,14 @@ class TerminalCommand extends AbstractTerminalCommand implements TargetTerminalC
 {
     use TargetTrait;
 
-    /** The npm binary which validates microservice.json files. */
+    /**
+     * The npm binary which validates microservice.json files.
+     */
     public const string VALIDATOR = 'validate-microservice-json';
 
-    /** The directory a microservice keeps its infrastructure definition in. */
+    /**
+     * The directory a microservice keeps its infrastructure definition in.
+     */
     private const string DEFAULT_DIRECTORY = 'infrastructure';
 
     private const string TEMPLATE = 'npx %1$s--no-install ' . self::VALIDATOR . ' %2$s';
