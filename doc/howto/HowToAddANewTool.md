@@ -193,25 +193,45 @@ class TerminalCommand extends AbstractTerminalCommand implements TargetTerminalC
         // running it against everything.
         $this->validateTargets();
 
-        $targets = implode(
-            ' ',
-            array_map(
-                static fn(EnhancedFileInfo $item): string => $item->getRelativePathname(),
-                $this->targetedFiles ?? [],
-            ),
+        $targetPaths = array_map(
+            static fn(EnhancedFileInfo $item): string => $item->getRelativePathname(),
+            $this->targetedFiles ?? [],
         );
 
         // Now it's your turn to use the information supplied to the TerminalCommand
         // to generate a string and an array which may be thrown to the command line
         // to execute your SuperCoolTool. As this may be tricky feel free to have a look
-        // at the already implemented tools.
+        // at the already implemented tools -- but see the warning below about how they
+        // build $commandParts.
 
-        // Don't forget to set the result to the appropriate fields
-        $this->command = 'supercool ' . ($this->fixingMode ? '--fix ' : '') . $targets;
-        $this->commandParts = explode(' ', $this->command);
+        // Build the array first, then derive the printable string from it. Never the
+        // other way around: $commandParts elements become process arguments verbatim.
+        $this->commandParts = ['supercool', ...($this->fixingMode ? ['--fix'] : []), ...$targetPaths];
+        $this->command = implode(' ', array_map(escapeshellarg(...), $this->commandParts));
     }
 }
 ```
+
+#### `$commandParts` is an argument array, not a split string
+
+The two fields are not two views of the same thing:
+
+* `$commandParts` is what actually runs. `AbstractTerminalCommand::toArray()` returns it and
+  `TerminalCommandRunner` spreads it straight into `ProcessRunner::createProcess()`, so **each
+  element becomes one process argument, verbatim and unescaped**.
+* `$this->command` is display only — the verbose "Compiled TerminalCommand to following string"
+  line and `__toString()`. Nothing executes it.
+
+So build the array and derive the string, as above. Doing it the other way round —
+`$this->commandParts = explode(' ', $this->command)` — breaks on exactly the inputs you would hope
+it handled: a target such as `src/My File.sc` arrives as two arguments, and a trailing space when
+there are no targets yields a bogus empty argument. `ProcessRunner::createProcess()` additionally
+explodes the *first* element on spaces again, so a path there is split a second time.
+
+> **Heads up:** every tool currently in `StaticCodeAnalysis/` still ends its `compile()` with
+> `$this->commandParts = explode(' ', $sprintfCommand);`. That is the older pattern and it carries
+> the bug described above; it survives because the paths in this repository happen not to contain
+> spaces. Copy the array-first form shown here, not what the existing tools do.
 
 #### Skipping instead of failing
 
