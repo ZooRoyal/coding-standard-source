@@ -11,7 +11,7 @@ This repository holds the necessary sources to use and build the ZooRoyal
 Coding Standard.
 
 It incorporates
-* [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer)
+* [PHP Code Sniffer](https://github.com/PHPCSStandards/PHP_CodeSniffer)
   and its configuration
 * [PHP Copy Paste Detector](https://github.com/sebastianbergmann/phpcpd)
 * [PHP-Parallel-Lint](https://github.com/JakubOnderka/PHP-Parallel-Lint)
