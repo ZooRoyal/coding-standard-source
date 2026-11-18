@@ -58,6 +58,20 @@ package. **Please be aware that this is not recommended**. There will be
 tons of dependencies the rest of your project will have to comply with. They
 will be very specific and change as we see fit.
 
+#### A token for GitHub Packages
+
+`composer install` runs `npm install` as a post-install command, and one of the npm dependencies —
+[`@zooroyal/itv-infrastructure`](https://github.com/ZooRoyal/itv-infrastructure) — is published to
+GitHub Packages instead of npmjs.com. Installing it needs a classic personal access token with the
+`read:packages` scope in your `~/.npmrc`:
+
+```
+//npm.pkg.github.com/:_authToken=ghp_yourTokenHere
+```
+
+The registry for the `@zooroyal` scope is already configured in this repository's `.npmrc`, so the
+token line is all you have to add. Without it `npm install` fails with a 401 on that package.
+
 #### Standalone
 
 If you want to use the ZooRoyal Coding Standard as a standalone application, you
@@ -238,6 +252,21 @@ coding-standard sca:all -t origin/master
 This command computes the diff to the branch origin/master and searches for all violations in this files.
 
 For examples just have a look an the .travis.yml
+
+## Building the image
+
+Releases build and push the image from `.github/workflows/docker-build.yml`. To build it yourself
+you have to hand the build the same GitHub Packages token described under
+[A token for GitHub Packages](#a-token-for-github-packages). It is passed as a BuildKit secret so
+it does not end up in a layer:
+
+```bash
+printf '//npm.pkg.github.com/:_authToken=%s\n' "$GITHUB_PACKAGES_TOKEN" \
+  | docker build --secret id=npmrc,src=/dev/stdin -t coding-standard-source .
+```
+
+If you already have the token in `~/.npmrc`, `--secret id=npmrc,src="$HOME/.npmrc"` does the same
+job.
 
 ## Extend the Coding Standard
 

@@ -32,7 +32,11 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 RUN mkdir /coding-standard
 COPY . /coding-standard/
 WORKDIR /coding-standard/
-RUN composer install --no-dev --no-interaction --no-progress --optimize-autoloader
+# The npm install triggered by composer's post-install-cmd pulls @zooroyal/itv-infrastructure from
+# GitHub Packages, which needs a token with read:packages. It is mounted instead of copied so the
+# token never ends up in a layer. See "Building the image" in README.md to build this locally.
+RUN --mount=type=secret,id=npmrc,target=/root/.npmrc \
+    composer install --no-dev --no-interaction --no-progress --optimize-autoloader
 WORKDIR /app/
 
 ENTRYPOINT [ "/coding-standard/src/bin/coding-standard" ]

@@ -53,6 +53,11 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          # Auth for @zooroyal/itv-infrastructure on GitHub Packages, see the Dockerfile. Only the
+          # token line is passed; the registry mapping comes from the .npmrc in the build context.
+          # GITHUB_TOKEN works because the package grants this repository read access.
+          secrets: |
+            npmrc=//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}
 
   update-dst-repo:
     runs-on: ["ubuntu-latest"]

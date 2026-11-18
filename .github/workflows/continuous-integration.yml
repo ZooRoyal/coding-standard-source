@@ -9,6 +9,11 @@ on:
 jobs:
   codestyle:
     runs-on: ubuntu-latest
+    # Set for the whole job, not just the install step. setup-node writes an .npmrc that resolves
+    # ${NODE_AUTH_TOKEN} at use time, and npm aborts with "Failed to replace env in config" when the
+    # variable is missing — which would break every later step that shells out to npm or npx.
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -54,9 +59,15 @@ jobs:
           fail-fast: true
 
       - name: Install npm and Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: '14.20'
+          # 14.20 went end of life in 2023 and @zooroyal/itv-infrastructure declares engines
+          # ">=24". 24 is also what the docker image gets from alpine, so CI and image agree.
+          node-version: '24'
+          # Makes npm resolve @zooroyal/* against GitHub Packages and authenticate with
+          # NODE_AUTH_TOKEN, which the job sets.
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@zooroyal'
 
       - name: Install composer dependencies
         env:
@@ -77,6 +88,9 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - codestyle
+    # See the codestyle job for why this is job wide.
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     strategy:
       matrix:
         composer_version: [2]
@@ -127,9 +141,15 @@ jobs:
           fail-fast: true
 
       - name: Install npm and Node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
-          node-version: '14.20'
+          # 14.20 went end of life in 2023 and @zooroyal/itv-infrastructure declares engines
+          # ">=24". 24 is also what the docker image gets from alpine, so CI and image agree.
+          node-version: '24'
+          # Makes npm resolve @zooroyal/* against GitHub Packages and authenticate with
+          # NODE_AUTH_TOKEN, which the job sets.
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@zooroyal'
 
       - name: Install composer dependencies
         env:
